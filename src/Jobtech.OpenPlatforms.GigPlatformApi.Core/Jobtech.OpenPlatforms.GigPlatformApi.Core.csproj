@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Jobtech.OpenPlatforms.GigPlatformApi.Store\Jobtech.OpenPlatforms.GigPlatformApi.Store.csproj" />
+  </ItemGroup>
+
+</Project>

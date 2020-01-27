@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobtech.OpenPlatforms.GigPlatformApi.Core", "src\Jobtech.OpenPlatforms.GigPlatformApi.Core\Jobtech.OpenPlatforms.GigPlatformApi.Core.csproj", "{38ACE96D-1B75-4E18-9EE6-47C2D4805AD0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine", "src\Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine\Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine.csproj", "{4B0A4C07-D643-4735-805E-F637D549F877}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobtech.OpenPlatforms.GigPlatformApi.Store", "src\Jobtech.OpenPlatforms.GigPlatformApi.Store\Jobtech.OpenPlatforms.GigPlatformApi.Store.csproj", "{54FE88EC-6781-4AA2-899B-1FAF4E420EA7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobtech.OpenPlatforms.GigPlatformApi.Connectivity", "src\Jobtech.OpenPlatforms.GigPlatformApi.Connectivity\Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.csproj", "{3E73B4B7-198E-49C9-B387-E69D6537FDDE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine", "src\Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine\Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.csproj", "{A7614F75-A302-476D-BCB3-E5C220BE4C28}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{38ACE96D-1B75-4E18-9EE6-47C2D4805AD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38ACE96D-1B75-4E18-9EE6-47C2D4805AD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38ACE96D-1B75-4E18-9EE6-47C2D4805AD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38ACE96D-1B75-4E18-9EE6-47C2D4805AD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B0A4C07-D643-4735-805E-F637D549F877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B0A4C07-D643-4735-805E-F637D549F877}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B0A4C07-D643-4735-805E-F637D549F877}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B0A4C07-D643-4735-805E-F637D549F877}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54FE88EC-6781-4AA2-899B-1FAF4E420EA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54FE88EC-6781-4AA2-899B-1FAF4E420EA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54FE88EC-6781-4AA2-899B-1FAF4E420EA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54FE88EC-6781-4AA2-899B-1FAF4E420EA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E73B4B7-198E-49C9-B387-E69D6537FDDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E73B4B7-198E-49C9-B387-E69D6537FDDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E73B4B7-198E-49C9-B387-E69D6537FDDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E73B4B7-198E-49C9-B387-E69D6537FDDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7614F75-A302-476D-BCB3-E5C220BE4C28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7614F75-A302-476D-BCB3-E5C220BE4C28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7614F75-A302-476D-BCB3-E5C220BE4C28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7614F75-A302-476D-BCB3-E5C220BE4C28}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2E9D642E-4C37-4E44-A8FB-A326BDDBDF87}
+	EndGlobalSection
+EndGlobal
