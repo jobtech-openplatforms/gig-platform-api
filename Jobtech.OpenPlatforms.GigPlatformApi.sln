@@ -15,6 +15,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobtech.OpenPlatforms.GigPl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobtech.OpenPlatforms.GigDataCommon.Library", "dependencies\gig-data-common\src\Jobtech.OpenPlatforms.GigDataCommon.Library\Jobtech.OpenPlatforms.GigDataCommon.Library.csproj", "{C79EFF89-BBA1-43CA-90A4-F46006EAA7F9}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobtech.OpenPlatforms.GigPlatformApi.EventDispatcher", "src\Jobtech.OpenPlatforms.GigPlatformApi.EventDispatcher\Jobtech.OpenPlatforms.GigPlatformApi.EventDispatcher.csproj", "{C88C1B61-D122-418C-AAAE-5485A255821C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobtech.OpenPlatforms.GigPlatformApi.GigDataService", "src\Jobtech.OpenPlatforms.GigPlatformApi.GigDataService\Jobtech.OpenPlatforms.GigPlatformApi.GigDataService.csproj", "{D616FE7C-C81A-4CD3-844F-994C01747756}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal", "src\Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal\Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.csproj", "{A2940A35-CD51-4463-B7C9-BC0A60722DAC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobtech.OpenPlatforms.GigPlatformApi.FileStore", "src\Jobtech.OpenPlatforms.GigPlatformApi.FileStore\Jobtech.OpenPlatforms.GigPlatformApi.FileStore.csproj", "{AE8CBCF7-C2A7-4859-89F1-F38156E3705E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +53,22 @@ Global
 		{C79EFF89-BBA1-43CA-90A4-F46006EAA7F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C79EFF89-BBA1-43CA-90A4-F46006EAA7F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C79EFF89-BBA1-43CA-90A4-F46006EAA7F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C88C1B61-D122-418C-AAAE-5485A255821C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C88C1B61-D122-418C-AAAE-5485A255821C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C88C1B61-D122-418C-AAAE-5485A255821C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C88C1B61-D122-418C-AAAE-5485A255821C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D616FE7C-C81A-4CD3-844F-994C01747756}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D616FE7C-C81A-4CD3-844F-994C01747756}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D616FE7C-C81A-4CD3-844F-994C01747756}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D616FE7C-C81A-4CD3-844F-994C01747756}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2940A35-CD51-4463-B7C9-BC0A60722DAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2940A35-CD51-4463-B7C9-BC0A60722DAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2940A35-CD51-4463-B7C9-BC0A60722DAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2940A35-CD51-4463-B7C9-BC0A60722DAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE8CBCF7-C2A7-4859-89F1-F38156E3705E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE8CBCF7-C2A7-4859-89F1-F38156E3705E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE8CBCF7-C2A7-4859-89F1-F38156E3705E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE8CBCF7-C2A7-4859-89F1-F38156E3705E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

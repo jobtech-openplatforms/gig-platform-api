@@ -1,0 +1,90 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto+Slab|Work+Sans:300,400,700);
+@import './_imports/variables';
+
+
+div,
+p,
+a,
+input,
+header,
+label,
+aside,
+menu,
+body,
+textarea {
+    font-family: $sans;
+    line-height: 140%;
+}
+
+div,
+p {
+	font-weight: 300;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button,
+input[type="button"],
+input[type="submit"],
+.btn {
+    font-family: $serif;
+    font-weight: 700;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-top: 0;
+    margin-bottom: 1em*0.8;
+    line-height: 130%;
+}
+
+p {
+    margin-bottom: $space-med;
+    margin-top:0;
+}
+
+a {
+    text-decoration: none;
+}
+
+h1 {
+    font-size: $font-huge;
+}
+
+h2 {
+    font-size: $font-huge*0.85;
+}
+
+h3 {
+    font-size: $font-huge*0.7;
+}
+
+h4 {
+    font-size: $font-big;
+}
+
+h5 {
+    font-size: $font-huge*0.52;
+}
+
+h6 {
+    font-size: $font-huge*0.45;
+}
+
+p,
+a {
+    font-size: $font-med;
+}
+
+.subtitle {
+    font-style: italic;
+    color: darken($grey, 5%);
+}

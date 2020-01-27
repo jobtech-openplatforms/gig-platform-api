@@ -1,0 +1,45 @@
+
+// Type
+$serif: 'Roboto Slab', serif !default;
+$sans: 'Work Sans', sans-serif !default;
+$font-small: 1.2rem !default;
+$font-med: 1.6rem !default;
+$font-big: 2rem !default;
+$font-huge: 3.2rem !default;
+$line-height: 130% !default;
+
+// Colors
+$primary: $turqoise !default;
+$secondary: lighten($turqoise, 10%) !default;
+$accent: $yellow !default;
+
+$body-background: $bg-color !default;
+
+// Grid
+$grid-columns: 12 !default;
+
+// Decorative
+$box-shadow-card: 0 2px 5px 0 rgba(0, 0, 0, 0.1), 0 2px 10px 0 rgba(0, 0, 0, 0.07) !default;
+$box-shadow-float: 0 2px 5px 0 rgba(0, 0, 0, 0.14), 0 2px 10px 0 rgba(0, 0, 0, 0.1) !default;
+$box-shadow-float-hover: 0 5px 11px 0 rgba(0, 0, 0, 0.16), 0 4px 15px 0 rgba(0, 0, 0, 0.13) !default;
+$box-shadow-raised: 0 2px 5px 0 rgba(0, 0, 0, 0.14), 0 2px 10px 0 rgba(0, 0, 0, 0.1) !default;
+$box-shadow-raised-hover: 0 5px 11px 0 rgba(0, 0, 0, 0.16), 0 4px 15px 0 rgba(0, 0, 0, 0.13) !default;
+
+$cubic: cubic-bezier(.64,.09,.08,1) !default;
+
+$border-radius-small: 3px !default;
+$border-radius-med: 6px !default;
+$border-radius-big: 10px !default;
+
+// Spacing
+$space-big: 4rem !default;
+$space-med: 2.6rem !default;
+$space-small: 1rem !default;
+
+// Media Queries
+$media-med: 1200px !default;
+$media-small: 900px !default;
+$media-tiny: 520px !default;
+
+$sidebar-width: 300px !default;
+$topbar-height: 60px !default;

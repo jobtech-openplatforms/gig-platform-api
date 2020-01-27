@@ -1,0 +1,20 @@
+ {
+   "compilerOptions": {
+     "target": "esnext",
+     "lib": [
+       "esnext",
+       "dom",
+       "dom.iterable",
+       "scripthost"
+     ],
+     "module": "esnext",
+     "moduleResolution": "node",
+     "experimentalDecorators": true,
+     "strict": true,
+     "noUnusedLocals": true,
+     "noUnusedParameters": true,
+     "jsx": "preserve",
+   },
+   "include": ["./**/*.ts", "./src/**/*"],
+   "compileOnSave": false
+ }

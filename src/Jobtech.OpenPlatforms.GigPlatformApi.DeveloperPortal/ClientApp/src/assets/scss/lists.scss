@@ -1,0 +1,14 @@
+@import './_imports/_importMaster';
+
+ul, ol {
+	margin-left: $space-med;
+	margin-bottom: $space-med;
+	li {
+		margin-top: $space-small*1;
+	}
+}
+
+ol {
+	list-style-type: decimal;
+	white-space: nowrap;
+}

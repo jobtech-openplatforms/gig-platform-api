@@ -1,0 +1,164 @@
+<template lang="pug">
+
+      form.box.project.frame(@submit.prevent="handleSubmit")
+        .project-settings.project-header
+          .has-edit.form-group.project-name
+            label.small(for="project-name") Project name
+            input.bold.editable(type="text" :value="editingProject.name" id="project-name" @input="updateName" :disabled="formDisabled" placeholder="Dont forget to give your service a name!")
+            span(v-if="!formDisabled") This is the name of your platform that will be displayed in platform listings, for example: 'Uber Eats'
+            hr.my-2(v-if="!formDisabled")
+          .has-edit.editable.edit-logo
+            label#file-label(for="file")
+              div.project-logo(:style="{'background-image': 'url(' + editingProject.logoUrl || 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDMyIDMyIiBoZWlnaHQ9IjMycHgiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjMycHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnIGlkPSJjYW1lcmEiPjxwYXRoIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTE2LDEwLjAwMWMtNC40MTksMC04LDMuNTgxLTgsOGMwLDQuNDE4LDMuNTgxLDgsOCw4ICAgYzQuNDE4LDAsOC0zLjU4Miw4LThDMjQsMTMuNTgzLDIwLjQxOCwxMC4wMDEsMTYsMTAuMDAxeiBNMjAuNTU1LDIxLjkwNmMtMi4xNTYsMi41MTYtNS45NDMsMi44MDctOC40NTksMC42NSAgIGMtMi41MTctMi4xNTYtMi44MDctNS45NDQtMC42NS04LjQ1OWMyLjE1NS0yLjUxNyw1Ljk0My0yLjgwNyw4LjQ1OS0wLjY1QzIyLjQyLDE1LjYwMiwyMi43MTEsMTkuMzkxLDIwLjU1NSwyMS45MDZ6IiBmaWxsPSIjMzMzMzMzIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48cGF0aCBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNiwxNC4wMDFjLTIuMjA5LDAtMy45OTksMS43OTEtNCwzLjk5OXYwLjAwMiAgIGMwLDAuMjc1LDAuMjI0LDAuNSwwLjUsMC41czAuNS0wLjIyNSwwLjUtMC41VjE4YzAuMDAxLTEuNjU2LDEuMzQzLTIuOTk5LDMtMi45OTljMC4yNzYsMCwwLjUtMC4yMjQsMC41LTAuNSAgIFMxNi4yNzYsMTQuMDAxLDE2LDE0LjAwMXoiIGZpbGw9IiMzMzMzMzMiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjxwYXRoIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTI5LjQ5Miw5LjA0MmwtNC4zMzQtMC43MjNsLTEuMzczLTMuNDM0ICAgQzIzLjMyNiwzLjc0LDIyLjIzMiwzLDIxLDNIMTFDOS43NjgsMyw4LjY3NCwzLjc0LDguMjE0LDQuODg2TDYuODQyLDguMzE5TDIuNTA5LDkuMDQyQzEuMDU1LDkuMjgzLDAsMTAuNTI3LDAsMTJ2MTUgICBjMCwxLjY1NCwxLjM0NiwzLDMsM2gyNmMxLjY1NCwwLDMtMS4zNDYsMy0zVjEyQzMyLDEwLjUyNywzMC45NDUsOS4yODMsMjkuNDkyLDkuMDQyeiBNMzAsMjdjMCwwLjU1My0wLjQ0NywxLTEsMUgzICAgYy0wLjU1MywwLTEtMC40NDctMS0xVjEyYzAtMC40ODksMC4zNTQtMC45MDYsMC44MzYtMC45ODZsNS40NDQtMC45MDdsMS43OTEtNC40NzhDMTAuMjI0LDUuMjUsMTAuNTkxLDUsMTEsNWgxMCAgIGMwLjQwOCwwLDAuNzc1LDAuMjQ5LDAuOTI4LDAuNjI5bDEuNzkxLDQuNDc4bDUuNDQ1LDAuOTA3QzI5LjY0NiwxMS4wOTQsMzAsMTEuNTExLDMwLDEyVjI3eiIgZmlsbD0iIzMzMzMzMyIgZmlsbC1ydWxlPSJldmVub2RkIi8+PC9nPjwvc3ZnPg==' + ')'}")
+              input.inputfile(v-if="!formDisabled" :disabled="formDisabled" type="file" name="file" id="file" @change="upload" accept="image/*")
+              span(v-if="!formDisabled") This logo will be displayed in platform listings etc. Please use a logotype/icon that looks nice on a square with white background (for example the same icon you'd use on Facebook).
+        .project-settings
+          hr.my-2
+          .has-edit.form-group
+            label.small(for="project-webpage") Webpage URL
+            input.editable(type="url" id="project-webpage" :value="editingProject.webpage" @input="updateWebpage" :disabled="formDisabled" placeholder="Tell us where to find your service!")
+            p(v-if="!formDisabled") The url to the web page of your platform.
+          .has-edit.form-group
+            label.small(for="project-description") Description
+            textarea.editable(placeholder="Give us some quick info about your service!" id="project-description" :value="editingProject.description" @input="updateDescription" :disabled="formDisabled") {{editing.description}}
+            p(v-if="!formDisabled") Enter a short description of your platform (max 100 characters).
+          //- hr(v-if="!formDisabled")
+          .buttons.mb-2(v-if="!formDisabled")
+            button.btn.right.btn-project( :disabled="status === 2" type="submit") Save
+            button.btn.right.btn-secondary( :disabled="status === 2" @click="cancelEdit()") Cancel
+          .buttons.mb-2
+            button.btn.right.btn-outline.btn-project(v-if="formDisabled" type="button" @click="enableForm()") Edit...
+
+          slot
+</template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import { mapState, mapActions, mapGetters } from 'vuex'
+import { CurrentPlatformState } from '../../store/projects.module'
+import ImageTools from '../utils/image-tool'
+import { mediaService } from '../../_services'
+
+@Component({
+  computed: {
+    ...mapState('projects', ['current', 'status', 'editing']),
+    ...mapGetters('projects', ['currentProject', 'editingProject'])
+  },
+  data() {
+    return {
+      ready: false,
+      formDisabled: true,
+      imageData: null,
+      name: '',
+      webpage: '',
+      description: '',
+      logoUrl: ''
+    }
+  },
+  mounted() {
+    this.$store.dispatch('projects/getAll')
+  },
+  components: {}
+})
+export default class ProjectEdit extends Vue {
+  private submitted: boolean = false
+  private ready: boolean = true
+  private formDisabled: boolean = true
+  private name: string
+  private webpage: string
+  private description: string
+  private logoUrl: string = ''
+  private imageData: string | ArrayBuffer
+  private editing: CurrentPlatformState
+  private file: string
+  private imageSize: number = 1200
+  private imageName: string
+
+  public uploadStatus: '' | 'Resizing' | 'Uploading' | 'Completed' = '';
+  public uploadPercent;
+  public downloadURL;
+
+  $refs: {
+    file: HTMLFormElement
+  }
+
+  private cancelEdit() {
+    this.$store.commit('projects/cancelEdit')
+    this.disableForm()
+  }
+  private disableForm() {
+    this.formDisabled = true
+  }
+  private enableForm() {
+    if (this.formDisabled) {
+      this.formDisabled = false
+    }
+    return false
+  }
+
+  private upload(event) {
+    this.uploadStatus = 'Resizing'
+    const self = this
+    ImageTools.resize(event.target.files[0], {
+      width: this.imageSize, // maximum width
+      height: this.imageSize // maximum height
+    }, (blob, didItResize) => {
+      if (didItResize) {
+        this.uploadStatus = 'Uploading'
+
+        let formData = new FormData()
+        formData.append('file', blob, Date.now().toString())
+
+        mediaService.saveFile(formData, this.$store.state.projects.current.project.id)
+                    .then(data => {
+                      self.uploadStatus = 'Completed'
+                      self.$store.commit('projects/localEdit', { value: data.data as string, name: 'logoUrl'})
+                    })
+      }
+    });
+  }
+
+  private updateName(e) {
+    this.$store.commit('projects/localEdit', {
+      value: e.target.value,
+      name: 'name'
+    })
+  }
+  private updateWebpage(e) {
+    this.$store.commit('projects/localEdit', {
+      value: e.target.value,
+      name: 'webpage'
+    })
+  }
+  private updateDescription(e) {
+    this.$store.commit('projects/localEdit', {
+      value: e.target.value,
+      name: 'description'
+    })
+  }
+
+  private handleSubmit(e) {
+    this.submitted = true
+    const self = this
+    this.$store.dispatch('projects/updateProject', self.$store.state.projects.editing.project)
+    .then((result) => {
+      self.submitted = false
+      self.disableForm()
+      self.$store.dispatch('projects/getAll')
+    })
+  }
+
+  private bufferToBase64(buffer) {
+    return btoa(
+      new Uint8Array(buffer).reduce((data, byte) => {
+        return data + String.fromCharCode(byte)
+      }, '')
+    )
+  }
+}
+</script>
+<style lang="scss">
+  #file-label{
+    @include flex(row, flex-start, center);
+  }
+</style>

@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AF.GigPlatform.WebAdmin</name>
+    </assembly>
+    <members>
+        <member name="T:AF.GigPlatform.WebAdmin.Controllers.Api.UserController">
+            <summary>
+            User Controller for Platforms API
+            </summary>
+        </member>
+        <member name="M:AF.GigPlatform.WebAdmin.Controllers.Api.UserController.#ctor(AF.GigPlatform.EventDispatcher.Managers.IPlatformDispatchManager,AF.GigPlatform.PlatformEngine.Managers.IPlatformManager)">
+            <summary>
+            
+            </summary>
+            <param name="platformDispatchManager"></param>
+            <param name="platformManager"></param>
+        </member>
+        <member name="M:AF.GigPlatform.WebAdmin.Controllers.Api.UserController.Update(AF.GigPlatform.Connectivity.Models.PlatformModels.PlatformUserDataResult)">
+            <summary>
+            Endpoint for Platform to send updated data about a user.
+            Normally used after a request sent to the Platform.
+            The Platform is expected to return the requestId from the initial request.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="T:AF.GigPlatform.WebAdmin.Controllers.AppController">
+            <summary>
+            The endpoints for an app to connect with
+            </summary>
+        </member>
+        <member name="M:AF.GigPlatform.WebAdmin.Controllers.PlatformAdminsController.UpdatePlatform(System.String,AF.GigPlatform.Connectivity.Models.PlatformUpdateRequestModel)">
+            <summary>
+            Updates the platform information for the admin.
+            TODO: Add a check that this admin is authorized to update this platform
+            </summary>
+            <param name="id"></param>
+            <param name="platformUpdate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AF.GigPlatform.WebAdmin.Controllers.PlatformAdminsController.UpdateContact(System.String,AF.GigPlatform.Connectivity.Models.PlatformUpdateContactRequestModel)">
+            <summary>
+            Updates the contact information for the admin.
+            TODO: Add a check that this admin is authorized to update this account
+            </summary>
+            <param name="id"></param>
+            <param name="contactUpdate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AF.GigPlatform.WebAdmin.Controllers.PlatformAdminsController.GetPlatform(AF.GigPlatform.Core.ValueObjects.PlatformId)">
+            <summary>
+            Get the platform information for the admin.
+            TODO: Add a check that this admin is authorized to view this platform
+            </summary>
+            <param name="id"></param>
+            <param name="platformUpdate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AF.GigPlatform.WebAdmin.Controllers.PlatformAdminsController.GetPlatformsForAdmin(System.String)">
+            <summary>
+            Get the platform information for the admin.
+            TODO: Add a check that this admin is authorized to view this platform
+            </summary>
+            <param name="id"></param>
+            <param name="platformUpdate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AF.GigPlatform.WebAdmin.Controllers.PlatformAdminsController.GetPlatformForAdmin(System.String)">
+            <summary>
+            Get the first platform for the admin.
+            TODO: Add a check that this admin is authorized (same as the requested ID)
+            </summary>
+            <param name="id"></param>
+            <param name="platformUpdate"></param>
+            <returns></returns>
+        </member>
+        <member name="T:AF.GigPlatform.WebAdmin.Controllers.PlatformController">
+            <summary>
+            API endpoings for Platform WebAdmin
+            **Mostly obsolete** endpoints, pending refactoring
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,10 @@
+{
+  "javascript.implicitProjectConfig.experimentalDecorators": true,
+  "tslint.autoFixOnSave": true,
+  "tslint.typeCheck": true,
+  "files.autoSave": "off",
+  "eslint.enable": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.tslint": true
+  }
+}

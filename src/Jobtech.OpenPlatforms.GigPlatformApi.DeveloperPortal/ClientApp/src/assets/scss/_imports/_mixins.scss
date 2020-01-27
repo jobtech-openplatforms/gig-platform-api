@@ -1,0 +1,52 @@
+@mixin flex($flex-direction, $justify-content, $align-items) {
+  display: flex;
+  flex-direction: $flex-direction;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
+
+@mixin flex-child($flex-grow, $flex-shrink, $flex-basis) {
+  flex-grow: $flex-grow;
+  flex-shrink: $flex-shrink;
+  flex-basis: $flex-basis;
+}
+
+$tiny-screen-width: 767px;
+$small-screen-width: 990px;
+$medium-screen-width: 1200px;
+
+@mixin tiny-screen {
+  @media (max-width: #{$tiny-screen-width}) {
+    @content;
+  }
+}
+
+@mixin small-screen {
+  @media (min-width: #{$tiny-screen-width + 1px}) and (max-width: #{$small-screen-width}) {
+    @content;
+  }
+}
+
+@mixin medium-screen {
+  @media (min-width: #{$small-screen-width + 1px}) and (max-width: #{$medium-screen-width}) {
+    @content;
+  }
+}
+
+@mixin large-screen {
+  @media (min-width: #{$medium-screen-width + 1px}) {
+    @content;
+  }
+}
+
+@mixin small-screen-and-up {
+  @media (min-width: #{$tiny-screen-width + 1px}) {
+    @content;
+  }
+}
+
+@mixin medium-screen-and-up {
+  @media (min-width: #{$small-screen-width + 1px}) {
+    @content;
+  }
+}

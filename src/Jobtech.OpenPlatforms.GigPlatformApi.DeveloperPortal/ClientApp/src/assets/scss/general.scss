@@ -1,0 +1,147 @@
+@import '../../assets/scss/cards_tiles.scss';
+@import '../../assets/scss/buttons.scss';
+@import '../../assets/scss/form.scss';
+@import '../../assets/scss/type.scss';
+@import '../../assets/scss/utility.scss';
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    background: $body-background;
+    line-height: $line-height;
+    font-size: $font-med;
+    margin: 0;
+}
+
+.flex-wrapper {
+    @include flex(row, space-around, null);
+}
+
+hr {
+    border-color: $border-grey;
+    border-width: 0 0 1px;
+    width: 100%;
+
+    &.dark {
+        border-color: rgba(0, 0, 0, 0.2);
+    }
+}
+
+pre {
+    &.shiny {
+        font-family: $serif;
+        font-size: $font-big;
+        font-weight: bold;
+        margin: 1rem 0;
+    }
+}
+
+.narrow {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.feedback {
+    height: $font-med;
+    font-size: $font-small;
+
+    &>* {
+        font-weight: 400;
+    }
+}
+
+.has-edit {
+    position: relative;
+
+    // &::after {
+    //     content: '\00270E';
+    //     display: block;
+    //     font-size: 2rem;
+    //     position: absolute;
+    //     right: 1rem;
+    //     top: 1rem;
+    //     color: $dimmed-grey;
+    // }
+
+    .editable {
+        padding-right: 3rem;
+        cursor: pointer;
+
+    }
+}
+
+.form-inactive {
+    background-color: transparent;
+    border: 1px solid $border-grey;
+    padding: 2rem 4rem;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.token-keys {
+    background-color: $border-grey;
+    padding: 2rem 4rem;
+}
+
+.label-muted {
+    color: $dimmed-grey;
+    font-size: $font-small;
+    font-weight: normal;
+    padding: 0;
+}
+
+.color-import,
+.color-import:visited {
+    color: $color-import !important;
+}
+
+.color-export,
+.color-export:visited {
+    color: $color-export !important;
+}
+
+.color-project,
+.color-project:visited {
+    color: $color-project !important;
+}
+
+.brand {
+    color: $color-brand;
+}
+
+.yes {
+    color: $yes;
+    font-weight: bold;
+}
+
+.project-logo {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+//Loader
+
+.vld-overlay {
+    // margin-left: $sidebar-width;
+    // margin-top:$topbar-height;
+
+    .vld-background {
+        opacity: 0.8;
+    }
+
+    .vld-icon svg {
+        transform: scale(2);
+
+        circle {
+            fill: $color-project;
+        }
+    }
+}
