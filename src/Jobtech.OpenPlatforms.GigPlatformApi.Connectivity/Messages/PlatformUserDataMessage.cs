@@ -1,11 +1,8 @@
-﻿using AF.GigPlatform.Core;
-using AF.GigPlatform.Core.ValueObjects;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace AF.GigPlatform.Connectivity.Messages
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Messages
 {
  public class PlatformUserDataMessage 
     {

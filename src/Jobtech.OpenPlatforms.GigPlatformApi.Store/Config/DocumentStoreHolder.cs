@@ -1,8 +1,8 @@
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.Options;
 using Raven.Client.Documents;
-using System.Security.Cryptography.X509Certificates;
 
-namespace AF.GigPlatform.Store.Config
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Store.Config
 {
     public class DocumentStoreHolder : IDocumentStoreHolder
     {

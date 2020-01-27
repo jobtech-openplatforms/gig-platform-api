@@ -1,8 +1,7 @@
-﻿using AF.Gig.WebApi.Services;
-using AF.GigPlatform.Connectivity.Config;
+﻿using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Config;
 using Microsoft.Extensions.Options;
 
-namespace AF.GigPlatform.Connectivity.Services
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Services
 {
     public class AuthenticationConfigService : IAuthenticationConfigService
     {

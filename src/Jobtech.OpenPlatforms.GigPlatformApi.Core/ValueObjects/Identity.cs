@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AF.GigPlatform.Core.ValueObjects
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects
 {
     #region String Identity
 

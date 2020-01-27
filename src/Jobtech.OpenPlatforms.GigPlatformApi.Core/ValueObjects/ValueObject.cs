@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace AF.GigPlatform.Core.ValueObjects
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects
 {
     // From https://enterprisecraftsmanship.com/2017/08/28/value-object-a-better-implementation/
     public abstract class ValueObject

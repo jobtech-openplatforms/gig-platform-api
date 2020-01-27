@@ -1,6 +1,4 @@
-﻿using AF.GigPlatform.Core.ValueObjects;
-
-namespace AF.GigPlatform.Connectivity.Models
+﻿namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
 {
     ///<summary>
     /// API model to request a sync of data between a User and a Platform

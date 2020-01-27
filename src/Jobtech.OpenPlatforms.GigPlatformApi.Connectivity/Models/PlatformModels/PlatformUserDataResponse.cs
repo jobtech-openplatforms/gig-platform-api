@@ -1,6 +1,4 @@
-﻿using AF.GigPlatform.Connectivity.Messages;
-
-namespace AF.GigPlatform.Connectivity.Models.PlatformModels
+﻿namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models.PlatformModels
 {
     public class PlatformUserDataResponse
     {

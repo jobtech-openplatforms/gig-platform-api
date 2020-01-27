@@ -1,8 +1,7 @@
-﻿using AF.Gig.Common.Models;
-using AF.GigPlatform.Core.Entities;
-using AF.GigPlatform.Core.ValueObjects;
+﻿using Jobtech.OpenPlatforms.GigDataCommon.Library.Models.GigDataService;
+using Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities;
 
-namespace AF.GigPlatform.Connectivity.Models
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
 {
     public class UpdateApplicationUrlsRequest
     {

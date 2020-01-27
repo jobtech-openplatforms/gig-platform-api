@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common\AF.Gig.Common\AF.Gig.Common.csproj" />
+    <ProjectReference Include="..\..\dependencies\gig-data-common\src\Jobtech.OpenPlatforms.GigDataCommon.Library\Jobtech.OpenPlatforms.GigDataCommon.Library.csproj" />
     <ProjectReference Include="..\Jobtech.OpenPlatforms.GigPlatformApi.Core\Jobtech.OpenPlatforms.GigPlatformApi.Core.csproj" />
   </ItemGroup>
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AF.GigPlatform.Core.Entities
+﻿namespace Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities
 {
     public class Application
     {

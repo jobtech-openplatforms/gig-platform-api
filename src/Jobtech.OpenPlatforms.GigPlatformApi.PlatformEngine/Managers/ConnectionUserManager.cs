@@ -1,14 +1,14 @@
-﻿using AF.GigPlatform.Store.Config;
-using AF.GigPlatform.Core.Entities;
-using AF.GigPlatform.Core.Entities.Api;
-using AF.GigPlatform.Core.ValueObjects;
-using Raven.Client.Documents;
-using Raven.Client.Documents.Session;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities;
+using Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities.Api;
+using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
+using Jobtech.OpenPlatforms.GigPlatformApi.Store.Config;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
 
-namespace AF.GigPlatform.PlatformEngine.Managers
+namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
 {
     public class ConnectionUserManager : IConnectionUserManager
     {

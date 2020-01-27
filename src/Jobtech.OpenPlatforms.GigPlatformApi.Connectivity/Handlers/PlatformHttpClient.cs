@@ -1,16 +1,13 @@
-﻿using AF.Gig.Common.Models;
-using AF.GigPlatform.Connectivity.Models;
-using AF.GigPlatform.Core.Entities;
-using AF.GigPlatform.Core.Entities.Api;
-using Newtonsoft.Json;
-using System;
+﻿using System;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Linq;
-using System.Collections.Generic;
+using Jobtech.OpenPlatforms.GigDataCommon.Library.Models;
+using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models;
+using Newtonsoft.Json;
 
-namespace AF.GigPlatform.Connectivity.Handlers
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
 {
     public class PlatformHttpClient : IPlatformHttpClient
     {

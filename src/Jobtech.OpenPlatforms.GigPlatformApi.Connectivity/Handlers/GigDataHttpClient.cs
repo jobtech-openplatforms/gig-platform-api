@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using AF.Gig.Common.Models;
-using AF.Gig.WebApi.Services;
-using AF.GigPlatform.Connectivity.Models;
-using AF.GigPlatform.Core.Exceptions;
+using Jobtech.OpenPlatforms.GigDataCommon.Library.Models.GigDataService;
+using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models;
+using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Services;
+using Jobtech.OpenPlatforms.GigPlatformApi.Core.Exceptions;
 using Newtonsoft.Json;
 
-namespace AF.GigPlatform.Connectivity.Handlers
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
 {
     public class GigDataHttpClient : IGigDataHttpClient
     {

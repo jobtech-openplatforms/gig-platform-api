@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace AF.GigPlatform.Core.Entities
+﻿namespace Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities
 {
     public class CvApp
     {

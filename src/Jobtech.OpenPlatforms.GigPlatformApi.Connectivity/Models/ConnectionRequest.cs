@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AF.GigPlatform.Connectivity.Models
+﻿namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
 {
     ///<summary>
     /// API model to request a connection between a User and a Platform

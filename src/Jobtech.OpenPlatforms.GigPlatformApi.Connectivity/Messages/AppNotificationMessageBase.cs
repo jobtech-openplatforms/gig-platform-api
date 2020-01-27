@@ -1,4 +1,4 @@
-﻿namespace AF.GigPlatform.Connectivity.Messages
+﻿namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Messages
 {
     public abstract class AppNotificationMessageBase
     {

@@ -1,7 +1,4 @@
-using AF.GigPlatform.Core.Entities;
-using System.Collections.Generic;
-
-namespace AF.GigPlatform.Connectivity.Models
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
 {
     public class PlatformAdminUserModel
     {

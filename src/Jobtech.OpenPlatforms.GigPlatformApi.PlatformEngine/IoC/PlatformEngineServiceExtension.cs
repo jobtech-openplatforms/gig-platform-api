@@ -1,11 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers;
 using Microsoft.Extensions.Configuration;
-using AF.GigPlatform.PlatformEngine.Managers;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace AF.GigPlatform.PlatformEngine.IoC
+namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.IoC
 {
     public static class PlatformEngineServiceExtension
     {

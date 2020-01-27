@@ -1,6 +1,4 @@
-using System;
-
-namespace AF.GigPlatform.Store.Config
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Store.Config
 {
     public class RavenConfig
     {

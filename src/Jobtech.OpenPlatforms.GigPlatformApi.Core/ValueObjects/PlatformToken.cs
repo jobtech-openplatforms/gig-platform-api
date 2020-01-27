@@ -1,6 +1,6 @@
-﻿using AF.GigPlatform.Core.Entities;
+﻿using Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities;
 
-namespace AF.GigPlatform.Core.ValueObjects
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects
 {
     public class PlatformToken : StringToken<Platform>
     {

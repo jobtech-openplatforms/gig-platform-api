@@ -1,9 +1,4 @@
-﻿using AF.Gig.WebApi.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AF.GigPlatform.Connectivity.Config
+﻿namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Config
 {
     public class GigDataServiceConfig
     {

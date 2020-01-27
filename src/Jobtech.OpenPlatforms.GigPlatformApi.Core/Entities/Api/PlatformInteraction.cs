@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AF.GigPlatform.Core.Entities.Api
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities.Api
 {
     public class PlatformInteraction
     {

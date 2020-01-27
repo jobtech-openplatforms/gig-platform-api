@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 
-namespace AF.GigPlatform.Core.Exceptions
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Core.Exceptions
 {
     public class ApiException : Exception
     {

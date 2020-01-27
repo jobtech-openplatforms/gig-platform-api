@@ -1,7 +1,7 @@
-﻿using AF.GigPlatform.Core.Entities;
-using System;
+﻿using System;
+using Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities;
 
-namespace AF.GigPlatform.Core.ValueObjects
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects
 {
     public class PlatformId : GuidIdentity<Platform>
     {

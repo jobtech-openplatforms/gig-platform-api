@@ -1,10 +1,4 @@
-﻿using AF.GigPlatform.Core.Entities;
-using AF.GigPlatform.Connectivity.Models;
-using AF.GigPlatform.Core.ValueObjects;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace AF.GigPlatform.PlatformEngine.Managers
+﻿namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
 {
     public interface IConnectionManager
     {

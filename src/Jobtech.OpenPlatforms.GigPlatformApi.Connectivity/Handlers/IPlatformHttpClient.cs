@@ -1,10 +1,8 @@
-﻿using AF.Gig.Common.Models;
-using AF.GigPlatform.Connectivity.Models;
-using AF.GigPlatform.Core.Entities;
-using AF.GigPlatform.Core.Entities.Api;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Jobtech.OpenPlatforms.GigDataCommon.Library.Models;
+using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models;
 
-namespace AF.GigPlatform.Connectivity.Handlers
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
 {
     public interface IPlatformHttpClient
     {

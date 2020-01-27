@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace AF.GigPlatform.Core.Extensions
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Core.Extensions
 {
     public static class DateTimeExtensions
     {

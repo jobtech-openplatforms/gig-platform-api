@@ -1,8 +1,8 @@
-﻿using AF.GigPlatform.Core.Entities;
-using AF.GigPlatform.Core.ValueObjects;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities;
+using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
 
-namespace AF.GigPlatform.PlatformEngine.Managers
+namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
 {
     public interface IUserPlatformConnectionManager
     {

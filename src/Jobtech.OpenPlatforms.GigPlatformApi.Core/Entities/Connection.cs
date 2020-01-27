@@ -1,7 +1,7 @@
 
-using AF.GigPlatform.Core.ValueObjects;
+using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
 
-namespace AF.GigPlatform.Core.Entities
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities
 {
     public class Connection
     {

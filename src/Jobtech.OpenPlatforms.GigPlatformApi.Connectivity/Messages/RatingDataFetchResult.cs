@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace AF.GigPlatform.Connectivity.Messages
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Messages
 {
     public class RatingDataFetchResult
     {

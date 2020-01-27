@@ -1,8 +1,8 @@
-﻿using AF.GigPlatform.Core.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Jobtech.OpenPlatforms.GigPlatformApi.Core.Extensions;
 
-namespace AF.GigPlatform.Core.ValueObjects
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects
 {
     /// <summary>
     /// Takes any valid date-time string and converts to DateTime in UTC.

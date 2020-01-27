@@ -1,10 +1,9 @@
-﻿using AF.Gig.Common.Models;
-using AF.GigPlatform.Core.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using Jobtech.OpenPlatforms.GigDataCommon.Library.Models.GigDataService;
+using Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities;
 
-namespace AF.GigPlatform.Connectivity.Models
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
 {
 
     public class PlatformResponse

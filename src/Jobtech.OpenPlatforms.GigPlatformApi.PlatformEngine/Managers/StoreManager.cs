@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using AF.GigPlatform.Core.ValueObjects;
-using AF.GigPlatform.Store.Config;
+using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
+using Jobtech.OpenPlatforms.GigPlatformApi.Store.Config;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 
-namespace AF.GigPlatform.PlatformEngine.Managers
+namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
 {
     public abstract class StoreManager<T> : IStoreManager<T>
     {

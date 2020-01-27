@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace AF.GigPlatform.Connectivity.Models
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
 {
     public class GenericResponse
     {

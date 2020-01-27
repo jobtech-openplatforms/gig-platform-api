@@ -1,8 +1,8 @@
-﻿using AF.GigPlatform.Core.Entities;
-using AF.GigPlatform.Core.ValueObjects;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities;
+using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
 
-namespace AF.GigPlatform.Connectivity.Models
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
 {
     public class CreateProjectRequest
     {

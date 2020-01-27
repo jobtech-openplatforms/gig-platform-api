@@ -1,4 +1,4 @@
-﻿namespace AF.GigPlatform.Connectivity.Models
+﻿namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
 {
     ///<summary>
     /// Request model to get user data from the platform

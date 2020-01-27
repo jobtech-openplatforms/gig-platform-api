@@ -1,7 +1,7 @@
-﻿using AF.GigPlatform.Core.Entities;
-using System;
+﻿using System;
+using Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities;
 
-namespace AF.GigPlatform.Connectivity.Extensions
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Extensions
 {
     public static class PlatformExtensions
     {

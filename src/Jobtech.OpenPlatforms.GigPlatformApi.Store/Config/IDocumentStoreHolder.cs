@@ -1,7 +1,6 @@
-using System;
 using Raven.Client.Documents;
 
-namespace AF.GigPlatform.Store.Config
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Store.Config
 {
     public interface IDocumentStoreHolder
     {

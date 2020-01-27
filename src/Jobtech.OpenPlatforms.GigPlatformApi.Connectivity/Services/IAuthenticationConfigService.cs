@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AF.Gig.WebApi.Services
+﻿namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Services
 {
     public interface IAuthenticationConfigService
     {
@@ -11,5 +7,7 @@ namespace AF.Gig.WebApi.Services
         string ApiEndpointCreatePlatform { get; }
         string ApiEndpointValidateEmail { get; }
         string ApiEndpointCreateApplication { get; }
+        string ApiEndpointActivatePlatform { get; }
+        string ApiEndpointDeactivatePlatform { get; }
     }
 }

@@ -1,4 +1,4 @@
-namespace AF.GigPlatform.Store.Config
+namespace Jobtech.OpenPlatforms.GigPlatformApi.Store.Config
 {
     public static partial class Settings
     {

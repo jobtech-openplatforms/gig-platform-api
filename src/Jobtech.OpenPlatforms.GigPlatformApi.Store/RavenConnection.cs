@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AF.GigPlatform.Store
+﻿namespace Jobtech.OpenPlatforms.GigPlatformApi.Store
 {
     public class RavenConnection
     {
