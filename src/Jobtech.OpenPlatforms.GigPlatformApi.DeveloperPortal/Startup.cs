@@ -173,7 +173,6 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
             {
                 app.UseHsts();
             }
-            app.ApplicationServices.UseRebus();
 
             // global cors policy
             app.UseCors(x => x
