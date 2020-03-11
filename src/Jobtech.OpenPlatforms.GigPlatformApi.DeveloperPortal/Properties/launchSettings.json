@@ -15,13 +15,13 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "AF.GigPlatform.WebAdmin": {
+    "DeveloperPortal": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:63674/"
+      "applicationUrl": "https://localhost:63674/"
     }
   }
 }

@@ -34,5 +34,18 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
             AdminIds = createProjectModel.AdminIds,
             Platforms = new List<Platform> { Platform.Create() }
         };
+
+        public static TestProject ToTestEntity(this Project project) 
+            => new TestProject {
+                LiveProjectId = project.Id,
+                Name = project.Name,
+                AdminIds = project.AdminIds,
+                Applications = project.Applications,
+                Description = project.Description,
+                LogoUrl = project.LogoUrl,
+                OwnerAdminId = project.OwnerAdminId,
+                Platforms = project.Platforms,
+                Webpage = project.Webpage
+            };
     }
 }
