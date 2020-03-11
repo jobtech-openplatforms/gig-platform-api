@@ -23,7 +23,7 @@
 
           .project-name {{project.name}}
           .hasplconn.connections(v-if="project.platforms && project.platforms[0].published")
-          .hasappconn.connections(v-if="project.applications")
+          .hasappconn.connections(v-if="project.applications && project.applications[0].authCallbackUrl")
         .details(v-if="current && current.project && project.id === current.project.id")
           hr
           router-link.color-export( to="/share-user-data" active-class="active" v-bind:class="{ 'active': $route.path == '/test-open-api' }") Platform API
@@ -59,9 +59,7 @@ import { State, Mutation, namespace } from 'vuex-class'
 
       this.$store.commit('projects/switchMode')
 
-      this.$store.dispatch('projects/unsetCurrentProject').then((result) => {
-        this.$router.push('/projects')
-      })
+      this.$store.dispatch('projects/unsetCurrentProject')
     }
   },
   async created() {

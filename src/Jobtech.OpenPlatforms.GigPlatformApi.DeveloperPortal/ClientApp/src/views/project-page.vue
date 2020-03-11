@@ -13,8 +13,8 @@
         hr
         .integration-status
           strong Application&nbsp;
-          span.yes {{currentProject.applications ? 'Ready' : ''}}
-          router-link.btn.btn-import.btn-outline.btn-small(to="/integrate-user-data") {{currentProject.applications ? 'Edit...' : 'Add...'}}
+          span.yes {{currentProject.applications && currentProject.applications[0].authCallbackUrl ? 'Ready' : ''}}
+          router-link.btn.btn-import.btn-outline.btn-small(to="/integrate-user-data") {{currentProject.applications && currentProject.applications[0].authCallbackUrl ? 'Edit...' : 'Add...'}}
 
 
 
