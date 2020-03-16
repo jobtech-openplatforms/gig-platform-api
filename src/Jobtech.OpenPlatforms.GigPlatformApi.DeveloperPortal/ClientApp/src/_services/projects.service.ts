@@ -40,7 +40,6 @@ async function create(projectData: CreateRequest) {
 async function getAll() {
 
   const header = await authHeader()
-  console.log('header: ', header)
 
   const requestOptions = {
     method: 'GET',

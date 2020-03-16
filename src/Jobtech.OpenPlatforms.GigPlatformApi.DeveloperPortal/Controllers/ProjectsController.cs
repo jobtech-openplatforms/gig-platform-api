@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Jobtech.OpenPlatforms.GigDataCommon.Library.Models.GigDataService;
+﻿using Jobtech.OpenPlatforms.GigDataCommon.Library.Models.GigDataService;
 using Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine.Managers;
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Extensions;
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers;
@@ -14,6 +10,10 @@ using Jobtech.OpenPlatforms.GigPlatformApi.Store.Config;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Raven.Client.Documents;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
 {
@@ -61,6 +61,49 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
             }
         }
 
+        [HttpPost("[action]")]
+        public async Task<IActionResult> CreateTestProjectFromLive([FromBody]string projectId)
+        {
+            try
+            {
+                using var session = _documentStore.OpenAsyncSession();
+                var project = await _projectManager.Get((ProjectId)projectId, session);
+                var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
+                var entityToCreate = project.ToTestEntity();
+                var testproject = await _projectManager.Create(entityToCreate);
+                return Ok(testproject);
+            }
+            catch (ApiException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> GenerateTestProjects()
+        {
+            try
+            {
+                using var session = _documentStore.OpenAsyncSession();
+                var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
+                var projects = await _projectManager.GetAll(user.Id, session);
+                foreach (var item in projects)
+                {
+                    var project = await _projectManager.Get((ProjectId)item.Id, session);
+                    var entityToCreate = project.ToTestEntity();
+                    var testProject = await _projectManager.Create(entityToCreate);
+                }
+                var testProjects = await _projectManager.GetAllTest(user.Id, session);
+                return Ok(testProjects);
+            }
+            catch (ApiException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
@@ -68,8 +111,18 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
             {
                 using var session = _documentStore.OpenAsyncSession();
                 var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
-                var projects = await _projectManager.GetAll(user.Id);
-                return Ok(projects);
+                var projects = await _projectManager.GetAll(user.Id, session);
+                var testProjects = await _projectManager.GetAllTest(user.Id, session);
+                if (projects.Any(p => !testProjects.Any(tp => tp.LiveProjectId == p.Id)))
+                {
+                    foreach (var project in projects.Where(p => !testProjects.Any(tp => tp.LiveProjectId== p.Id )))
+                    {
+                        await _projectManager.Create(project.ToTestEntity());
+                    }
+
+                    testProjects = await _projectManager.GetAllTest(user.Id, session);
+                }
+                return Ok(new { projects, testProjects });
             }
             catch (ApiException ex)
             {

@@ -16,13 +16,19 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
         {
         }
 
-        public async Task<IEnumerable<Project>> GetAll(PlatformAdminUserId adminId)
-        {
-            using (IAsyncDocumentSession session = _documentStore.OpenAsyncSession())
-            {
-                return await session.Query<Project>().Where(p => p.OwnerAdminId == adminId.Value || p.AdminIds.Contains(adminId.Value)).OrderByDescending(p => p.Id).ToListAsync();
-            }
-        }
+        public async Task<IEnumerable<Project>> GetAll(PlatformAdminUserId adminId, IAsyncDocumentSession session)
+            => await session.Query<Project>()
+                            .Where(p => p.OwnerAdminId == adminId.Value || p.AdminIds.Contains(adminId.Value))
+                            .OrderByDescending(p => p.Id)
+                            .ToListAsync();
+
+
+        public async Task<IEnumerable<TestProject>> GetAllTest(PlatformAdminUserId userId, IAsyncDocumentSession session)
+            => await session.Query<TestProject>()
+                            .Where(p => p.OwnerAdminId == userId.Value || p.AdminIds.Contains(userId.Value))
+                            .OrderByDescending(p => p.Id)
+                            .ToListAsync();
+
 
         public async Task<Project> Update(Project project)
         {

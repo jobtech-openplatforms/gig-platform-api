@@ -16,13 +16,14 @@ enum ModuleStatus {
 
 const moduleState: ProjectsModuleState = {
   loading: false,
-  all: { projects: [] },
+  all: { projects: [], testProjects: [] },
   current: {},
   editing: {},
   admin: {},
   test: { error: {}, result: {} },
   status: ModuleStatus.init,
-  testStatus: ModuleStatus.init
+  testStatus: ModuleStatus.init,
+  testMode: true
 }
 
 const actions: ActionTree<ProjectsModuleState, RootState> = {
@@ -35,7 +36,8 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
                 commit('getAllSuccess', allProjects)
                 if (!currentProject) {
                   const p = localStorage.getItem('projectId')
-                  currentProject = allProjects.find(obj => obj.id === p)
+                  currentProject = allProjects.projects.find(obj => obj.id === p) ||
+                                    allProjects.testProjects.find(obj => obj.id === p)
                   commit('changeCurrentProject', currentProject)
                 }
                 return currentProject
@@ -188,7 +190,7 @@ const mutations: MutationTree<ProjectsModuleState> = {
   },
   getAllSuccess(state, allProjects) {
     Vue.set(state, 'loading', false)
-    Vue.set(state.all, 'projects', allProjects)
+    Vue.set(state, 'all', allProjects)
   },
   getAllFailure(state, error) {
     Vue.set(state, 'loading', false)
@@ -269,6 +271,9 @@ const mutations: MutationTree<ProjectsModuleState> = {
   },
   cancelEdit(state) {
     Vue.set(state.editing, 'project', state.current.project)
+  },
+  switchMode(state) {
+    Vue.set(state, 'testMode', !state.testMode)
   }
 
 }
@@ -276,6 +281,9 @@ const mutations: MutationTree<ProjectsModuleState> = {
 const getters: GetterTree<ProjectsModuleState, RootState> = {
   currentProject(state) {
     return state.current.project
+  },
+  currentProjects(state) {
+    return state.testMode ? state.all.testProjects : state.all.projects
   },
   currentProjectCompleted(state) {
     return (state.current.project &&
@@ -319,11 +327,16 @@ export const projects: Module<ProjectsModuleState, RootState> = {
 }
 
 // Guessing... :-D
+export interface TestProjectState extends ProjectState {
+  liveProjectId: string
+}
+
 export interface ProjectState extends ProjectUpdateRequest {
   platforms?: PlatformState[]
   applications?: ApplicationState[]
   platformToken?: string
 }
+
 export interface ApplicationState {
   emailVerificationUrl?: string
   gigDataNotificationUrl?: string
@@ -355,11 +368,13 @@ export interface ApplicationUrlsUpdateRequest {
 }
 
 export interface AllPlatformsState extends BasicState {
-  projects?: ProjectState[]
+  projects?: ProjectState[],
+  testProjects?: TestProjectState[]
 }
 
 export interface CurrentPlatformState extends BasicState {
-  project?: ProjectState
+  project?: ProjectState,
+  testProject?: TestProjectState
 }
 
 export interface AdminUserState extends BasicState {
@@ -400,4 +415,5 @@ export interface ProjectsModuleState {
   test: TestState
   status: ModuleStatus
   testStatus: ModuleStatus
+  testMode: boolean
 }

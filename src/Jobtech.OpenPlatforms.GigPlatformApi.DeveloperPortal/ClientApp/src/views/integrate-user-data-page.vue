@@ -123,7 +123,7 @@ export default class IntegrateUserDataPage extends Vue {
     this.emailVerificationUrl = this.currentApplication
       ? this.currentApplication.emailVerificationUrl
       : ''
-    this.formDisabled = this.currentApplication !== null
+    this.formDisabled = this.currentApplication !== null && this.currentApplication.authCallbackUrl != null
   }
 
   private isFormEdited() {
