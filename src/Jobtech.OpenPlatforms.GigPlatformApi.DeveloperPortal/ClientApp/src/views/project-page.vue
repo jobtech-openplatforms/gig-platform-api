@@ -1,6 +1,8 @@
 <template lang="pug">
   div.home.project-page.center(v-if="currentProject")
 
+    current-step(:step="nextStep")
+
     .flex-wrapper
       ProjectEdit
 
@@ -24,13 +26,15 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import ProjectEdit from '../components/organisms/project-edit.vue'
+import CurrentStep from '../components/organisms/current-step.vue'
 
 @Component({
   computed: {
-    ...mapGetters('projects', ['currentProject', 'currentPlatform'])
+    ...mapGetters('projects', ['currentProject', 'currentPlatform', 'nextStep'])
   },
   components: {
-    ProjectEdit
+    ProjectEdit,
+    CurrentStep
   }
 })
 export default class ProjectPage extends Vue {}

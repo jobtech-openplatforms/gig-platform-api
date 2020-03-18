@@ -292,6 +292,25 @@ const getters: GetterTree<ProjectsModuleState, RootState> = {
       state.current.project.logoUrl &&
       state.current.project.description)
   },
+  nextStep(state, getters) {
+    if(state.current.project && !state.current.project.platforms[0].exportDataUri)
+      return 'platformDataUrlIncomplete'
+    if (state.testMode){
+      if(state.current.project &&
+      state.current.project.name &&
+      state.current.project.webpage &&
+      state.current.project.logoUrl &&
+      state.current.project.description) {
+      return 'testModeComplete'
+    }else{
+      return 'testModeIncomplete'
+    }
+  }
+    if (!getters.currentProjectCompleted(state)) {
+      return 'currentProjectIncomplete'
+    }
+    return ''
+  },
   currentError(state) {
     return state.current.error
   },
