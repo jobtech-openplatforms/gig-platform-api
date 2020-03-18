@@ -286,7 +286,7 @@ const getters: GetterTree<ProjectsModuleState, RootState> = {
     return state.testMode ? state.all.testProjects : state.all.projects
   },
   currentProjectCompleted(state) {
-    return (state.current.project &&
+    return !state.testMode &&(state.current.project &&
       state.current.project.name &&
       state.current.project.webpage &&
       state.current.project.logoUrl &&
