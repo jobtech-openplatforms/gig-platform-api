@@ -1,6 +1,8 @@
 <template lang="pug">
   div.home.project-page.center(v-if="currentProject")
 
+    h1 {{currentProject.name}}
+
     current-step(:step="nextStep")
 
     .flex-wrapper

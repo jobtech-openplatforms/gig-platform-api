@@ -68,13 +68,13 @@
       router-link.btn.btn-primary(to="/project") Back to Settings
 
     
-    form.card.mb-4(v-bind:class="{ 'form-inactive': formDisabled && currentPlatform }" @submit.prevent="saveUrl")
+    form.card.mb-4(v-bind:class="{ 'form-inactive': editUrlDisabled && currentPlatform }" @submit.prevent="saveUrl")
       .form-group
         label.label-muted(for="exportDataUri" @click="enableForm()")  Project export data url
         .inline
             .has-edit.form-group
-              input.editable(v-if="currentPlatform" type="text" name="exportDataUri" :value="currentPlatform.exportDataUri" @input="newUrl = $event.target.value" :disabled="formDisabled" placeholder="Project export data url")
-            button.btn.right.btn-export(v-if="!formDisabled") Save
+              input.editable(v-if="currentPlatform" type="text" name="exportDataUri" :value="currentPlatform.exportDataUri" @input="newUrl = $event.target.value" :disabled="editUrlDisabled" placeholder="Project export data url")
+            button.btn.right.btn-export(v-if="!editUrlDisabled") Save
         button.btn.right.btn-outline.btn-export.btn-small(v-if="formDisabled" type="button" @click="enableForm()") Edit...
 
     .token-keys(v-if="currentProject.platforms && (testStatus === 1 || testStatus === 3)")
@@ -259,9 +259,8 @@ export default {
       this.editUrlDisabled = true
     },
     enableForm() {
-      if (this.editUrlDisabled) {
         this.editUrlDisabled = false
-      }
+      
     }
   }
 }

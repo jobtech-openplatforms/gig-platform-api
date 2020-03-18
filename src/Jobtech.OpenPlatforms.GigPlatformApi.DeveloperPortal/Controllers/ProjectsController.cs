@@ -148,8 +148,13 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
                 // Which project are we working on?
                 var project = await _projectManager.Get((ProjectId)request.ProjectId);
+
+                if (project == null)
+                {
+                    project = await _projectManager.GetTest((ProjectId)request.ProjectId, session);
+                }
                 // Does the user have access to the project?
-                if (!project.AdminIds.Contains(user.Id) && project.OwnerAdminId != user.Id)
+                if ((!project.AdminIds.Contains(user.Id)) && project.OwnerAdminId != user.Id)
                 {
                     throw new ApiException("Seems you are not an admin on this project.", (int)System.Net.HttpStatusCode.Unauthorized);
                 }
@@ -158,7 +163,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
 
                 if (project.Platforms == null || !project.Platforms.Any())
                 {
-                    var registeredPlatform = await _gigDataHttpClient.CreatePlatform(
+                    var registeredPlatform = request.TestMode ?
+                        new PlatformViewModel(System.Guid.NewGuid(), project.Name, Jobtech.OpenPlatforms.GigDataCommon.Library.Models.GigDataService.PlatformAuthenticationMechanism.Email)
+                        : await _gigDataHttpClient.CreatePlatform(
                         new CreatePlatformModel
                         {
                             AuthMechanism = PlatformAuthenticationMechanism.Email,

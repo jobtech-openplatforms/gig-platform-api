@@ -117,8 +117,11 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
 
   setPlatformUrl({ state, commit, dispatch }, url: string) {
     commit('getRequest', state.current.project.id)
+    if(!url){
+      commit('getFailure', {errors: ['platform-url'], message: 'Please add a new url.'})
+    }
     return projectsService
-            .setPlatformUrl(state.current.project.id, url)
+            .setPlatformUrl(state.current.project.id, url, state.testMode)
             .then(
               (currentProject) => commit('getSuccess', currentProject),
               (error) => commit('getFailure', error)
@@ -211,7 +214,7 @@ const mutations: MutationTree<ProjectsModuleState> = {
     return currentProject
   },
   getFailure(state, error) {
-    Vue.set(state.current, 'loading', false)
+    Vue.set(state, 'loading', false)
     state.status = ModuleStatus.error
     state.current.error = error
   },
