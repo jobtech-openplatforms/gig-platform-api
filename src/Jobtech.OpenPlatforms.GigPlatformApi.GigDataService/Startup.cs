@@ -46,6 +46,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService
         {
             var formatElastic = Configuration.GetValue("FormatLogsInElasticFormat", false);
 
+            // Logger configuration
             var logConf = new LoggerConfiguration()
                 .ReadFrom.Configuration(Configuration);
 
@@ -74,26 +75,33 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService
                 .AddApiKeySupport(options => { });
 
             // Document store for Raven
-            services.Configure<RavenConfig>(Configuration.GetSection("Raven"));
+            var ravenDbSection = Configuration.GetSection("Raven");
+
+            var urls = new List<string>();
+            ravenDbSection.GetSection("Urls").Bind(urls);
+            var databaseName = ravenDbSection.GetValue<string>("DatabaseName");
+            var certPwd = ravenDbSection.GetValue<string>("CertPwd");
+            var certPath = ravenDbSection.GetValue<string>("CertPath");
+            var keyPath = ravenDbSection.GetValue<string>("KeyPath");
+            var loadCertFromStore = ravenDbSection.GetValue("LoadCertFromStore", false);
+            var certStoreThumbprint = ravenDbSection.GetValue<string>("CertStoreThumbprint");
+
+            DocumentStoreHolder.DatabaseName = databaseName;
+            DocumentStoreHolder.Urls = urls.ToArray();
+            DocumentStoreHolder.CertPwd = certPwd;
+            DocumentStoreHolder.CertPath = certPath;
+            DocumentStoreHolder.KeyPath = keyPath;
+            DocumentStoreHolder.LoadCertFromStore = loadCertFromStore;
+            DocumentStoreHolder.CertStoreThumbprint = certStoreThumbprint;
             services.AddSingleton<IDocumentStore>(DocumentStoreHolder.Store);
-            services.AddSingleton<IConfiguration>(Configuration);
-
-            // Configure auth
-            services.AddSingleton<IAuthenticationConfigService, AuthenticationConfigService>();
-            services.Configure<GigDataServiceConfig>(Configuration.GetSection("GigDataService"));
-
-            services.AddLogging(loggingBuilder =>
-            {
-                loggingBuilder.AddConsole();
-            });
 
             // Platform engine
             services.AddPlatformEngine(Configuration);
 
             // Connectivity
             services.AddHttpClient<IPlatformHttpClient, PlatformHttpClient>();
-            services.AddHttpClient<IGigDataHttpClient, GigDataHttpClient>();
 
+            // Swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1",
@@ -144,11 +152,14 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSerilogRequestLogging();
+
             app.UseRouting();
 
             app.UseHttpsRedirection();
             
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseSwagger();
 
