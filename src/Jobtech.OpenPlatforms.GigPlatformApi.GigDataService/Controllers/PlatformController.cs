@@ -8,6 +8,7 @@ using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models.PlatformModels;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.Exceptions;
 using Jobtech.OpenPlatforms.GigPlatformApi.EventDispatcher.Managers;
 using Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -17,8 +18,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService.Controllers
     /// <summary>
     /// API endpoints for Platform
     /// </summary>
-    //[AuthorizationFilter("#^VJY0!K._bM9?6'9|<)^No]TipJ.-fuFxG(nY&{p#!#Gs?#QVC4mA07%sZfKG.")]
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PlatformController : ControllerBase
@@ -33,6 +33,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService.Controllers
         /// </summary>
         /// <param name="platformManager"></param>
         /// <param name="platformHttpClient"></param>
+        /// <param name="platformDispatchManager"></param>
+        /// <param name="logger"></param>
         public PlatformController(
             IPlatformManager platformManager,
             IPlatformHttpClient platformHttpClient,

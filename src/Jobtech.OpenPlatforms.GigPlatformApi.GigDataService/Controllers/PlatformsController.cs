@@ -2,6 +2,7 @@
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
 using Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService.Controllers
@@ -9,6 +10,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService.Controllers
     /// <summary>
     /// API endpoints for platforms data
     /// </summary>
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PlatformsController : ControllerBase

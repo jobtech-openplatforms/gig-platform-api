@@ -14,6 +14,7 @@ using Jobtech.OpenPlatforms.GigPlatformApi.FileStore.Config;
 using Jobtech.OpenPlatforms.GigPlatformApi.FileStore.Managers;
 using Jobtech.OpenPlatforms.GigPlatformApi.FileStore.Services;
 using Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.IoC;
+using Jobtech.OpenPlatforms.GigPlatformApi.Store;
 using Jobtech.OpenPlatforms.GigPlatformApi.Store.Config;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -28,7 +29,7 @@ using Microsoft.Extensions.Logging.ApplicationInsights;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Rebus.ServiceProvider;
+using Raven.Client.Documents;
 using VueCliMiddleware;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
@@ -72,7 +73,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
                     OnTokenValidated = async context =>
                     {
                         var userService = context.HttpContext.RequestServices.GetRequiredService<IPlatformAdminUserManager>();
-                        var documentStoreHolder = context.HttpContext.RequestServices.GetRequiredService<IDocumentStoreHolder>();
+                        var documentStore = context.HttpContext.RequestServices.GetRequiredService<IDocumentStore>();
                         var uniqueIdentifier = context.Principal.Identity.Name;
                         
                         var auth0Client = context.HttpContext.RequestServices.GetRequiredService<Auth0Client>();
@@ -80,7 +81,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
                         var accessToken = authorizationValue.Substring("Bearer".Length).Trim();
                         var userInfo = await auth0Client.GetUserInfo(accessToken);
 
-                        using var session = documentStoreHolder.Store.OpenAsyncSession();
+                        using var session = documentStore.OpenAsyncSession();
                         var user = await userService.GetOrCreateUserAsync(uniqueIdentifier, session);
                         user.Name = userInfo.Name;
                         user.Email = userInfo.Email;
@@ -134,7 +135,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
             services.Configure<RavenConfig>(Configuration.GetSection("Raven"));
 
             // Document store for Raven
-            services.AddSingleton<IDocumentStoreHolder, DocumentStoreHolder>();
+            services.AddSingleton<IDocumentStore>(DocumentStoreHolder.Store);
 
             services.AddSingleton<IConfiguration>(Configuration);
 

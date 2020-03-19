@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
-using Jobtech.OpenPlatforms.GigPlatformApi.Store.Config;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 
@@ -11,9 +10,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
     {
         private readonly IDocumentStore _documentStore;
 
-        public UserPlatformConnectionManager(IDocumentStoreHolder documentStore)
+        public UserPlatformConnectionManager(IDocumentStore documentStore)
         {
-            _documentStore = documentStore.Store;
+            _documentStore = documentStore;
         }
 
         public async Task<UserPlatformConnection> GetAsync(PlatformToken platformToken, UserName username)

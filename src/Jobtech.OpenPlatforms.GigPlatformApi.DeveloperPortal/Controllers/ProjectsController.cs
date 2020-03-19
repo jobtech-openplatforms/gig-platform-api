@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Jobtech.OpenPlatforms.GigPlatformApi.Store;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
 {
@@ -23,7 +24,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public class ProjectsController : ControllerBase
     {
-        private IProjectManager _projectManager;
+        private readonly IProjectManager _projectManager;
         private readonly IGigDataHttpClient _gigDataHttpClient;
         private readonly IPlatformAdminUserManager _platformAdminUserManager;
         private readonly IDocumentStore _documentStore;
@@ -31,12 +32,12 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         public ProjectsController(IProjectManager projectManager,
             IGigDataHttpClient gigDataHttpClient,
             IPlatformAdminUserManager platformAdminUserManager,
-            IDocumentStoreHolder documentStoreHolder)
+            IDocumentStore documentStoreHolder)
         {
             _projectManager = projectManager;
             _gigDataHttpClient = gigDataHttpClient;
             _platformAdminUserManager = platformAdminUserManager;
-            _documentStore = documentStoreHolder.Store;
+            _documentStore = documentStoreHolder;
         }
 
         [HttpPost("[action]")]
@@ -251,7 +252,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 var status =
                     await _gigDataHttpClient.PlatformStatus(new ProjectModel { PlatformId = project.Platforms.FirstOrDefault().Id.ToString() });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Platform with this ID probably doesn't exist
                 // TODO: Add check for actual error
@@ -274,7 +275,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                     // Save
                     project = await _projectManager.Update(project);
                 }
-                catch (Exception ex2)
+                catch (Exception)
                 {
                     throw;
                 }
