@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Rebus.ServiceProvider;
 using Serilog;
 
@@ -12,7 +12,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService
     {
         public static async Task Main(string[] args)
         {
-            var webHost = CreateWebHostBuilder(args).ConfigureAppConfiguration((hostContext, configApp) =>
+            var host = CreateHostBuilder(args).ConfigureAppConfiguration((hostContext, configApp) =>
             {
                 configApp.SetBasePath(Directory.GetCurrentDirectory());
                 configApp.AddJsonFile("appsettings.json", false, true);
@@ -26,13 +26,14 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService
                 configApp.AddEnvironmentVariables();
             }).Build();
 
-            webHost.Services.UseRebus();
+            host.Services.UseRebus();
 
-            await webHost.RunAsync();
+            await host.RunAsync();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>().UseSerilog();
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+                .UseSerilog();
     }
 }
