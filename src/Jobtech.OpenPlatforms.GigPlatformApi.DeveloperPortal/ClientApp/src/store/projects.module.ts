@@ -16,13 +16,14 @@ enum ModuleStatus {
 
 const moduleState: ProjectsModuleState = {
   loading: false,
-  all: { projects: [] },
+  all: { projects: [], testProjects: [] },
   current: {},
   editing: {},
   admin: {},
   test: { error: {}, result: {} },
   status: ModuleStatus.init,
-  testStatus: ModuleStatus.init
+  testStatus: ModuleStatus.init,
+  testMode: true
 }
 
 const actions: ActionTree<ProjectsModuleState, RootState> = {
@@ -35,7 +36,8 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
                 commit('getAllSuccess', allProjects)
                 if (!currentProject) {
                   const p = localStorage.getItem('projectId')
-                  currentProject = allProjects.find(obj => obj.id === p)
+                  currentProject = allProjects.projects.find(obj => obj.id === p) ||
+                                    allProjects.testProjects.find(obj => obj.id === p)
                   commit('changeCurrentProject', currentProject)
                 }
                 return currentProject
@@ -115,8 +117,11 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
 
   setPlatformUrl({ state, commit, dispatch }, url: string) {
     commit('getRequest', state.current.project.id)
+    if(!url){
+      commit('getFailure', {errors: ['platform-url'], message: 'Please add a new url.'})
+    }
     return projectsService
-            .setPlatformUrl(state.current.project.id, url)
+            .setPlatformUrl(state.current.project.id, url, state.testMode)
             .then(
               (currentProject) => commit('getSuccess', currentProject),
               (error) => commit('getFailure', error)
@@ -188,7 +193,7 @@ const mutations: MutationTree<ProjectsModuleState> = {
   },
   getAllSuccess(state, allProjects) {
     Vue.set(state, 'loading', false)
-    Vue.set(state.all, 'projects', allProjects)
+    Vue.set(state, 'all', allProjects)
   },
   getAllFailure(state, error) {
     Vue.set(state, 'loading', false)
@@ -209,7 +214,7 @@ const mutations: MutationTree<ProjectsModuleState> = {
     return currentProject
   },
   getFailure(state, error) {
-    Vue.set(state.current, 'loading', false)
+    Vue.set(state, 'loading', false)
     state.status = ModuleStatus.error
     state.current.error = error
   },
@@ -269,6 +274,9 @@ const mutations: MutationTree<ProjectsModuleState> = {
   },
   cancelEdit(state) {
     Vue.set(state.editing, 'project', state.current.project)
+  },
+  switchMode(state) {
+    Vue.set(state, 'testMode', !state.testMode)
   }
 
 }
@@ -277,12 +285,34 @@ const getters: GetterTree<ProjectsModuleState, RootState> = {
   currentProject(state) {
     return state.current.project
   },
+  currentProjects(state) {
+    return state.testMode ? state.all.testProjects : state.all.projects
+  },
   currentProjectCompleted(state) {
-    return (state.current.project &&
+    return !state.testMode &&(state.current.project &&
       state.current.project.name &&
       state.current.project.webpage &&
       state.current.project.logoUrl &&
       state.current.project.description)
+  },
+  nextStep(state, getters) {
+    if(state.current.project && !state.current.project.platforms[0].exportDataUri)
+      return 'platformDataUrlIncomplete'
+    if (state.testMode){
+      if(state.current.project &&
+      state.current.project.name &&
+      state.current.project.webpage &&
+      state.current.project.logoUrl &&
+      state.current.project.description) {
+      return 'testModeComplete'
+    }else{
+      return 'testModeIncomplete'
+    }
+  }
+    if (!getters.currentProjectCompleted(state)) {
+      return 'currentProjectIncomplete'
+    }
+    return ''
   },
   currentError(state) {
     return state.current.error
@@ -319,11 +349,16 @@ export const projects: Module<ProjectsModuleState, RootState> = {
 }
 
 // Guessing... :-D
+export interface TestProjectState extends ProjectState {
+  liveProjectId: string
+}
+
 export interface ProjectState extends ProjectUpdateRequest {
   platforms?: PlatformState[]
   applications?: ApplicationState[]
   platformToken?: string
 }
+
 export interface ApplicationState {
   emailVerificationUrl?: string
   gigDataNotificationUrl?: string
@@ -355,11 +390,13 @@ export interface ApplicationUrlsUpdateRequest {
 }
 
 export interface AllPlatformsState extends BasicState {
-  projects?: ProjectState[]
+  projects?: ProjectState[],
+  testProjects?: TestProjectState[]
 }
 
 export interface CurrentPlatformState extends BasicState {
-  project?: ProjectState
+  project?: ProjectState,
+  testProject?: TestProjectState
 }
 
 export interface AdminUserState extends BasicState {
@@ -400,4 +437,5 @@ export interface ProjectsModuleState {
   test: TestState
   status: ModuleStatus
   testStatus: ModuleStatus
+  testMode: boolean
 }

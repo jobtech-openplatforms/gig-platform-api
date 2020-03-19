@@ -1,10 +1,21 @@
 <template lang="pug">
-  .side-nav
+  .side-nav( v-bind:class="{ testmode: testMode}")
     a.btn.my-projects( @click="redirectUser") Projects
     //- router-link.btn.my-projects( to="/projects") Projects
 
-    ul#projects-list(v-if="all && all.projects")
-      li.project(v-for="project in all.projects" v-bind:class="{ active: current && current.project && project.id === current.project.id}")
+    #test-mode
+      .active(v-if="testMode" style="")
+        p(style="color: black;    height: 1.4em; background: #ffffe0d1;    text-align:center;  font-weight: 900; border-bottom:2px solid black;margin-bottom:0;") TEST mode
+        button( @click="switchTestMode" style="background:lightgrey;    padding: 1rem;     text-align:center;  font-weight: 900; border-bottom:2px solid black;margin-bottom:1rem;") Switch to LIVE
+
+      .inactive(v-else)
+        p(style="margin-bottom:0;") LIVE mode
+        button( @click="switchTestMode" style="background:lightyellow;    padding: 1rem;     text-align:center;  font-weight: 900; border-bottom:2px solid black;margin-bottom:1rem;") Switch to TEST
+
+    ul#projects-list(v-if="currentProjects")
+      li.project(v-for="project in currentProjects" v-bind:class="{ active: current && current.project && project.id === current.project.id}")
+        .test-label(v-if="testMode" style="background: #ffffe0d1; float: right;    color: black;    height: 1.4em;    padding: 0 14px;    margin: -1rem;    font-weight: bold; border: 2px solid black; border-width: 0 0 2px 2px;")
+          p TEST
         .project-bar(@click="setCurrentProject(project)")
           router-link(to="/project")
             //- img.project-logo(:src="project.logoUrl")
@@ -12,23 +23,25 @@
 
           .project-name {{project.name}}
           .hasplconn.connections(v-if="project.platforms && project.platforms[0].published")
-          .hasappconn.connections(v-if="project.applications")
+          .hasappconn.connections(v-if="project.applications && project.applications[0].authCallbackUrl")
         .details(v-if="current && current.project && project.id === current.project.id")
           hr
           router-link.color-export( to="/share-user-data" active-class="active" v-bind:class="{ 'active': $route.path == '/test-open-api' }") Platform API
           router-link.color-import( to="/integrate-user-data" active-class="active") Application API
           //- router-link.color-project( to="/project" active-class="active") project info
-    router-link.new-project( to="/create") + New project
+    router-link.new-project( to="/create" v-if="!testMode") + New project
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
+import { State, Mutation, namespace } from 'vuex-class'
 
 @Component({
   computed: {
-    ...mapState('projects', ['current', 'all', 'status']),
-    ...mapGetters('projects', ['currentProject'])
+    ...mapState('projects', ['current', 'all', 'status', 'testMode']),
+    ...mapGetters('projects', ['currentProject', 'currentProjects']),
+    ...mapMutations('projects', ['switchMode'])
   },
   data() {
     return {
@@ -41,6 +54,12 @@ import { mapState, mapActions, mapGetters } from 'vuex'
       this.$store.dispatch('projects/unsetCurrentProject').then((result) => {
         this.$router.push('/projects')
       })
+    },
+    switchTestMode() {
+
+      this.$store.commit('projects/switchMode')
+
+      this.$store.dispatch('projects/unsetCurrentProject')
     }
   },
   async created() {
@@ -48,7 +67,8 @@ import { mapState, mapActions, mapGetters } from 'vuex'
     this.ready = true
   }
 })
-export default class SideNav extends Vue {}
+export default class SideNav extends Vue {
+}
 </script>
 
 <style lang="scss">
@@ -60,6 +80,11 @@ export default class SideNav extends Vue {}
   color: $white;
   height: calc(100vh - 60px);
   position: fixed;
+
+  &.testmode {
+    border-right: 4px solid #ffffe0d1;
+  }
+
   @include flex(column, null, null);
   .my-projects {
     margin: 1rem 1rem 1rem 6rem;

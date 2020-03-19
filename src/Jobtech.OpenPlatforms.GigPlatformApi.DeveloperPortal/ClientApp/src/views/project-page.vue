@@ -1,6 +1,10 @@
 <template lang="pug">
   div.home.project-page.center(v-if="currentProject")
 
+    h1 {{currentProject.name}}
+
+    current-step(:step="nextStep")
+
     .flex-wrapper
       ProjectEdit
 
@@ -13,8 +17,8 @@
         hr
         .integration-status
           strong Application&nbsp;
-          span.yes {{currentProject.applications ? 'Ready' : ''}}
-          router-link.btn.btn-import.btn-outline.btn-small(to="/integrate-user-data") {{currentProject.applications ? 'Edit...' : 'Add...'}}
+          span.yes {{currentProject.applications && currentProject.applications[0].authCallbackUrl ? 'Ready' : ''}}
+          router-link.btn.btn-import.btn-outline.btn-small(to="/integrate-user-data") {{currentProject.applications && currentProject.applications[0].authCallbackUrl ? 'Edit...' : 'Add...'}}
 
 
 
@@ -24,13 +28,15 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import ProjectEdit from '../components/organisms/project-edit.vue'
+import CurrentStep from '../components/organisms/current-step.vue'
 
 @Component({
   computed: {
-    ...mapGetters('projects', ['currentProject', 'currentPlatform'])
+    ...mapGetters('projects', ['currentProject', 'currentPlatform', 'nextStep'])
   },
   components: {
-    ProjectEdit
+    ProjectEdit,
+    CurrentStep
   }
 })
 export default class ProjectPage extends Vue {}
