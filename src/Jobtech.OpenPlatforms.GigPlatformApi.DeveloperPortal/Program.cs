@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore;
+﻿using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -8,45 +10,28 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            //CreateWebHostBuilder(args).Build().Run();
-            var host = CreateHostBuilder(args).Build();
+            var host = CreateHostBuilder(args).ConfigureAppConfiguration((hostContext, configApp) =>
+            {
+                configApp.SetBasePath(Directory.GetCurrentDirectory());
+                configApp.AddJsonFile("appsettings.json", false, true);
+                configApp.AddJsonFile(
+                    $"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json",
+                    optional: true);
+                configApp.AddJsonFile("/app/secrets/appsettings.secrets.json", optional: true);
+                configApp.AddJsonFile("appsettings.local.json", optional: true,
+                    reloadOnChange: false); //load local settings
 
-            host.Run();
+                configApp.AddEnvironmentVariables();
+            }).Build();
+
+            await host.RunAsync();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.ConfigureAppConfiguration((context, builder) =>
-                    {
-                        if (context.HostingEnvironment.IsDevelopment())
-                        {
-                            builder.SetBasePath(context.HostingEnvironment.ContentRootPath)
-                                .AddJsonFile("appsettings.json", optional: false,
-                                    reloadOnChange: false) //load base settings
-                                .AddJsonFile("appsettings.local.json", optional: true,
-                                    reloadOnChange: false) //load local settings
-                                .AddJsonFile($"appsettings.local.{context.HostingEnvironment.EnvironmentName}.json",
-                                    optional: true,
-                                    reloadOnChange: false) //load environment local settings
-                                .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json",
-                                    optional: true) //load environment settings
-                                .AddEnvironmentVariables();
-                        }
-                        else
-                        {
-                            builder.SetBasePath(context.HostingEnvironment.ContentRootPath)
-                                .AddJsonFile("appsettings.json", optional: false,
-                                    reloadOnChange: false) //load base settings
-                                .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json",
-                                    optional: true) //load environment settings
-                                .AddEnvironmentVariables();
-                        }
-                    });
-                    webBuilder.UseStartup<Startup>();
-                }).UseSerilog();
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+                .UseSerilog();
     }
 }
