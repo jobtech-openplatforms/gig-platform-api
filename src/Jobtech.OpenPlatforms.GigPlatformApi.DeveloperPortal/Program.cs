@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
 {
@@ -14,10 +15,6 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
 
             host.Run();
         }
-
-        //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-        //    WebHost.CreateDefaultBuilder(args)
-        //        .UseStartup<Startup>();
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
@@ -50,6 +47,6 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
                         }
                     });
                     webBuilder.UseStartup<Startup>();
-                });
+                }).UseSerilog();
     }
 }

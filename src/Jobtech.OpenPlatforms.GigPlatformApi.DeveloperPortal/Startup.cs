@@ -2,9 +2,7 @@
 using System.Linq;
 using AutoMapper;
 using Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine.Managers;
-using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Config;
-using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers;
-using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Services;
+using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.IoC;
 using Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Exceptions;
 using Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Helpers;
 using Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.HttpClients;
@@ -14,22 +12,20 @@ using Jobtech.OpenPlatforms.GigPlatformApi.FileStore.Config;
 using Jobtech.OpenPlatforms.GigPlatformApi.FileStore.Managers;
 using Jobtech.OpenPlatforms.GigPlatformApi.FileStore.Services;
 using Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.IoC;
-using Jobtech.OpenPlatforms.GigPlatformApi.Store;
-using Jobtech.OpenPlatforms.GigPlatformApi.Store.Config;
+using Jobtech.OpenPlatforms.GigPlatformApi.Store.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.ApplicationInsights;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Raven.Client.Documents;
+using Serilog;
+using Serilog.Formatting.Elasticsearch;
 using VueCliMiddleware;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
@@ -46,12 +42,24 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var formatElastic = Configuration.GetValue("FormatLogsInElasticFormat", false);
 
-            services.AddAuthorization();
+            // Logger configuration
+            var logConf = new LoggerConfiguration()
+                .ReadFrom.Configuration(Configuration);
 
-            // configure strongly typed settings objects
-            var appSettingsSection = Configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingsSection);
+            if (formatElastic)
+            {
+                var logFormatter = new ExceptionAsObjectJsonFormatter(renderMessage: true);
+                logConf.WriteTo.Console(logFormatter);
+            }
+            else
+            {
+                logConf.WriteTo.Console();
+            }
+
+            Log.Logger = logConf.CreateLogger();
+
 
             // configure jwt authentication
             var domain = $"https://{Configuration["Auth0:Domain"]}/";
@@ -108,19 +116,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
                               options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                               options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Include;
                               //options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-                          })
-                        .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-
-            var applicationInsightsSection = Configuration.GetSection("ApplicationsInsights");
-            var instrumentationKey = applicationInsightsSection["InstrumentationKey"];
-
-            services.AddLogging(loggingBuilder =>
-            {
-                loggingBuilder.AddConsole();
-                loggingBuilder.AddFilter<ApplicationInsightsLoggerProvider>("", LogLevel.Trace);
-                loggingBuilder.AddApplicationInsights(instrumentationKey);
-            });
-            services.AddApplicationInsightsTelemetry(instrumentationKey);
+                          });
 
             // In production, the Vue files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -131,17 +127,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
             //Add functionality to inject IOptions<T>
             services.AddOptions();
 
-            // App Settings
-            services.Configure<RavenConfig>(Configuration.GetSection("Raven"));
+            // RavenDb
+            services.AddRavenDb(Configuration);
 
-            // Document store for Raven
-            services.AddSingleton<IDocumentStore>(DocumentStoreHolder.Store);
-
-            services.AddSingleton<IConfiguration>(Configuration);
-
-            // Configure auth
-            services.AddSingleton<IAuthenticationConfigService, AuthenticationConfigService>();
-            services.Configure<GigDataServiceConfig>(Configuration.GetSection("GigDataService"));
 
             // Configure file storage
             services.AddScoped<IFileStorageConfigService, FileStorageConfigService>();
@@ -154,26 +142,15 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
 
             services.AddEventDispatcher(Configuration);
             services.AddPlatformEngine(Configuration);
-            services.AddHttpClient<IPlatformHttpClient, PlatformHttpClient>();
-            services.AddHttpClient<IGigDataHttpClient, GigDataHttpClient>();
 
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Gig Platform API", Version = "v1" });
-            //});
+            services.AddPlatformEndpointConnectivity();
+            services.AddGigDataApiConnectivity(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
-            }
+            app.UseSerilogRequestLogging();
 
             // global cors policy
             app.UseCors(x => x
@@ -182,30 +159,14 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
                 .AllowAnyHeader());
 
             app.UseHttpsRedirection();
-            app.UseAuthentication();
-            //app.UseMvc(); // Removed in .Net Core 3.0
 
             app.UseDefaultFiles();
             app.UseSpaStaticFiles();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
-
-            // TODO: Swagger config - static files are not working
-            //app.UseStaticFiles();
-            //app.UseSwagger(c =>
-            //{
-            //    c.RouteTemplate = "docs/{documentName}/docs.json";
-            //});
-            //app.UseSwaggerUI(c =>
-            //{
-            //    c.RoutePrefix = string.Empty;
-
-            //    c.SwaggerEndpoint("/swagger/v1/docs.json", "My Gig Data API V1");
-            //    c.InjectStylesheet("/swagger-ui/custom.css");
-            //    c.InjectJavascript("/swagger-ui/custom.js");
-            //});
 
             app.UseEndpoints(endpoints =>
             {

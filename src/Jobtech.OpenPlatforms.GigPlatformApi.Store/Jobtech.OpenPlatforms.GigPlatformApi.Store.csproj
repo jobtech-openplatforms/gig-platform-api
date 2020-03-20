@@ -1,18 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Managers\**" />
-    <EmbeddedResource Remove="Managers\**" />
-    <None Remove="Managers\**" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.2" />
     <PackageReference Include="RavenDB.Client" Version="4.2.101" />
   </ItemGroup>
 

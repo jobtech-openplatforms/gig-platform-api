@@ -7,15 +7,12 @@ using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Config;
-using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers;
-using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Services;
+using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.IoC;
 using Jobtech.OpenPlatforms.GigPlatformApi.EventDispatcher.IoC;
 using Jobtech.OpenPlatforms.GigPlatformApi.EventDispatcher.MessageHandlers;
 using Jobtech.OpenPlatforms.GigPlatformApi.GigDataService.Exceptions;
 using Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.IoC;
-using Jobtech.OpenPlatforms.GigPlatformApi.Store;
-using Jobtech.OpenPlatforms.GigPlatformApi.Store.Config;
+using Jobtech.OpenPlatforms.GigPlatformApi.Store.IoC;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,7 +22,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using Raven.Client.Documents;
 using Rebus.ServiceProvider;
 using Serilog;
 using Serilog.Formatting.Elasticsearch;
@@ -75,31 +71,13 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService
                 .AddApiKeySupport(options => { });
 
             // Document store for Raven
-            var ravenDbSection = Configuration.GetSection("Raven");
-
-            var urls = new List<string>();
-            ravenDbSection.GetSection("Urls").Bind(urls);
-            var databaseName = ravenDbSection.GetValue<string>("DatabaseName");
-            var certPwd = ravenDbSection.GetValue<string>("CertPwd");
-            var certPath = ravenDbSection.GetValue<string>("CertPath");
-            var keyPath = ravenDbSection.GetValue<string>("KeyPath");
-            var loadCertFromStore = ravenDbSection.GetValue("LoadCertFromStore", false);
-            var certStoreThumbprint = ravenDbSection.GetValue<string>("CertStoreThumbprint");
-
-            DocumentStoreHolder.DatabaseName = databaseName;
-            DocumentStoreHolder.Urls = urls.ToArray();
-            DocumentStoreHolder.CertPwd = certPwd;
-            DocumentStoreHolder.CertPath = certPath;
-            DocumentStoreHolder.KeyPath = keyPath;
-            DocumentStoreHolder.LoadCertFromStore = loadCertFromStore;
-            DocumentStoreHolder.CertStoreThumbprint = certStoreThumbprint;
-            services.AddSingleton<IDocumentStore>(DocumentStoreHolder.Store);
+            services.AddRavenDb(Configuration);
 
             // Platform engine
             services.AddPlatformEngine(Configuration);
 
             // Connectivity
-            services.AddHttpClient<IPlatformHttpClient, PlatformHttpClient>();
+            services.AddPlatformEndpointConnectivity();
 
             // Swagger
             services.AddSwaggerGen(c =>
