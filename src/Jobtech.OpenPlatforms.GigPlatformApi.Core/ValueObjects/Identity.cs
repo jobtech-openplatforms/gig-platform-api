@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Jobtech.OpenPlatforms.GigPlatformApi.Core.Exceptions;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects
 {
@@ -25,8 +26,24 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects
         public new string Value
         {
             get { return _value; }
-            set { _value = value.StartsWith(_prefix, true, System.Globalization.CultureInfo.InvariantCulture) ? value : $"{_prefix}{value}"; }
+            set
+            {
+                if (value.Contains('/') && !value.StartsWith(_prefix, true, System.Globalization.CultureInfo.InvariantCulture))
+                {
+                    // Presence of '/' indicates that the string is already an identity value, like 'Projects/123-A'
+
+                    int index = value.IndexOf('/');
+                    string first = value.Substring(0, index - 1); // -1 since 's' is appended as prefix
+                    throw new IdentityException($"Invalid string identity. Attempted conversion from {first}Id to {typeof(T).Name}Id.");
+                }
+
+                _value = value.StartsWith(_prefix, true, System.Globalization.CultureInfo.InvariantCulture) ?
+                            value :
+                            $"{_prefix}{value}";
+            }
         }
+
+        public static bool IsValidIdentity(string id) => !id.Contains('/') || id.StartsWith(typeof(T).Name, true, System.Globalization.CultureInfo.InvariantCulture);
 
         public string Short() => this.Value.Replace(_prefix, "");
     }
@@ -84,7 +101,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects
         public new Guid Value
         {
             get { return _value; }
-            set { _value =  value; }
+            set { _value = value; }
         }
     }
 

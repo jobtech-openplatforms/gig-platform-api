@@ -2,7 +2,9 @@
     .current-step
       .step(v-if="step == 'platformDataUrlIncomplete'")
         h2 Next up!
-        p Fill out the data url for retrieving data for a user on your platform.
+        p.
+          #[router-link(to="/test-open-api")Fill out the data url]
+          for retrieving data for a user on your platform.
       .step(v-if="step == 'currentProjectIncomplete'")
         h2 Next up!
         p Fill out the details for the project to be able to publish it with Open Platforms
@@ -12,7 +14,9 @@
       .step(v-if="step == 'testModeComplete'")
         h2 Test Mode Complete!
         p Seems all settings are complete for this project in Test Mode. 
-        p Deploy your solution and head over to LIVE mode and update the settings to publish on Open Platforms. 
+        p.
+          Deploy your solution and head over to LIVE mode and update 
+          the settings to publish on Open Platforms. 
       .step(v-if="step == 'liveModeComplete'")
         h2 Congratulations!
         p Seems you've completed all settings on the project.
