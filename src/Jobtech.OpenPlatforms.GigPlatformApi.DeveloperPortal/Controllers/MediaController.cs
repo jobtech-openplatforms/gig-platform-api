@@ -6,6 +6,7 @@ using Jobtech.OpenPlatforms.GigPlatformApi.Core.Exceptions;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
 using Jobtech.OpenPlatforms.GigPlatformApi.FileStore.Managers;
 using Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers;
+using Jobtech.OpenPlatforms.GigPlatformApi.Store;
 using Jobtech.OpenPlatforms.GigPlatformApi.Store.Config;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -25,11 +26,11 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
 
         private readonly IFileManager _fileManager;
 
-        public MediaController(IProjectManager projectManager, IPlatformAdminUserManager platformAdminUserManager, IDocumentStoreHolder documentStoreHolder, IFileManager fileManager)
+        public MediaController(IProjectManager projectManager, IPlatformAdminUserManager platformAdminUserManager, IDocumentStore documentStoreHolder, IFileManager fileManager)
         {
             _projectManager = projectManager;
             _platformAdminUserManager = platformAdminUserManager;
-            _documentStore = documentStoreHolder.Store;
+            _documentStore = documentStoreHolder;
             _fileManager = fileManager;
         }
 

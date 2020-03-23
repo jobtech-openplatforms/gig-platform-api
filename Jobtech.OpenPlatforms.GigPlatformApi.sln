@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobtech.OpenPlatforms.GigPl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine", "src\Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine\Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine.csproj", "{4B0A4C07-D643-4735-805E-F637D549F877}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobtech.OpenPlatforms.GigPlatformApi.Store", "src\Jobtech.OpenPlatforms.GigPlatformApi.Store\Jobtech.OpenPlatforms.GigPlatformApi.Store.csproj", "{54FE88EC-6781-4AA2-899B-1FAF4E420EA7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobtech.OpenPlatforms.GigPlatformApi.Connectivity", "src\Jobtech.OpenPlatforms.GigPlatformApi.Connectivity\Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.csproj", "{3E73B4B7-198E-49C9-B387-E69D6537FDDE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine", "src\Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine\Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.csproj", "{A7614F75-A302-476D-BCB3-E5C220BE4C28}"
@@ -22,6 +20,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal", "src\Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal\Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.csproj", "{A2940A35-CD51-4463-B7C9-BC0A60722DAC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobtech.OpenPlatforms.GigPlatformApi.FileStore", "src\Jobtech.OpenPlatforms.GigPlatformApi.FileStore\Jobtech.OpenPlatforms.GigPlatformApi.FileStore.csproj", "{AE8CBCF7-C2A7-4859-89F1-F38156E3705E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jobtech.OpenPlatforms.GigPlatformApi.Store", "src\Jobtech.OpenPlatforms.GigPlatformApi.Store\Jobtech.OpenPlatforms.GigPlatformApi.Store.csproj", "{10FDE7F7-86F7-4422-A3A7-9D5B0185FE10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +37,6 @@ Global
 		{4B0A4C07-D643-4735-805E-F637D549F877}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B0A4C07-D643-4735-805E-F637D549F877}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B0A4C07-D643-4735-805E-F637D549F877}.Release|Any CPU.Build.0 = Release|Any CPU
-		{54FE88EC-6781-4AA2-899B-1FAF4E420EA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{54FE88EC-6781-4AA2-899B-1FAF4E420EA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{54FE88EC-6781-4AA2-899B-1FAF4E420EA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{54FE88EC-6781-4AA2-899B-1FAF4E420EA7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3E73B4B7-198E-49C9-B387-E69D6537FDDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3E73B4B7-198E-49C9-B387-E69D6537FDDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E73B4B7-198E-49C9-B387-E69D6537FDDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,6 +65,10 @@ Global
 		{AE8CBCF7-C2A7-4859-89F1-F38156E3705E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE8CBCF7-C2A7-4859-89F1-F38156E3705E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE8CBCF7-C2A7-4859-89F1-F38156E3705E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10FDE7F7-86F7-4422-A3A7-9D5B0185FE10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10FDE7F7-86F7-4422-A3A7-9D5B0185FE10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10FDE7F7-86F7-4422-A3A7-9D5B0185FE10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10FDE7F7-86F7-4422-A3A7-9D5B0185FE10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

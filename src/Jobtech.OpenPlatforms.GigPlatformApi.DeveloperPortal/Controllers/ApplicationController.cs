@@ -3,6 +3,7 @@ using Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine.Managers;
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.Exceptions;
 using Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers;
+using Jobtech.OpenPlatforms.GigPlatformApi.Store;
 using Jobtech.OpenPlatforms.GigPlatformApi.Store.Config;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,11 +22,11 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         private readonly IPlatformAdminUserManager _platformAdminUserManager;
 
         public ApplicationController(
-            IApplicationManager applicationManager, IPlatformAdminUserManager platformAdminUserManager, IDocumentStoreHolder documentStoreHolder)
+            IApplicationManager applicationManager, IPlatformAdminUserManager platformAdminUserManager, IDocumentStore documentStoreHolder)
         {
             _applicationManager = applicationManager;
             _platformAdminUserManager = platformAdminUserManager;
-            _documentStore = documentStoreHolder.Store;
+            _documentStore = documentStoreHolder;
         }
 
 

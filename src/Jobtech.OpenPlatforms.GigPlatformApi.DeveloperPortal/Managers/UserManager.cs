@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.Exceptions;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
-using Jobtech.OpenPlatforms.GigPlatformApi.Store.Config;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 
@@ -15,9 +14,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Managers
     {
         private IDocumentStore _documentStore;
 
-        public UserManager(IDocumentStoreHolder documentStore)
+        public UserManager(IDocumentStore documentStore)
         {
-            _documentStore = documentStore.Store;
+            _documentStore = documentStore;
         }
 
         public User GetUser(UserId userId)

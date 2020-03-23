@@ -104,7 +104,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
             try
             {
 
-            result.EnsureSuccessStatusCode();
+                result.EnsureSuccessStatusCode();
             }
             catch (Exception ex)
             {

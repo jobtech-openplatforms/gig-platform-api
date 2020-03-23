@@ -6,7 +6,6 @@ using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.Exceptions;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
 using Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers;
-using Jobtech.OpenPlatforms.GigPlatformApi.Store.Config;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Raven.Client.Documents;
@@ -14,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
 {
@@ -23,20 +23,22 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public class ProjectsController : ControllerBase
     {
-        private IProjectManager _projectManager;
+        private readonly IProjectManager _projectManager;
         private readonly IGigDataHttpClient _gigDataHttpClient;
         private readonly IPlatformAdminUserManager _platformAdminUserManager;
         private readonly IDocumentStore _documentStore;
+        private readonly ILogger<ProjectsController> _logger;
 
         public ProjectsController(IProjectManager projectManager,
             IGigDataHttpClient gigDataHttpClient,
             IPlatformAdminUserManager platformAdminUserManager,
-            IDocumentStoreHolder documentStoreHolder)
+            IDocumentStore documentStoreHolder, ILogger<ProjectsController> logger)
         {
             _projectManager = projectManager;
             _gigDataHttpClient = gigDataHttpClient;
             _platformAdminUserManager = platformAdminUserManager;
-            _documentStore = documentStoreHolder.Store;
+            _documentStore = documentStoreHolder;
+            _logger = logger;
         }
 
         [HttpPost("[action]")]
@@ -112,6 +114,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
+            _logger.LogInformation("Will get projects");
             try
             {
                 using var session = _documentStore.OpenAsyncSession();
@@ -267,7 +270,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 var status =
                     await _gigDataHttpClient.PlatformStatus(new ProjectModel { PlatformId = project.Platforms.FirstOrDefault().Id.ToString() });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Platform with this ID probably doesn't exist
                 // TODO: Add check for actual error
@@ -290,7 +293,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                     // Save
                     project = await _projectManager.Update(project);
                 }
-                catch (Exception ex2)
+                catch (Exception)
                 {
                     throw;
                 }

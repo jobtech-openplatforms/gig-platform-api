@@ -1,5 +1,4 @@
 ﻿using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
-using Jobtech.OpenPlatforms.GigPlatformApi.Store.Config;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 using System.Collections.Generic;
@@ -11,9 +10,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
     {
         protected readonly IDocumentStore _documentStore;
 
-        public StoreManager(IDocumentStoreHolder documentStore)
+        public StoreManager(IDocumentStore documentStore)
         {
-            _documentStore = documentStore.Store;
+            _documentStore = documentStore;
         }
 
         public async Task<T> Create(T entity)

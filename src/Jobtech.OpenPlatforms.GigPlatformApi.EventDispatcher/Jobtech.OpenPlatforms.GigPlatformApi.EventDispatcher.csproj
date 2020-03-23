@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.10.0" />
-    <PackageReference Include="Rebus.AzureServiceBus" Version="6.0.7" />
-    <PackageReference Include="Rebus.ServiceProvider" Version="4.0.2" />
+    <PackageReference Include="Rebus.AzureServiceBus" Version="7.1.0" />
+    <PackageReference Include="Rebus.Serilog" Version="6.0.0" />
+    <PackageReference Include="Rebus.ServiceProvider" Version="5.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,7 +15,6 @@
     <ProjectReference Include="..\Jobtech.OpenPlatforms.GigPlatformApi.Connectivity\Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.csproj" />
     <ProjectReference Include="..\Jobtech.OpenPlatforms.GigPlatformApi.Core\Jobtech.OpenPlatforms.GigPlatformApi.Core.csproj" />
     <ProjectReference Include="..\Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine\Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.csproj" />
-    <ProjectReference Include="..\Jobtech.OpenPlatforms.GigPlatformApi.Store\Jobtech.OpenPlatforms.GigPlatformApi.Store.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,4 @@
 ﻿using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers;
-using Jobtech.OpenPlatforms.GigPlatformApi.Store.Config;
 using Raven.Client.Documents;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
@@ -11,12 +10,12 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
         private readonly IConnectionUserManager _connectionUserManager;
         private readonly IPlatformHttpClient _httpClient;
 
-        public ConnectionManager(IDocumentStoreHolder documentStore,
+        public ConnectionManager(IDocumentStore documentStore,
                                     IPlatformHttpClient httpClient,
                                     IPlatformManager platformManager,
                                     IConnectionUserManager connectionUserManager)
         {
-            _documentStore = documentStore.Store;
+            _documentStore = documentStore;
             _platformManager = platformManager;
             _httpClient = httpClient;
             _platformManager = platformManager;

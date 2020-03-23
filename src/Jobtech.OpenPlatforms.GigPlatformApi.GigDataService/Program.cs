@@ -1,30 +1,39 @@
-﻿using Microsoft.AspNetCore;
+﻿using System.IO;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.ApplicationInsights;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Rebus.ServiceProvider;
+using Serilog;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).ConfigureAppConfiguration((hostContext, configApp) =>
+            {
+                configApp.SetBasePath(Directory.GetCurrentDirectory());
+                configApp.AddJsonFile("appsettings.json", false, true);
+                configApp.AddJsonFile(
+                    $"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json",
+                    optional: true);
+                configApp.AddJsonFile("/app/secrets/appsettings.secrets.json", optional: true);
+                configApp.AddJsonFile("appsettings.local.json", optional: true,
+                    reloadOnChange: false); //load local settings
+
+                configApp.AddEnvironmentVariables();
+            }).Build();
+
+            host.Services.UseRebus();
+
+            await host.RunAsync();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseApplicationInsights("2a5c1c33-811e-4a36-96d7-9fa0c810d07b")
-            .ConfigureLogging((hostContext, configLogging) =>
-            {
-                configLogging.AddConsole();
-                configLogging.SetMinimumLevel(LogLevel.Trace);
-                if (!hostContext.HostingEnvironment.IsDevelopment())
-                {
-                    configLogging.AddFilter<ApplicationInsightsLoggerProvider>("", LogLevel.Trace);
-                    configLogging.AddApplicationInsights("2a5c1c33-811e-4a36-96d7-9fa0c810d07b");
-                }
-            })
-                .UseStartup<Startup>();
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+                .UseSerilog();
     }
 }
