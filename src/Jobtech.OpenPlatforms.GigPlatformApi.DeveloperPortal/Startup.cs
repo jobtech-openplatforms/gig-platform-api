@@ -1,10 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using AutoMapper;
 using Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine.Managers;
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.IoC;
 using Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Exceptions;
-using Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Helpers;
 using Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.HttpClients;
 using Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Managers;
 using Jobtech.OpenPlatforms.GigPlatformApi.EventDispatcher.IoC;
@@ -16,17 +17,15 @@ using Jobtech.OpenPlatforms.GigPlatformApi.Store.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Raven.Client.Documents;
 using Serilog;
 using Serilog.Formatting.Elasticsearch;
-using VueCliMiddleware;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
 {
@@ -118,10 +117,23 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
                               //options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                           });
 
-            // In production, the Vue files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
+            services.AddSwaggerGen(c =>
             {
-                configuration.RootPath = "ClientApp/build";
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "GigPlatform Client Api (internal)",
+                    Version = "v1",
+                    Contact = new OpenApiContact
+                    {
+                        Email = "calle@roombler.com",
+                        Name = "Calle Hunnefalk"
+                    }
+                });
+                c.DescribeAllParametersInCamelCase();
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
 
             //Add functionality to inject IOptions<T>
@@ -152,6 +164,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
         {
             app.UseSerilogRequestLogging();
 
+            app.UseRouting();
+
             // global cors policy
             app.UseCors(x => x
                 .AllowAnyOrigin()
@@ -160,23 +174,20 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
 
             app.UseHttpsRedirection();
 
-            app.UseDefaultFiles();
-            app.UseSpaStaticFiles();
-
-            app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "GigDataService Internal API V1");
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-
-                if (env.IsDevelopment())
-                {
-                    // initialize vue cli middleware
-                    endpoints.MapToVueCliProxy("{*path}", new SpaOptions { SourcePath = "ClientApp" }, "serve", regex: "Compiled successfully");
-                }
             });
         }
     }

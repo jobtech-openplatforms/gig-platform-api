@@ -6,7 +6,6 @@ using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.Exceptions;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
 using Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers;
-using Jobtech.OpenPlatforms.GigPlatformApi.Store.Config;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Raven.Client.Documents;
@@ -14,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Jobtech.OpenPlatforms.GigPlatformApi.Store;
+using Microsoft.Extensions.Logging;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
 {
@@ -28,16 +27,18 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         private readonly IGigDataHttpClient _gigDataHttpClient;
         private readonly IPlatformAdminUserManager _platformAdminUserManager;
         private readonly IDocumentStore _documentStore;
+        private readonly ILogger<ProjectsController> _logger;
 
         public ProjectsController(IProjectManager projectManager,
             IGigDataHttpClient gigDataHttpClient,
             IPlatformAdminUserManager platformAdminUserManager,
-            IDocumentStore documentStoreHolder)
+            IDocumentStore documentStoreHolder, ILogger<ProjectsController> logger)
         {
             _projectManager = projectManager;
             _gigDataHttpClient = gigDataHttpClient;
             _platformAdminUserManager = platformAdminUserManager;
             _documentStore = documentStoreHolder;
+            _logger = logger;
         }
 
         [HttpPost("[action]")]
@@ -108,6 +109,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
+            _logger.LogInformation("Will get projects");
             try
             {
                 using var session = _documentStore.OpenAsyncSession();
