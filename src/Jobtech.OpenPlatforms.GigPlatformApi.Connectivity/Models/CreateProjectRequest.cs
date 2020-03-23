@@ -63,8 +63,18 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
                                             new Platform
                                             {
                                                 Id = System.Guid.NewGuid(),
+                                                PlatformToken = System.Guid.NewGuid().ToString(),
                                                 Published = false
-                                            }),
+                                            })
+                                            ??
+                                            new List<Platform> {
+                                                new Platform
+                                                {
+                                                    Id = System.Guid.NewGuid(),
+                                                    PlatformToken = System.Guid.NewGuid().ToString(),
+                                                    Published = false
+                                                }
+                                            },
                 Webpage = project.Webpage
             };
 

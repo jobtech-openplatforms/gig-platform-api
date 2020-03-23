@@ -11,6 +11,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
         Task<IEnumerable<Project>> GetAll(PlatformAdminUserId userId, IAsyncDocumentSession session);
         Task<IEnumerable<TestProject>> GetAllTest(PlatformAdminUserId userId, IAsyncDocumentSession session);
         Task<Project> Update(Project project);
-        Task<TestProject> GetTest(ProjectId projectId, IAsyncDocumentSession session);
+        Task<TestProject> GetTest(TestProjectId projectId, IAsyncDocumentSession session);
+        Task<TestProject> GetTestFromLiveId(ProjectId projectId, IAsyncDocumentSession session);
     }
 }

@@ -52,6 +52,11 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
                 var entityToCreate = request.WithOwner(user.Id).ToEntity();
                 var project = await _projectManager.Create(entityToCreate);
+                try
+                {
+                    await CreateTestProjectFromLive(project.Id);
+                }
+                catch { }
                 return Ok(project);
             }
             catch (ApiException ex)
@@ -115,7 +120,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 var testProjects = await _projectManager.GetAllTest(user.Id, session);
                 if (projects.Any(p => !testProjects.Any(tp => tp.LiveProjectId == p.Id)))
                 {
-                    foreach (var project in projects.Where(p => !testProjects.Any(tp => tp.LiveProjectId== p.Id )))
+                    foreach (var project in projects.Where(p => !testProjects.Any(tp => tp.LiveProjectId == p.Id)))
                     {
                         await _projectManager.Create(project.ToTestEntity());
                     }
@@ -146,12 +151,23 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 // Who's logged in?
                 using var session = _documentStore.OpenAsyncSession();
                 var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
+
                 // Which project are we working on?
-                var project = await _projectManager.Get((ProjectId)request.ProjectId);
+                Core.Entities.Project project = default;
+
+                if (ProjectId.IsValidIdentity(request.ProjectId))
+                {
+                    project = await _projectManager.Get((ProjectId)request.ProjectId);
+                }
+
+                if (project == default && TestProjectId.IsValidIdentity(request.ProjectId))
+                {
+                    project = await _projectManager.GetTest((TestProjectId)request.ProjectId, session);
+                }
 
                 if (project == null)
                 {
-                    project = await _projectManager.GetTest((ProjectId)request.ProjectId, session);
+                    throw new ApiException("Project not found.", (int)System.Net.HttpStatusCode.NotFound);
                 }
                 // Does the user have access to the project?
                 if ((!project.AdminIds.Contains(user.Id)) && project.OwnerAdminId != user.Id)
