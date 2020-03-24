@@ -82,7 +82,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
                         var userService = context.HttpContext.RequestServices.GetRequiredService<IPlatformAdminUserManager>();
                         var documentStore = context.HttpContext.RequestServices.GetRequiredService<IDocumentStore>();
                         var uniqueIdentifier = context.Principal.Identity.Name;
-                        
+
                         var auth0Client = context.HttpContext.RequestServices.GetRequiredService<Auth0Client>();
                         var authorizationValue = context.HttpContext.Request.Headers["Authorization"].First();
                         var accessToken = authorizationValue.Substring("Bearer".Length).Trim();
@@ -97,7 +97,17 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
                 };
             });
 
-            services.AddCors();
+            services.AddCors(options =>
+                {
+                    options.AddPolicy("AllowAll",
+                        builder =>
+                        {
+                            builder
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                        });
+                });
 
             services.AddHttpClient<Auth0Client>(client => { client.BaseAddress = new Uri(domain); });
 
@@ -167,7 +177,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
             app.UseRouting();
 
             // global cors policy
-            app.UseCors(x => x
+            app.UseCors(builder => builder
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());

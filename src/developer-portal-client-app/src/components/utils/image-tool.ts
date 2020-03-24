@@ -11,11 +11,14 @@ const hasBlobConstructor = typeof (Blob) !== 'undefined' && (function() {
 
 // tslint:disable-next-line:only-arrow-functions
 const hasArrayBufferViewSupport = hasBlobConstructor && typeof (Uint8Array) !== 'undefined' && (function() {
-  try {
-    return new Blob([new Uint8Array(100)]).size === 100
-  } catch (e) {
+//   try {
+//     var ui8a = new Uint8Array(100)
+// // tslint:disable-next-line:only-arrow-functions
+//     var bob = new Blob([ui8a],{})
+//     return bob.size === 100
+//   } catch (e) {
     return false
-  }
+  // }
 }())
 
 const hasToBlobSupport = (typeof HTMLCanvasElement !== 'undefined' ? HTMLCanvasElement.prototype.toBlob : false)

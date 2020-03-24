@@ -3,7 +3,7 @@
       .step(v-if="step == 'platformDataUrlIncomplete'")
         h2 Next up!
         p.
-          #[router-link(to="/test-open-api")Fill out the data url]
+          #[router-link(to="/test-open-api") Fill out the data url]
           for retrieving data for a user on your platform.
       .step(v-if="step == 'currentProjectIncomplete'")
         h2 Next up!
