@@ -69,11 +69,11 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
       )
   },
 
-  createProject({ commit, dispatch }, projectData) {
+  createProject({ state, commit, dispatch }, projectData) {
     commit('getRequest', projectData)
 
     return projectsService
-      .create(projectData)
+      .create({...projectData, testMode: state.testMode })
       .then(
         (currentProject) => {
           commit('getSuccess', currentProject)
@@ -295,7 +295,7 @@ const getters: GetterTree<ProjectsModuleState, RootState> = {
       state.current.project.logoUrl &&
       state.current.project.description)
   },
-  nextStep(state, getters) {
+  nextStep(state) {
     if(state.current.project && !state.current.project.platforms[0].exportDataUri)
       return 'platformDataUrlIncomplete'
     if (state.testMode){
@@ -309,7 +309,11 @@ const getters: GetterTree<ProjectsModuleState, RootState> = {
       return 'testModeIncomplete'
     }
   }
-    if (!getters.currentProjectCompleted(state)) {
+    if (!(state.current.project &&
+      state.current.project.name &&
+      state.current.project.webpage &&
+      state.current.project.logoUrl &&
+      state.current.project.description)) {
       return 'currentProjectIncomplete'
     }
     return ''
@@ -405,6 +409,7 @@ export interface AdminUserState extends BasicState {
 
 export interface CreateRequest {
   name: string
+  testMode: boolean
 }
 
 export interface TestRequest {

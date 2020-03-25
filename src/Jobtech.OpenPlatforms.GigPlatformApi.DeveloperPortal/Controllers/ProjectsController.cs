@@ -56,9 +56,16 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 var project = await _projectManager.Create(entityToCreate);
                 try
                 {
-                    await CreateTestProjectFromLive(project.Id);
+                    var testEntityToCreate = project.ToTestEntity();
+                    var testProject = await _projectManager.Create(testEntityToCreate);
+                    if (request.TestMode)
+                    {
+                        return Ok(testProject);
+                    }
                 }
-                catch { }
+                catch (Exception ex) {
+                    _logger.LogError(ex, "Ye testproject creation failed.");
+                 }
                 return Ok(project);
             }
             catch (ApiException ex)
