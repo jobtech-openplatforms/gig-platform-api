@@ -4,7 +4,7 @@
     //- Loading(:active.sync="loading" :can-cancel="false" :is-full-page="true" loader="dots")
     LoaderOverlay(v-if="loading")
     #main
-      SideNav( v-if="!$auth.loading && $auth.isAuthenticated")
+      SideNav( v-if="!$auth.loading && $auth.isAuthenticated && hasProjects")
       #page
         div#alert-global( v-if="alert.message" :class="`alert ${alert.type}`" v-html="alert.message")
         transition(name="fade" mode="out-in")
@@ -31,7 +31,7 @@ export default {
       alert: (state) => state.alert
     }),
     ...mapState('account', ['status']),
-    ...mapGetters('projects', ['loading'])
+    ...mapGetters('projects', ['loading', 'hasProjects'])
   },
   methods: {
     ...mapActions({

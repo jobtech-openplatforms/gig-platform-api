@@ -8,6 +8,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
     public class CreateProjectRequest
     {
         public string Name { get; set; }
+        public bool TestMode { get; set; }
 
         public static implicit operator Project(CreateProjectRequest createProjectRequest) => new Project { Name = createProjectRequest.Name };
     }

@@ -150,6 +150,11 @@ export default {
       return this.editUrlDisabled || this.testStatus === 2 || this.submitted
     }
   },
+  mounted() {
+    if (!this.currentPlatform || !this.currentPlatform.exportDataUri) {
+        this.$router.push('/share-user-data')
+    }
+  },
   components: {
     GoLiveButton,
     PlatformToken,
