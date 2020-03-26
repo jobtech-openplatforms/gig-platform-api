@@ -2,7 +2,7 @@
   .side-nav( v-bind:class="{ testmode: testMode, livemode: !testMode}")
     #banner
       span
-        em You are in {{testMode ? 'TEST' : 'LIVE'}} mode
+        em You are in {{testMode ? 'TEST' : 'LIVE'}} mode on {{currentProject.name}}
     #menu-head
       .my-projects( @click="redirectUser") Projects
 
