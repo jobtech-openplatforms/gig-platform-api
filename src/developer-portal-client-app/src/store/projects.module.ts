@@ -276,6 +276,24 @@ const mutations: MutationTree<ProjectsModuleState> = {
     Vue.set(state.editing, 'project', state.current.project)
   },
   switchMode(state) {
+    if (state.current.project) {
+      // Get same project from other mode
+      var project =
+       (state.testMode) ?
+        // Get live project id
+         state.all.projects.find(obj => obj.id == state.current.project.liveProjectId)
+        :
+        // Get test project by live id
+         state.all.testProjects.find(obj => obj.liveProjectId === state.current.project.id)
+      
+      if (project) {
+        // TODO: Same as changeCurrentProject above, duplicated code. How to fix in Vuex modules w/ TS?
+        Vue.set(state.current, 'error', null)
+        localStorage.setItem('projectId', project.id)
+        Vue.set(state.current, 'project', project)
+        Vue.set(state.editing, 'project', project)
+      }
+    }
     Vue.set(state, 'testMode', !state.testMode)
   }
 
@@ -356,11 +374,12 @@ export const projects: Module<ProjectsModuleState, RootState> = {
 }
 
 // Guessing... :-D
-export interface TestProjectState extends ProjectState {
-  liveProjectId: string
-}
+// export interface TestProjectState extends ProjectState {
+//   liveProjectId: string
+// }
 
 export interface ProjectState extends ProjectUpdateRequest {
+  liveProjectId?: string // Only available on TestProject
   platforms?: PlatformState[]
   applications?: ApplicationState[]
   platformToken?: string
@@ -398,12 +417,12 @@ export interface ApplicationUrlsUpdateRequest {
 
 export interface AllPlatformsState extends BasicState {
   projects?: ProjectState[],
-  testProjects?: TestProjectState[]
+  testProjects?: ProjectState[]
 }
 
 export interface CurrentPlatformState extends BasicState {
   project?: ProjectState,
-  testProject?: TestProjectState
+  // testProject?: ProjectState
 }
 
 export interface AdminUserState extends BasicState {
