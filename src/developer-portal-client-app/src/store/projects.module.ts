@@ -23,7 +23,7 @@ const moduleState: ProjectsModuleState = {
   test: { error: {}, result: {} },
   status: ModuleStatus.init,
   testStatus: ModuleStatus.init,
-  testMode: true
+  testMode: false
 }
 
 const actions: ActionTree<ProjectsModuleState, RootState> = {
