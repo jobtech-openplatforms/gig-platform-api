@@ -5,7 +5,7 @@ module.exports = {
   outputDir: 'build',
   devServer: {
     //open: process.platform === 'darwin',
-    //host: '0.0.0.0',
+    host: 'localhost',
     port: 5001, // CHANGE YOUR PORT HERE!
     https: true,
     //hotOnly: false,

@@ -1,25 +1,31 @@
 <template lang="pug">
-  div.home.project-page.center(v-if="currentProject")
+  .single-project
 
-    h1 {{currentProject.name}}
+    div.home.project-page.center(v-if="currentProject")
+      h1 {{currentProject.name}}
 
-    current-step(:step="nextStep")
+      current-step(:step="nextStep")
 
-    .flex-wrapper
-      ProjectEdit
+      .flex-wrapper
+        ProjectEdit
 
-        hr
-        .integration-status
-          strong Platform&nbsp;
-          span.yes {{currentPlatform && (currentPlatform.published === true) ? ' Active' : ''}}
-          router-link.btn.btn-export.btn-outline.btn-small(to="/share-user-data") {{currentPlatform && currentPlatform.exportDataUri ? 'Edit...' : 'Add...'}}
+          hr
+          .integration-status
+            strong Platform&nbsp;
+            span.yes {{currentPlatform && (currentPlatform.published === true) ? ' Active' : ''}}
+            router-link.btn.btn-export.btn-outline.btn-small(to="/share-user-data") {{currentPlatform && currentPlatform.exportDataUri ? 'Edit...' : 'Add...'}}
 
-        hr
-        .integration-status
-          strong Application&nbsp;
-          span.yes {{currentProject.applications && currentProject.applications[0].authCallbackUrl ? 'Ready' : ''}}
-          router-link.btn.btn-import.btn-outline.btn-small(to="/integrate-user-data") {{currentProject.applications && currentProject.applications[0].authCallbackUrl ? 'Edit...' : 'Add...'}}
+          hr
+          .integration-status
+            strong Application&nbsp;
+            span.yes {{currentProject.applications && currentProject.applications[0].authCallbackUrl ? 'Ready' : ''}}
+            router-link.btn.btn-import.btn-outline.btn-small(to="/integrate-user-data") {{currentProject.applications && currentProject.applications[0].authCallbackUrl ? 'Edit...' : 'Add...'}}
 
+    div.home.project-page.center(v-else-if="currentProjects")
+      .arrow
+        img(class="arrow-image" src="../assets/img/arrow-drawn.png")
+      p Use the menu to select project and switch between Live and Test mode.
+      p For local development, **Test mode**.
 
 
 </template>
@@ -32,7 +38,7 @@ import CurrentStep from '../components/organisms/current-step.vue'
 
 @Component({
   computed: {
-    ...mapGetters('projects', ['currentProject', 'currentPlatform', 'nextStep'])
+    ...mapGetters('projects', ['currentProject', 'currentProjects', 'currentPlatform', 'nextStep'])
   },
   components: {
     ProjectEdit,
@@ -49,6 +55,10 @@ export default class ProjectPage extends Vue {}
     flex-wrap: wrap;
     height: 100%;
     align-items: center;
+  }
+
+  .arrow-image {
+    margin-bottom: 20px;
   }
 
   .project {
