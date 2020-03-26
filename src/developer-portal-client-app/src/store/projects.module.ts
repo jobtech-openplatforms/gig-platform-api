@@ -282,6 +282,9 @@ const mutations: MutationTree<ProjectsModuleState> = {
 }
 
 const getters: GetterTree<ProjectsModuleState, RootState> = {
+  hasProjects(state) {
+    return state.all && state.all.projects && state.all.projects.length > 0
+  },
   currentProject(state) {
     return state.current.project
   },

@@ -68,7 +68,7 @@
       router-link.btn.btn-primary(to="/project") Back to Settings
 
     
-    form.card.mb-4(v-bind:class="{ 'form-inactive': editUrlDisabled && currentPlatform && currentPlatform.exportDataUri }" @submit.prevent="saveUrl")
+    form.card.mb-4(v-bind:class="{ 'form-inactive': editUrlDisabled && currentPlatform }" @submit.prevent="saveUrl")
       .form-group
         label.label-muted(for="exportDataUri" @click="enableForm()")  Project export data url
         .inline
@@ -148,6 +148,11 @@ export default {
     ]),
     formDisabled: function() {
       return this.editUrlDisabled || this.testStatus === 2 || this.submitted
+    }
+  },
+  mounted() {
+    if (!this.currentPlatform || !this.currentPlatform.exportDataUri) {
+        this.$router.push('/share-user-data')
     }
   },
   components: {
