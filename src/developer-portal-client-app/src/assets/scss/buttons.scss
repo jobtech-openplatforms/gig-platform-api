@@ -9,7 +9,7 @@
 }
 
 
-[class^="btn"] {
+[class^="btn"]:not(.btn-clean) {
     transition: all 0.3s $cubic;
     // box-shadow: $box-shadow-float;
     position: relative;
@@ -70,6 +70,16 @@
     }
 
 
+}
+
+.btn-clean {
+    background: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    border: 0;
+    padding: 0;
 }
 
 @mixin btn($color) {
