@@ -4,7 +4,7 @@
     //- Loading(:active.sync="loading" :can-cancel="false" :is-full-page="true" loader="dots")
     LoaderOverlay(v-if="loading")
     #main
-      SideNav( v-if="!$auth.loading && $auth.isAuthenticated && hasProjects")
+      SideNav( v-if="!$auth.loading && $auth.isAuthenticated")
       #page
         div#alert-global( v-if="alert.message" :class="`alert ${alert.type}`" v-html="alert.message")
         transition(name="fade" mode="out-in")
