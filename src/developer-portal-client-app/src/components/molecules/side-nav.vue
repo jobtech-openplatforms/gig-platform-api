@@ -1,7 +1,7 @@
 <template lang="pug">
   .side-nav( v-bind:class="{ testmode: testMode, livemode: !testMode}")
     #banner
-      span
+      span(v-if="currentProject")
         em You are in {{testMode ? 'TEST' : 'LIVE'}} mode on {{currentProject.name}}
     #menu-head
       .my-projects( @click="redirectUser") Projects
@@ -15,14 +15,14 @@
     ul#projects-list(v-if="currentProjects")
       li.project(v-for="project in currentProjects" v-bind:class="{ active: current && current.project && project.id === current.project.id}")
         .project-bar(@click="setCurrentProject(project)")
-          router-link(to="/project")
+          router-link.project-link(to="/project" v-if="project.logoUrl != null")
             //- img.project-logo(:src="project.logoUrl")
-            div.project-logo(v-if="project.logoUrl != null" :style="{'background-image': 'url(' + project.logoUrl + ')'}")
+            div.project-logo(:style="{'background-image': 'url(' + project.logoUrl + ')'}")
 
           .project-name {{project.name}} 
             span.small(v-if="testMode") [TEST]
-          .hasplconn.connections(v-if="project.platforms && project.platforms[0].published")
-          .hasappconn.connections(v-if="project.applications && project.applications[0].authCallbackUrl")
+          .connections(v-bind:class="{hasplconn : project.platforms && project.platforms[0].published}")
+          .connections(v-bind:class="{hasappconn : project.applications && project.applications[0].authCallbackUrl}")
         .details(v-if="current && current.project && project.id === current.project.id")
           hr
           router-link.color-export( to="/share-user-data" active-class="active" v-bind:class="{ 'active': $route.path == '/test-open-api' }") Platform API
@@ -206,7 +206,8 @@ export default class SideNav extends Vue {
       .project-bar {
         @include flex(row, flex-start, center);
         cursor: pointer;
-        padding:1rem;
+        padding:0 1rem;
+        height:$project-menu-logo-height;
 
         .connections {
           border-radius: 50%;
@@ -215,6 +216,7 @@ export default class SideNav extends Vue {
           margin-left: 0.5rem;
           justify-self: end;
           flex: 0 0 1rem;
+          background-color:#3b3b3b;
           &.hasplconn {
             background-color: $color-export;
           }
@@ -224,9 +226,14 @@ export default class SideNav extends Vue {
           }
         }
 
+        .project-link{
+          width: $project-menu-logo-width;
+          height: $project-menu-logo-height;
+          margin-right:1.5rem;
+        }
         .project-logo {
-          width: 5rem;
-          height: 5rem;
+          width: 100%;
+          height:100%;
           margin-right:2rem;
           margin-left:-1rem;
         }
