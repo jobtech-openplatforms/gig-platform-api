@@ -66,6 +66,7 @@ export default {
 #app{
   @include flex(column, null, null);
   min-height:100vh;
+  background-color:#3b3b3b;
 }
 
 #main {
@@ -73,14 +74,16 @@ export default {
   @include flex-child(1, null, null);
   padding-left:$sidebar-width;
   overflow-x:hidden;
+  max-width:$media-large;
+  background-color:$light-grey;
 }
 
+
 #page{
+  max-width:$media-small;
   overflow:hidden;
   @include flex-child(1, null, null);
-  max-width:$media-small;
-  margin:0 auto;
-  padding:4rem 6rem 2rem;
+  padding:8rem 6rem 2rem;
   @include tiny-screen{
     padding:3rem 2rem;
   }
