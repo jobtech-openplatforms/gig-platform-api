@@ -1,12 +1,12 @@
 <template lang="pug">
     .current-step
       .step(v-if="step == 'platformDataUrlIncomplete'")
-        h2 Next up!
+        // h2 Next up!
         p.
           #[router-link(to="/test-open-api") Fill out the data url]
           for retrieving data for a user on your platform.
       .step(v-if="step == 'currentProjectIncomplete'")
-        h2 Next up!
+        // h2 Next up!
         p Fill out the details for the project to be able to publish it with Open Platforms
       .step(v-if="step == 'testModeIncomplete'")
         h2 [Test Mode] Next step!
