@@ -2,7 +2,7 @@
   .single-project
 
     div.home.project-page.center(v-if="currentProject")
-      h1 {{currentProject.name}}
+      // h1 {{currentProject.name}}
 
       current-step(:step="nextStep")
 
@@ -64,8 +64,8 @@ export default class ProjectPage extends Vue {}
   .project {
     padding: 2rem;
     max-width: 560px;
-    margin-left: auto;
-    margin-right: auto;
+    // margin-left: auto;
+    // margin-right: auto;
     flex-grow: 1;
 
     .edit-logo:after {
