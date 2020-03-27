@@ -24,7 +24,7 @@
     div.home.project-page.center(v-else-if="currentProjects")
       .arrow
         img(class="arrow-image" src="../assets/img/arrow-drawn.png")
-      p Use the menu to select project and switch between Live and Test mode.
+      p(class="space-above") Use the menu to select project and switch between Live and Test mode.
       p For local development, **Test mode**.
 
 
@@ -57,8 +57,17 @@ export default class ProjectPage extends Vue {}
     align-items: center;
   }
 
-  .arrow-image {
-    margin-bottom: 20px;
+  .arrow {
+    padding: 17px 0 5px 0; 
+  }
+  .arrow-image { 
+    display: block;
+    float: left;
+    left: 300px;
+    position: absolute;
+  }
+  .space-above {
+    margin-top:100px;
   }
 
   .project {

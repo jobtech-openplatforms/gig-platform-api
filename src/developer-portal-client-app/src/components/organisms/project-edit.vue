@@ -4,8 +4,11 @@
         .project-settings.project-header
           .has-edit.form-group.project-name
             label.small(for="project-name") Project name
-            input.bold.editable(type="text" :value="editingProject.name" id="project-name" @input="updateName" :disabled="formDisabled" placeholder="Dont forget to give your service a name!")
-            span(v-if="!formDisabled") This is the name of your platform that will be displayed in platform listings, for example: 'Uber Eats'
+            input.bold.editable(type="text" :value="editingProject.name" id="project-name" @input="updateName" :disabled="formDisabled || testMode" placeholder="Dont forget to give your service a name!")
+            span(v-if="!formDisabled && !testMode").
+              This is the name of your platform that will be displayed in platform listings, 
+              for example: 'Uber Eats'. 
+            em(v-if="!formDisabled && testMode") NOTE! Project name can only be edited in LIVE mode
             hr.my-2(v-if="!formDisabled")
           .has-edit.editable.edit-logo
             label#file-label(for="file")
@@ -41,7 +44,7 @@ import { mediaService } from '../../_services'
 
 @Component({
   computed: {
-    ...mapState('projects', ['current', 'status', 'editing']),
+    ...mapState('projects', ['current', 'status', 'editing', 'testMode']),
     ...mapGetters('projects', ['currentProject', 'editingProject'])
   },
   data() {

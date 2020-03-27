@@ -1,4 +1,5 @@
 ﻿using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
+using Microsoft.Extensions.Logging;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 using System.Collections.Generic;
@@ -9,10 +10,12 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
     public abstract class StoreManager<T> : IStoreManager<T>
     {
         protected readonly IDocumentStore _documentStore;
+        protected readonly ILogger<StoreManager<T>> _logger;
 
-        public StoreManager(IDocumentStore documentStore)
+        public StoreManager(IDocumentStore documentStore, ILogger<StoreManager<T>> logger)
         {
             _documentStore = documentStore;
+            _logger = logger;
         }
 
         public async Task<T> Create(T entity)
