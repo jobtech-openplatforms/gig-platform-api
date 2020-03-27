@@ -215,7 +215,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 // One platform per project, so just replace. Create() above also sets the LastUpdated date.
                 project.Platforms = new List<Core.Entities.Platform> { platform };
                 // Save
-                project = await _projectManager.Update(project);
+                project = await _projectManager.Update(project, session);
 
                 // TODO: If saving fails, revert back by deleting the platform that was registered with the GigDataService
 
@@ -233,7 +233,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         {
             using var session = _documentStore.OpenAsyncSession();
             var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
-            var project = await _projectManager.Get((ProjectId)request.Id);
+            var project = await _projectManager.Get((ProjectId)request.Id, session);
             if (!project.AdminIds.Contains(user.Id) && project.OwnerAdminId != user.Id)
             {
                 throw new ApiException("Seems you are not an admin on this project.", (int)System.Net.HttpStatusCode.Unauthorized);
@@ -244,7 +244,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
             project.Description = request.Description;
             project.Webpage = request.Webpage;
 
-            project = await _projectManager.Update(project);
+            project = await _projectManager.Update(project, session);
 
             return Ok(project);
         }
@@ -255,7 +255,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
             using var session = _documentStore.OpenAsyncSession();
             var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
             var userId = (PlatformAdminUserId)user.Id;
-            var project = await _projectManager.Get((ProjectId)request.ProjectId);
+            var project = await _projectManager.Get((ProjectId)request.ProjectId, session);
             if (!project.AdminIds.Contains(userId.Value) && project.OwnerAdminId != userId.Value)
             {
                 throw new ApiException("Seems you are not an admin on this project.", (int)System.Net.HttpStatusCode.Unauthorized);
@@ -298,7 +298,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                     // One platform per project, so just replace. Create() above also sets the LastUpdated date.
                     project.Platforms = new List<Core.Entities.Platform> { platform };
                     // Save
-                    project = await _projectManager.Update(project);
+                    project = await _projectManager.Update(project, session);
                 }
                 catch (Exception)
                 {
@@ -317,7 +317,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 project.ActivatePlatform();
             }
 
-            project = await _projectManager.Update(project);
+            project = await _projectManager.Update(project, session);
 
             return Ok(project);
         }
@@ -375,7 +375,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 // One application per project, so just replace
                 project.Applications = new List<Core.Entities.Application> { application };
                 // Save
-                project = await _projectManager.Update(project);
+                project = await _projectManager.Update(project, session);
 
                 return Ok(project);
             }

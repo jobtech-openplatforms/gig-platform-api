@@ -17,11 +17,11 @@
           button.btn-clean.small.test-text( @click="switchTestMode") TEST
           span.small.live-text LIVE
     ul#projects-list(v-if="currentProjects")
-      li.project(v-for="project in currentProjects" v-bind:class="{ active: current && current.project && project.id === current.project.id}")
+      li.project(v-for="project in currentProjects" v-bind:class="{ active: current && currentProject && project.id === currentProject.id}")
         .project-bar(@click="setCurrentProject(project)")
-          router-link.project-link(to="/project" v-if="project.logoUrl != null")
+          router-link(to="/project")
             //- img.project-logo(:src="project.logoUrl")
-            div.project-logo(:style="{'background-image': 'url(' + project.logoUrl + ')'}")
+            div.project-logo(v-if="project.logoUrl != null" :style="{'background-image': 'url(' + project.logoUrl + ')'}")
 
           .project-name {{project.name}} 
             .small.test-text(v-if="testMode") [TEST] 
@@ -60,10 +60,7 @@ import { State, Mutation, namespace } from 'vuex-class'
       })
     },
     switchTestMode() {
-
       this.$store.commit('projects/switchMode')
-
-      this.$store.dispatch('projects/unsetCurrentProject')
     }
   },
   async created() {
@@ -218,8 +215,7 @@ export default class SideNav extends Vue {
       .project-bar {
         @include flex(row, flex-start, center);
         cursor: pointer;
-        padding:0 1rem;
-        height:$project-menu-logo-height;
+        padding:1rem;
 
         .connections {
           border-radius: 50%;
@@ -228,7 +224,6 @@ export default class SideNav extends Vue {
           margin-left: 0.5rem;
           justify-self: end;
           flex: 0 0 1rem;
-          background-color:#3b3b3b;
           &.hasplconn {
             background-color: $color-export;
           }
@@ -238,14 +233,9 @@ export default class SideNav extends Vue {
           }
         }
 
-        .project-link{
-          width: $project-menu-logo-width;
-          height: $project-menu-logo-height;
-          margin-right:1.5rem;
-        }
         .project-logo {
-          width: 100%;
-          height:100%;
+          width: 5rem;
+          height: 5rem;
           margin-right:2rem;
           margin-left:-1rem;
         }

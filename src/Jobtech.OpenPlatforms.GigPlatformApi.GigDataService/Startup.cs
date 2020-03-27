@@ -54,6 +54,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService
             else
             {
                 logConf.WriteTo.Console();
+                logConf.WriteTo.Debug();
             }
 
             Log.Logger = logConf.CreateLogger();
