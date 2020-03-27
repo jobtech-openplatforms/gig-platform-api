@@ -1,17 +1,21 @@
 <template lang="pug">
   .side-nav( v-bind:class="{ testmode: testMode, livemode: !testMode}")
     #banner
-      span(v-if="currentProject")
-        em You are in {{testMode ? 'TEST' : 'LIVE'}} mode on {{currentProject.name}}
+      #banner-content(v-if="currentProject")
+        em You are in 
+        strong.test-text(v-if="testMode") TEST 
+        strong.live-text(v-else) LIVE 
+        em mode on project 
+        strong {{currentProject.name}}
     #menu-head
       .my-projects( @click="redirectUser") Projects
-
-      #mode-nav.test-mode(v-if="testMode")
-        span.small.test-text TEST
-        button.btn-clean.small.live-text( @click="switchTestMode") LIVE
-      #mode-nav.live-mode(v-else)
-        button.btn-clean.small.test-text( @click="switchTestMode") TEST
-        span.small.live-text LIVE
+      #mode-nav(v-if="currentProject")
+        .mode.testmode(v-if="testMode")
+          span.small.test-text TEST
+          button.btn-clean.small.live-text( @click="switchTestMode") LIVE
+        .mode.livemode(v-else)
+          button.btn-clean.small.test-text( @click="switchTestMode") TEST
+          span.small.live-text LIVE
     ul#projects-list(v-if="currentProjects")
       li.project(v-for="project in currentProjects" v-bind:class="{ active: current && current.project && project.id === current.project.id}")
         .project-bar(@click="setCurrentProject(project)")
@@ -20,7 +24,7 @@
             div.project-logo(:style="{'background-image': 'url(' + project.logoUrl + ')'}")
 
           .project-name {{project.name}} 
-            span.small(v-if="testMode") [TEST]
+            .small.test-text(v-if="testMode") [TEST] 
           .connections(v-bind:class="{hasplconn : project.platforms && project.platforms[0].published}")
           .connections(v-bind:class="{hasappconn : project.applications && project.applications[0].authCallbackUrl}")
         .details(v-if="current && current.project && project.id === current.project.id")
@@ -73,16 +77,24 @@ export default class SideNav extends Vue {
 
 <style lang="scss">
 
+.test-text{
+  color:$color-test;
+}
+
+.live-text{
+  color:$color-live;
+}
+
 #banner{
   position:absolute;
   top:0;
   left:0;
   background:rgba(0,0,0,0.45);
-  padding-left:$sidebar-width;
+  padding-left:calc(#{$sidebar-width} + 6rem);
   width:100vw;
 
-  span{
-    padding-left:6rem;
+  #banner-content{
+    max-width:$media-small;
   }
 }
 
@@ -93,7 +105,7 @@ export default class SideNav extends Vue {
   align-items:center;
   margin: 6rem 1rem 1rem;
 
-  #mode-nav > *:last-child{
+  .mode > *:last-child{
     margin-left:1rem;
   }
 
@@ -103,7 +115,7 @@ export default class SideNav extends Vue {
   }
   span{
   }
-  .test-mode {
+  .testmode {
     span{
       color:$color-test;
     }
@@ -111,7 +123,7 @@ export default class SideNav extends Vue {
       color:$color-live;
     }
   }
-  .live-mode {
+  .livemode {
     span{
       color:$color-live;
     }
@@ -130,7 +142,7 @@ export default class SideNav extends Vue {
   height: calc(100vh - 60px);
   position: fixed;
   border-right:2rem solid $bg-color;
-  &.live-mode {
+  &.livemode {
     border-color:$color-live;
   }
 
