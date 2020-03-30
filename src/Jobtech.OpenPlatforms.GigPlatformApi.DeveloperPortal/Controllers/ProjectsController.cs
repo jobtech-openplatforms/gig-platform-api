@@ -234,6 +234,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
             using var session = _documentStore.OpenAsyncSession();
             var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
             var project = await _projectManager.Get((ProjectId)request.Id, session);
+            
             if (!project.AdminIds.Contains(user.Id) && project.OwnerAdminId != user.Id)
             {
                 throw new ApiException("Seems you are not an admin on this project.", (int)System.Net.HttpStatusCode.Unauthorized);
