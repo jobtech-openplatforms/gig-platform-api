@@ -163,17 +163,11 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
 
                 // Which project are we working on?
-                Core.Entities.Project project = default;
+                Core.Entities.Project project =  (!request.TestMode && ProjectId.IsValidIdentity(request.ProjectId)) ?
+                    await _projectManager.Get((ProjectId)request.ProjectId) :
 
-                if (ProjectId.IsValidIdentity(request.ProjectId))
-                {
-                    project = await _projectManager.Get((ProjectId)request.ProjectId);
-                }
-
-                if (project == default && TestProjectId.IsValidIdentity(request.ProjectId))
-                {
-                    project = await _projectManager.GetTest((TestProjectId)request.ProjectId, session);
-                }
+                // if (request.TestMode && TestProjectId.IsValidIdentity(request.ProjectId))
+                    await _projectManager.GetTest((TestProjectId)request.ProjectId, session);
 
                 if (project == null)
                 {

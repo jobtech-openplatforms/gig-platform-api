@@ -37,13 +37,14 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
 
         public async Task<Project> Update(Project project, IAsyncDocumentSession session)
         {
+
+            if (TestProjectId.IsValidIdentity(project.Id))
+            {
+                return await UpdateTest((TestProject)project, session);
+            }
+
             var p = await session.LoadAsync<Project>(project.Id);
 
-            if (p == null)
-            {
-                // Seems it's not a 
-                return await UpdateTest(project, session);
-            }
             _logger.LogInformation("Project before {p}", p);
             p.LogoUrl = project.LogoUrl;
             p.Name = project.Name;
@@ -63,15 +64,11 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
         {
             // using var session = _documentStore.OpenAsyncSession();
             var p = await session.Query<TestProject>().Where(tp => tp.LiveProjectId == liveProjectId).FirstOrDefaultAsync();
-            _logger.LogInformation("TestProject name change from {oldName} to {newName}", p.Name, projectName);
+            _logger.LogInformation("TestProject changing name from {oldName} to {newName}", p.Name, projectName);
             p.Name = projectName;
-            // session.Advanced.Patch<TestProject, string>(p.Id, x => x.Name, projectName);
-
-            // await session.SaveChangesAsync();
-            _logger.LogInformation("TestProject name changed to {newName}", p.Name);
         }
 
-        private async Task<Project> UpdateTest(Project project, IAsyncDocumentSession session)
+        private async Task<TestProject> UpdateTest(TestProject project, IAsyncDocumentSession session)
         {
             var p = await session.LoadAsync<TestProject>(project.Id);
             p.LogoUrl = project.LogoUrl;
