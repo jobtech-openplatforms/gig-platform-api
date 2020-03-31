@@ -9,7 +9,7 @@
         strong {{currentProject.name}}
     #menu-head
       .my-projects( @click="redirectUser") Projects
-      #mode-nav(v-if="currentProject")
+      #mode-nav
         .mode.testmode(v-if="testMode")
           span.small.test-text TEST
           button.btn-clean.small.live-text( @click="switchTestMode") LIVE
@@ -92,6 +92,8 @@ export default class SideNav extends Vue {
 
   #banner-content{
     max-width:$media-small;
+    margin-left:auto;
+    margin-right:auto;
   }
 }
 
