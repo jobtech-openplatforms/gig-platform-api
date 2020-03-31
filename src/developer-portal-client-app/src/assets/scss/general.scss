@@ -20,7 +20,7 @@ body {
 }
 
 .flex-wrapper {
-    @include flex(row, space-around, null);
+    @include flex(row, flex-start, null);
 }
 
 hr {

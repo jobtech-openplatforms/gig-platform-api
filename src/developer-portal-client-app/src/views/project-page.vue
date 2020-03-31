@@ -111,11 +111,16 @@ export default class ProjectPage extends Vue {}
     margin: 0 0 4rem;
     width: 100%;
     @include flex(column, null, null);
-    @include small-screen() {
-      width: 45%;
-    }
-    @include medium-screen-and-up() {
-      width: 35%;
+
+    @include small-screen-and-up() {
+      width: 50%;
+
+      &:first-child{
+        padding-right:2vw;
+      }
+      &:last-child{
+        padding-left:2vw;
+      }
     }
 
     .frame {

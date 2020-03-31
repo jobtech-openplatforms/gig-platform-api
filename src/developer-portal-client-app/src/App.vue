@@ -84,6 +84,8 @@ export default {
   overflow:hidden;
   @include flex-child(1, null, null);
   padding:8rem 6rem 2rem;
+  margin-left:auto;
+  margin-right:auto;
   @include tiny-screen{
     padding:3rem 2rem;
   }
