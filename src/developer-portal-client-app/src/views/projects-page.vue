@@ -49,8 +49,8 @@ export default class ProjectsPage extends Vue {}
 <style lang="scss">
 .start {
   background-image: url('../assets/img/open-platforms-symbol.svg');
-  background-position: 100% 80%;
-  background-size: 70% auto;
+  background-position: 100% 90%;
+  background-size: 60% auto;
   min-height: 100%;
   background-repeat: no-repeat;
   .intro-text{
