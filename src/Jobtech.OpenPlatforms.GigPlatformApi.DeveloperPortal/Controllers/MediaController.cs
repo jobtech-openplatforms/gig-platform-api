@@ -35,14 +35,19 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         }
 
         [HttpPost]
-        [Route("[action]/projects/{projectId}")]
-        public async Task<IActionResult> Save([FromForm]IFormFile file, [FromRoute] string projectId)
+        [Route("[action]/{projectNamespace:alpha}/{projectId}")]
+        public async Task<IActionResult> Save([FromForm]IFormFile file, [FromRoute] string projectNamespace, [FromRoute] string projectId)
         {
             // Who's logged in?
             using var session = _documentStore.OpenAsyncSession();
             var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
+
+            projectId = $"{projectNamespace}/{projectId}"; 
+
+            var testMode = TestProjectId.IsValidIdentity(projectId) && !ProjectId.IsValidIdentity(projectId);
+
             // Which project are we working on?
-            var project = await _projectManager.Get((ProjectId)projectId);
+            var project = testMode ? await _projectManager.GetTest((TestProjectId)projectId, session) : await _projectManager.Get((ProjectId)projectId, session);
             // Does the user have access to the project?
             if (!project.AdminIds.Contains(user.Id) && project.OwnerAdminId != user.Id)
             {

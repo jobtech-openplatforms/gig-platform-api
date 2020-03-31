@@ -227,7 +227,10 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         {
             using var session = _documentStore.OpenAsyncSession();
             var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
-            var project = await _projectManager.Get((ProjectId)request.Id, session);
+
+            var testMode = TestProjectId.IsValidIdentity(request.Id) && !ProjectId.IsValidIdentity(request.Id);
+
+            var project = testMode ? await _projectManager.GetTest((TestProjectId)request.Id, session) : await _projectManager.Get((ProjectId)request.Id, session);
             
             if (!project.AdminIds.Contains(user.Id) && project.OwnerAdminId != user.Id)
             {
