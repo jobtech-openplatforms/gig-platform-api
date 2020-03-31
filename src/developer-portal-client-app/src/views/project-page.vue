@@ -13,7 +13,7 @@
           .integration-status
             strong Platform&nbsp;
             span.yes {{currentPlatform && (currentPlatform.published === true) ? ' Active' : ''}}
-            router-link.btn.btn-export.btn-outline.btn-small(to="/share-user-data") {{currentPlatform && currentPlatform.exportDataUri ? 'Edit...' : 'Add...'}}
+            router-link.btn.btn-export.btn-outline.btn-small(to="/share-user-data") {{currentPlatform && currentPlatform.exportDataUri ? (currentPlatform.published ? 'Edit...' : 'Test...') : 'Add...'}}
 
           hr
           .integration-status
