@@ -45,7 +45,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
 
             var p = await session.LoadAsync<Project>(project.Id);
 
-            _logger.LogInformation("Project before {p}", p);
+            _logger.LogInformation("Project before {@p}", p);
             p.LogoUrl = project.LogoUrl;
             p.Name = project.Name;
             p.Webpage = project.Webpage;
@@ -56,7 +56,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
             p.AdminIds = project.AdminIds;
             await UpdateTestProjectName(project.Id, project.Name, session);
             await session.SaveChangesAsync();
-            _logger.LogInformation("Project after {p}", p);
+            _logger.LogInformation("Project after {@p}", p);
             return p;
         }
 

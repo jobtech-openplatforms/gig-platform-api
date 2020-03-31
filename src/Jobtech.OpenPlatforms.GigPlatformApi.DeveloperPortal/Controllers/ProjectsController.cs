@@ -63,9 +63,13 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                         return Ok(testProject);
                     }
                 }
-                catch (Exception ex) {
-                    _logger.LogError(ex, "Ye testproject creation failed.");
-                 }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Ye testproject creation failed. Project {@project} Request {@request}", project, request);
+                }
+
+                // TODO: Get project and testproject to verify creation
+
                 return Ok(project);
             }
             catch (ApiException ex)
@@ -163,7 +167,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
 
                 // Which project are we working on?
-                Core.Entities.Project project =  (!request.TestMode && ProjectId.IsValidIdentity(request.ProjectId)) ?
+                Core.Entities.Project project = (!request.TestMode && ProjectId.IsValidIdentity(request.ProjectId)) ?
                     await _projectManager.Get((ProjectId)request.ProjectId) :
 
                 // if (request.TestMode && TestProjectId.IsValidIdentity(request.ProjectId))
@@ -231,7 +235,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
             var testMode = TestProjectId.IsValidIdentity(request.Id) && !ProjectId.IsValidIdentity(request.Id);
 
             var project = testMode ? await _projectManager.GetTest((TestProjectId)request.Id, session) : await _projectManager.Get((ProjectId)request.Id, session);
-            
+
             if (!project.AdminIds.Contains(user.Id) && project.OwnerAdminId != user.Id)
             {
                 throw new ApiException("Seems you are not an admin on this project.", (int)System.Net.HttpStatusCode.Unauthorized);
@@ -328,10 +332,10 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 { "gig-data-notification-url", request.GigDataNotificationUrl },
                 { "email-verification-url", request.EmailVerificationUrl },
             });
-            if (errors != null && errors.Any())
-            {
-                return BadRequest(new { message = "All urls have to be valid.", errors = errors });
-            }
+            // if (errors != null && errors.Any())
+            // {
+            //     return BadRequest(new { message = "All urls have to be valid.", errors = errors });
+            // }
             try
             {
                 // Who's logged in?
@@ -355,7 +359,11 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                         EmailVerificationNotificationEndpointUrl = request.EmailVerificationUrl,
                         NotificationEndpointUrl = request.GigDataNotificationUrl
                     });
-                    application = request.CreateApplication(registeredApplication);
+                    if (!string.IsNullOrEmpty(registeredApplication.ApplicationId))
+                    {
+                        application = request.CreateApplication(registeredApplication);
+
+                    }
                 }
                 else if (
                         application.AuthCallbackUrl == request.AuthCallbackUrl &&

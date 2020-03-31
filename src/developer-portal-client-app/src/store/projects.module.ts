@@ -27,7 +27,10 @@ const moduleState: ProjectsModuleState = {
 }
 
 const actions: ActionTree<ProjectsModuleState, RootState> = {
-  getAll({ commit }, currentProject) {
+  getAll({ state, commit }, currentProject) {
+    if (state.loading) {
+      return
+    }
     commit('getAllRequest')
     return projectsService
             .getAll()
@@ -288,6 +291,8 @@ const mutations: MutationTree<ProjectsModuleState> = {
       
       if (project) {
         // TODO: Same as changeCurrentProject above, duplicated code. How to fix in Vuex modules w/ TS?
+        Vue.set(state.test, 'result', null)
+        Vue.set(state.test, 'status', ModuleStatus.ready)
         Vue.set(state.current, 'error', null)
         localStorage.setItem('projectId', project.id)
         Vue.set(state.current, 'project', project)
@@ -355,10 +360,10 @@ const getters: GetterTree<ProjectsModuleState, RootState> = {
     return state.status.toString()
   },
   currentPlatform(state) {
-    return state.current.project && state.current.project.platforms ? state.current.project.platforms[0] : null
+    return state.current.project && state.current.project.platforms  && state.current.project.platforms.length > 0 ? state.current.project.platforms[0] : null
   },
   currentApplication(state) {
-    return state.current.project && state.current.project.applications ? state.current.project.applications[0] : null
+    return state.current.project && state.current.project.applications && state.current.project.applications.length > 0 ? state.current.project.applications[0] : null
   },
   loading(state) {
     return state.loading

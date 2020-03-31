@@ -25,8 +25,8 @@
 
           .project-name {{project.name}} 
             .small.test-text(v-if="testMode") [TEST] 
-          .connections(v-bind:class="{hasplconn : project.platforms && (project.platforms[0].published || (testMode && project.platforms[0].exportDataUri))}")
-          .connections(v-bind:class="{hasappconn : project.applications && project.applications[0].authCallbackUrl}")
+          .connections(v-bind:class="{hasplconn : currentPlatform && (currentPlatform.published || (testMode && currentPlatform.exportDataUri))}")
+          .connections(v-bind:class="{hasappconn : currentApplication && currentApplication.authCallbackUrl}")
         .details(v-if="current && current.project && project.id === current.project.id")
           hr
           router-link.color-export( to="/share-user-data" active-class="active" v-bind:class="{ 'active': $route.path == '/test-open-api' }") Platform API
@@ -44,7 +44,7 @@ import { State, Mutation, namespace } from 'vuex-class'
 @Component({
   computed: {
     ...mapState('projects', ['current', 'all', 'status', 'testMode']),
-    ...mapGetters('projects', ['currentProject', 'currentProjects']),
+    ...mapGetters('projects', ['currentProject', 'currentProjects', 'currentApplication', 'currentPlatform']),
     ...mapMutations('projects', ['switchMode'])
   },
   data() {

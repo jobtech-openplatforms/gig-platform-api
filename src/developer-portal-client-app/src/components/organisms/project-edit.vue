@@ -58,9 +58,9 @@ import { mediaService } from '../../_services'
       logoUrl: ''
     }
   },
-  mounted() {
-    this.$store.dispatch('projects/getAll')
-  },
+  // mounted() {
+  //   this.$store.dispatch('projects/getAll')
+  // },
   components: {}
 })
 export default class ProjectEdit extends Vue {

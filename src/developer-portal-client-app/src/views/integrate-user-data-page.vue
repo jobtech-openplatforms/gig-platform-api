@@ -98,6 +98,9 @@ import { ApplicationState } from '../store/projects.module'
     }
   },
   async created() {
+    // if (!this.currentApplication) {
+    //   await this.$store.dispatch('projects/setApplicationUrls', { authCallbackUrl: '/',  gigDataNotificationUrl: '/',  emailVerificationUrl: '/'})
+    // }
     await this.$store.dispatch('projects/initCurrentProject')
     this.ready = true
   }

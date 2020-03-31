@@ -18,8 +18,8 @@
           hr
           .integration-status
             strong Application&nbsp;
-            span.yes {{currentProject.applications && currentProject.applications[0].authCallbackUrl ? 'Ready' : ''}}
-            router-link.btn.btn-import.btn-outline.btn-small(to="/integrate-user-data") {{currentProject.applications && currentProject.applications[0].authCallbackUrl ? 'Edit...' : 'Add...'}}
+            span.yes {{currentApplication && currentApplication.authCallbackUrl ? 'Ready' : ''}}
+            router-link.btn.btn-import.btn-outline.btn-small(to="/integrate-user-data") {{currentApplication && currentApplication.authCallbackUrl ? 'Edit...' : 'Add...'}}
 
     div.home.project-page.center(v-else-if="currentProjects")
       .arrow
@@ -38,7 +38,7 @@ import CurrentStep from '../components/organisms/current-step.vue'
 
 @Component({
   computed: {
-    ...mapGetters('projects', ['currentProject', 'currentProjects', 'currentPlatform', 'nextStep'])
+    ...mapGetters('projects', ['currentProject', 'currentProjects', 'currentPlatform', 'currentApplication', 'nextStep'])
   },
   components: {
     ProjectEdit,
