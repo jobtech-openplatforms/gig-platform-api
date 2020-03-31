@@ -25,7 +25,7 @@
 
           .project-name {{project.name}} 
             .small.test-text(v-if="testMode") [TEST] 
-          .connections(v-bind:class="{hasplconn : project.platforms && project.platforms[0].published}")
+          .connections(v-bind:class="{hasplconn : project.platforms && (project.platforms[0].published || (testMode && project.platforms[0].exportDataUri))}")
           .connections(v-bind:class="{hasappconn : project.applications && project.applications[0].authCallbackUrl}")
         .details(v-if="current && current.project && project.id === current.project.id")
           hr
