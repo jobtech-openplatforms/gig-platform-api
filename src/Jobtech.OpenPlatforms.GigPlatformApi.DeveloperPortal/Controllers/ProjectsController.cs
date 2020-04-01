@@ -125,7 +125,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
-            _logger.LogInformation("Will get projects");
+            _logger.LogInformation("Getting projects");
             try
             {
                 using var session = _documentStore.OpenAsyncSession();

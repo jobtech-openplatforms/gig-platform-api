@@ -1,7 +1,9 @@
 <template lang="pug">
   div.home.narrow(v-if="ready")
     h1 Create a project
-    p First, start by giving your project a name. This is most probably the name of your platform/service. You can always change this later.
+    p.
+      First, start by giving your project a name. 
+      This is most probably the name of your platform/service. You can always change this later.
     CreateProjectForm
 
 
@@ -22,6 +24,7 @@ import { Component, Vue } from 'vue-property-decorator'
     // ...mapActions('projects', ['currentProject'])
   },
   async created() {
+    this.$store.commit('projects/changeCurrentProject', null)
     this.ready = true
   },
   components: {
