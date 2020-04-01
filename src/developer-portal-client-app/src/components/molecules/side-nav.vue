@@ -25,8 +25,8 @@
 
           .project-name {{project.name}} 
             .small.test-text(v-if="testMode") [TEST] 
-          .connections(v-bind:class="{hasplconn : currentPlatform && (currentPlatform.published || (testMode && currentPlatform.exportDataUri))}")
-          .connections(v-bind:class="{hasappconn : currentApplication && currentApplication.authCallbackUrl}")
+          .connections(v-bind:class="{hasplconn : project.platforms && project.platforms.length >= 1 && project.platforms[0] && (project.platforms[0].published || (testMode && project.platforms[0].exportDataUri))}")
+          .connections(v-bind:class="{hasappconn : project.applications && project.applications.length >= 1 && project.applications[0] && project.applications[0].authCallbackUrl}")
         .details(v-if="current && current.project && project.id === current.project.id")
           hr
           router-link.color-export( to="/share-user-data" active-class="active" v-bind:class="{ 'active': $route.path == '/test-open-api' }") Platform API

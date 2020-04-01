@@ -64,6 +64,7 @@
             button.btn.btn-secondary.right(v-if="!formDisabled && (authCallbackUrl||gigDataNotificationUrl||emailVerificationUrl)" @click="cancelEdit()" type="reset") Cancel
           .buttons
             button.btn.btn-import.btn-outline.right.small(v-if="formDisabled" type="button" @click="enableForm()") Edit...
+            router-link.btn.btn-import.btn-primary.right.small(v-if="formDisabled" to="/test-application") Test...
 
           .error(v-if="!formDisabled") {{current.error && current.error.message ? current.error.message : current.error}}
         div(v-else)

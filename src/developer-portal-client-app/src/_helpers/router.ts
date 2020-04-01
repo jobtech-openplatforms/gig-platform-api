@@ -14,6 +14,7 @@ import ProjectsPage from '@/views/projects-page.vue'
 import TestApiPage from '@/views/apitest-page.vue'
 import JsonSchemaPage from '@/views/json-schema-page.vue'
 import PlatformApiRequestPage from '@/views/platform-api-request-page.vue'
+import TestApplicationPage from '@/views/test-application-page.vue'
 import { authGuard } from '../auth/auth-guard'
 
 Vue.use(Router)
@@ -30,6 +31,7 @@ export const router = new Router({
     { path: '/projects', component: ProjectsPage, beforeEnter: authGuard },
     { path: '/project', component: ProjectPage, beforeEnter: authGuard },
     { path: '/project-start', component: ProjectStartPage, beforeEnter: authGuard },
+    { path: '/test-application', component: TestApplicationPage, beforeEnter: authGuard },
     // { path: '/account', component: AccountPage, beforeEnter: authGuard },
     { path: '/test-open-api', component: TestApiPage, beforeEnter: authGuard },
     { path: '/platform-api-requests', component: PlatformApiRequestPage, beforeEnter: authGuard },

@@ -39,6 +39,9 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
                 commit('getAllSuccess', allProjects)
                 if (!currentProject) {
                   const p = localStorage.getItem('projectId')
+                  if (!state.testMode && localStorage.getItem('testMode') && p.startsWith('Test')) {
+                    commit('switchMode')
+                  }
                   currentProject = allProjects.projects.find(obj => obj.id === p) ||
                                     allProjects.testProjects.find(obj => obj.id === p)
                   commit('changeCurrentProject', currentProject)
@@ -282,12 +285,12 @@ const mutations: MutationTree<ProjectsModuleState> = {
     if (state.current.project) {
       // Get same project from other mode
       var project =
-       (state.testMode) ?
-        // Get live project id
-         state.all.projects.find(obj => obj.id == state.current.project.liveProjectId)
-        :
-        // Get test project by live id
-         state.all.testProjects.find(obj => obj.liveProjectId === state.current.project.id)
+      (state.testMode) ?
+      // Get live project id
+      state.all.projects.find(obj => obj.id == state.current.project.liveProjectId)
+      :
+      // Get test project by live id
+      state.all.testProjects.find(obj => obj.liveProjectId === state.current.project.id)
       
       if (project) {
         // TODO: Same as changeCurrentProject above, duplicated code. How to fix in Vuex modules w/ TS?
@@ -301,6 +304,7 @@ const mutations: MutationTree<ProjectsModuleState> = {
       }
     }
     Vue.set(state, 'testMode', !state.testMode)
+    localStorage.setItem('testMode', state.testMode ? '1':'')
   }
 
 }
