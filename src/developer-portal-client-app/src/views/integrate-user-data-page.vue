@@ -6,14 +6,7 @@
         strong
           a.color-import(href="https://gigdata-api.openplatforms.org" target="_blank")  Application API Documentation
 
-      p(v-if="currentApplication") To use the API you'll need these API keys:
-      .token-keys(v-if="currentApplication")
-       .token-key
-        .label-muted ApplicationId
-        pre.color-import.shiny {{currentApplication.id}}
-        .token-key
-        .label-muted Secret key
-        pre.color-import.shiny {{currentApplication.secretKey}}
+      current-application-tokens
 
       p.my-4 #[strong PLEASE NOTE] The Application-API is still in beta, the basic concept will stay the same but there might be minor changes to the API endpoints.
 
@@ -85,6 +78,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import { ApplicationState } from '../store/projects.module'
+import CurrentApplicationTokens from '../components/organisms/current-application-tokens.vue'
 
 @Component({
   computed: {
@@ -104,6 +98,9 @@ import { ApplicationState } from '../store/projects.module'
     // }
     await this.$store.dispatch('projects/initCurrentProject')
     this.ready = true
+  },
+  components: {
+    CurrentApplicationTokens
   }
 })
 export default class IntegrateUserDataPage extends Vue {

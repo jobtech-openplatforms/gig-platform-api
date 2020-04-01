@@ -8,6 +8,8 @@
         send test data to receive in your application.
       p.
         #[strong Tip!] #[em To test while developing on localhost, consider using a service like] #[a(href="https://ngrok.com/" target="_blank") ngrok] #[em to receive data from Open Platforms to your development machine.]
+      current-application-tokens
+      hr
       h2 Available test functions
       ol
         li
@@ -25,8 +27,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import CurrentApplicationTokens from '../components/organisms/current-application-tokens.vue'
 
 @Component({
+  components: {
+    CurrentApplicationTokens
+  }
 })
 export default class TestApplicationPage extends Vue {}
 </script>
