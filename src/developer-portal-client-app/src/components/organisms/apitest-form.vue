@@ -62,7 +62,7 @@
       button.btn.btn-primary.btn-right( :disabled="testStatus === 2" v-if="submitted && !completed" @click="cancelTest()") Cancel
     h2(v-if="(submitted && !completed) || testStatus === 2") Performing test...
 
-    .card(v-if="!currentPlatform.exportDataUri")
+    .card(v-if="currentPlatform && !currentPlatform.exportDataUri")
       h2 Missing URL
       p You have to enter a valid URL for the #[strong Export data URL] in the settings
       router-link.btn.btn-primary(to="/project") Back to Settings
