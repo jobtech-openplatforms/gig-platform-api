@@ -44,12 +44,14 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Create([FromBody]CreateProjectRequest request)
         {
+            
             if (string.IsNullOrEmpty(request.Name))
             {
                 return BadRequest(new { message = "You have to enter a project name." });
             }
             try
             {
+                _logger.LogInformation("Creating project");
                 using var session = _documentStore.OpenAsyncSession();
                 var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
                 var entityToCreate = request.WithOwner(user.Id).ToEntity();
