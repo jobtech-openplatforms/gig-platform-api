@@ -43,9 +43,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
                 {
                     _logger.LogError("Create application status code {@statusCode}", result.StatusCode);
                 }
-                    // Read the response body for debugging
-                    var debugResult = await result.Content.ReadAsStringAsync();
-                    _logger.LogError("Create application debug {@debugResult}", debugResult);
+                // Read the response body for debugging
+                var debugResult = await result.Content.ReadAsStringAsync();
+                _logger.LogError("Create application debug {@debugResult}", debugResult);
 
 
                 result.EnsureSuccessStatusCode();
@@ -56,6 +56,46 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
                 var accessModelResponse = JsonConvert.DeserializeObject<CreateApplicationResult>(stringResult);
 
                 return accessModelResponse;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex, "Unable to patch application from request.");
+                throw;
+            }
+        }
+
+
+        public async Task PatchApiEndpointAppSetNotificationUrl(string applicationId, string url)
+            => await Patch(_config.ApiEndpointAppSetNotificationUrl, applicationId, url);
+        public async Task PatchEmailVerificationUrl(string applicationId, string url)
+            => await Patch(_config.ApiEndpointAppSetEmailVerificationUrl, applicationId, url);
+        public async Task PatchAuthCallbackUrl(string applicationId, string url)
+            => await Patch(_config.ApiEndpointAppSetAuthCallbackUrl, applicationId, url);
+
+        public async Task Patch(string endpoint, string applicationId, string url)
+        {
+            try
+            {
+                // TODO: Make a model for this
+                var request = new { applicationId, url };
+                _logger.LogInformation("Patch  application request {@request}", request);
+
+                var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+                var result = await _client.PatchAsync(endpoint, content);
+
+                _logger.LogInformation("Patch sent {content}", content);
+
+                if ((int)result.StatusCode < 400)
+                    _logger.LogInformation("Patch application response status code {@statusCode}", result.StatusCode);
+                else
+                {
+                    _logger.LogError("Patch response {@statusCode}", result.StatusCode);
+                }
+                // Read the response body for debugging
+                var debugResult = await result.Content.ReadAsStringAsync();
+                _logger.LogError("Create application debug {@debugResult}", debugResult);
+
+                result.EnsureSuccessStatusCode();
             }
             catch (Exception ex)
             {

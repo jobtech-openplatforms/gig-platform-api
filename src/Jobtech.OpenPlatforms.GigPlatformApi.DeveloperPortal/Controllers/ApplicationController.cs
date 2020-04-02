@@ -130,31 +130,16 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 }
                 var application = project.Applications?.FirstOrDefault();
 
-                if (application == null)
+                if (application != null)
                 {
-                    var registeredApplication = await _applicationHttpClient.CreateApplication(new CreateApplicationModel
-                    {
-                        Name = project.Name,
-                        AuthCallbackUrl = request.AuthCallbackUrl ?? "",
-                        EmailVerificationNotificationEndpointUrl = request.EmailVerificationUrl ?? "",
-                        NotificationEndpointUrl = request.GigDataNotificationUrl ?? ""
-                    });
-                    if (!string.IsNullOrEmpty(registeredApplication.ApplicationId))
-                    {
-                        application = request.CreateApplication(registeredApplication);
-                    }
-                }
-                else if (
-                        application.AuthCallbackUrl == request.AuthCallbackUrl &&
-                        application.EmailVerificationUrl == request.EmailVerificationUrl &&
-                        application.GigDataNotificationUrl == request.GigDataNotificationUrl
-                    )
-                {
-                    return Ok(project);
+                    await _applicationHttpClient.PatchEmailVerificationUrl(application.Id, request.EmailVerificationUrl);
+                    await _applicationHttpClient.PatchApiEndpointAppSetNotificationUrl(application.Id, request.GigDataNotificationUrl);
+                    await _applicationHttpClient.PatchAuthCallbackUrl(application.Id, request.AuthCallbackUrl);
                 }
                 else
                 {
-                    application = request.CreateApplication(application);
+                    _logger.LogError("No application found.");
+                    return BadRequest(new { message = "No application found." });
                 }
 
                 // One application per project, so just replace
