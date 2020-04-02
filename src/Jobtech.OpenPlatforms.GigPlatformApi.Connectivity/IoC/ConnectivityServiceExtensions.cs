@@ -16,16 +16,21 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.IoC
                 var section = configuration.GetSection("GigDataService");
                 a.AdminKey = section.GetValue<string>("AdminKey");
                 a.ApiEndpointActivatePlatform = section.GetValue<string>("ApiEndpointActivatePlatform");
-                a.ApiEndpointCreateApplication = section.GetValue<string>("ApiEndpointCreatePlatform");
                 a.ApiEndpointCreatePlatform = section.GetValue<string>("ApiEndpointActivatePlatform");
                 a.ApiEndpointDeactivatePlatform = section.GetValue<string>("ApiEndpointDeactivatePlatform");
                 a.ApiEndpointPlatformStatus = section.GetValue<string>("ApiEndpointPlatformStatus");
                 a.ApiEndpointValidateEmail = section.GetValue<string>("ApiEndpointValidateEmail");
 
+                a.ApiEndpointCreateApplication = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointCreateApplication));
+                a.ApiEndpointAppSetNotificationUrl = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointAppSetNotificationUrl));
+                a.ApiEndpointAppSetEmailVerificationUrl = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointAppSetEmailVerificationUrl));
+                a.ApiEndpointAppSetAuthCallbackUrl = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointAppSetAuthCallbackUrl));
+
             });
             collection.AddTransient<IAuthenticationConfigService, AuthenticationConfigService>();
 
             collection.AddHttpClient<IGigDataHttpClient, GigDataHttpClient>();
+            collection.AddHttpClient<IApplicationHttpClient, ApplicationHttpClient>();
 
             return collection;
         }

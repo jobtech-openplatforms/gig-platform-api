@@ -7,6 +7,7 @@ using Jobtech.OpenPlatforms.GigDataCommon.Library.Models.GigDataService;
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models;
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Services;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.Exceptions;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
@@ -15,29 +16,19 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
     {
         private readonly HttpClient _client;
         private readonly IAuthenticationConfigService _config;
+        private readonly ILogger<GigDataHttpClient> _logger;
 
-        public GigDataHttpClient(HttpClient client, IAuthenticationConfigService authenticationConfigService)
+        public GigDataHttpClient(HttpClient client, IAuthenticationConfigService authenticationConfigService, ILogger<GigDataHttpClient> logger)
         {
             _client = client;
             _config = authenticationConfigService;
             _client.DefaultRequestHeaders.Add("admin-key", _config.AdminKey);
-        }
-
-        public async Task<CreateApplicationResult> CreateApplication(CreateApplicationModel request)
-        {
-            var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-            var result = await _client.PostAsync(_config.ApiEndpointCreateApplication, content);
-
-            result.EnsureSuccessStatusCode();
-            var stringResult = await result.Content.ReadAsStringAsync();
-
-            var accessModelResponse = JsonConvert.DeserializeObject<CreateApplicationResult>(stringResult);
-
-            return accessModelResponse;
+            _logger = logger;
         }
 
         public async Task<PlatformViewModel> CreatePlatform(CreatePlatformModel request)
         {
+                _logger.LogInformation("Create platform request {@request}", request);
 
             var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
             var result = await _client.PostAsync(_config.ApiEndpointCreatePlatform, content);
@@ -52,6 +43,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
 
         public async Task<PlatformResponse> PlatformStatus(ProjectModel request)
         {
+                _logger.LogInformation("Platform status request {@request}", request);
 
             var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
             var result = await _client.PatchAsync(_config.ApiEndpointActivatePlatform.Replace("{platformId}", request.PlatformId), content);
@@ -76,6 +68,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
 
         public async Task ActivatePlatform(ProjectModel request)
         {
+                _logger.LogInformation("Activate platform request {@request}", request);
 
             var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
             var result = await _client.PatchAsync(_config.ApiEndpointActivatePlatform.Replace("{platformId}", request.PlatformId), content);
@@ -96,6 +89,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
 
         public async Task DeactivatePlatform(ProjectModel request)
         {
+                _logger.LogInformation("Deactivate platform request {@request}", request);
 
             var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
             var result = await _client.PatchAsync(_config.ApiEndpointDeactivatePlatform.Replace("{platformId}", request.PlatformId), content);

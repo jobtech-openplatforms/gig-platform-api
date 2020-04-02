@@ -15,6 +15,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Services
             ApiEndpointPlatformStatus = gigDataServiceConfig.Value.ApiEndpointPlatformStatus;
             ApiEndpointActivatePlatform = gigDataServiceConfig.Value.ApiEndpointActivatePlatform;
             ApiEndpointDeactivatePlatform = gigDataServiceConfig.Value.ApiEndpointDeactivatePlatform;
+            ApiEndpointAppSetNotificationUrl = gigDataServiceConfig.Value.ApiEndpointAppSetNotificationUrl;
+            ApiEndpointAppSetEmailVerificationUrl = gigDataServiceConfig.Value.ApiEndpointAppSetEmailVerificationUrl;
+            ApiEndpointAppSetAuthCallbackUrl = gigDataServiceConfig.Value.ApiEndpointAppSetAuthCallbackUrl;
         }
 
         public string Token { get; }
@@ -25,5 +28,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Services
         public string ApiEndpointPlatformStatus { get; }
         public string ApiEndpointActivatePlatform { get; }
         public string ApiEndpointDeactivatePlatform { get; }
+        
+        public string ApiEndpointAppSetNotificationUrl { get; }
+        public string ApiEndpointAppSetEmailVerificationUrl { get; }
+        public string ApiEndpointAppSetAuthCallbackUrl { get;  }
     }
 }

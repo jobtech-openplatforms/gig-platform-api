@@ -37,6 +37,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
 
         public async Task<Project> Update(Project project, IAsyncDocumentSession session)
         {
+            _logger.LogInformation("Project update request {id}", project.Id);
 
             if (TestProjectId.IsValidIdentity(project.Id))
             {
@@ -46,15 +47,18 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
             var p = await session.LoadAsync<Project>(project.Id);
 
             _logger.LogInformation("Project before {@p}", p);
+            if (p.Name != project.Name)
+            {
+                p.Name = project.Name;
+                await UpdateTestProjectName(project.Id, project.Name, session);
+            }
             p.LogoUrl = project.LogoUrl;
-            p.Name = project.Name;
             p.Webpage = project.Webpage;
             p.Description = project.Description;
             p.Applications = project.Applications;
             p.Platforms = project.Platforms;
             p.OwnerAdminId = project.OwnerAdminId;
             p.AdminIds = project.AdminIds;
-            await UpdateTestProjectName(project.Id, project.Name, session);
             await session.SaveChangesAsync();
             _logger.LogInformation("Project after {@p}", p);
             return p;

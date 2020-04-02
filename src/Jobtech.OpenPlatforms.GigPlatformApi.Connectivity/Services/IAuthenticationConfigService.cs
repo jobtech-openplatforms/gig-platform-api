@@ -9,5 +9,9 @@
         string ApiEndpointCreateApplication { get; }
         string ApiEndpointActivatePlatform { get; }
         string ApiEndpointDeactivatePlatform { get; }
+
+        string ApiEndpointAppSetNotificationUrl { get; }
+        string ApiEndpointAppSetEmailVerificationUrl { get; }
+        string ApiEndpointAppSetAuthCallbackUrl { get; }
     }
 }

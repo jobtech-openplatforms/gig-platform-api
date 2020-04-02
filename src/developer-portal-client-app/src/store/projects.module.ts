@@ -134,6 +134,20 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
             )
   },
 
+  createApplication({ state, commit }, urls: ApplicationUrlsUpdateRequest) {
+    commit('getRequest', state.current.project.id)
+    projectsService
+      .createApplication(state.current.project.id)
+      .then(
+        (currentProject) => {
+          commit('getSuccess', currentProject)
+          router.push('/integrate-user-data').catch(err => { })
+          return currentProject
+        },
+        (error) => commit('getFailure', error)
+      )
+  },
+
   setApplicationUrls({ state, commit }, urls: ApplicationUrlsUpdateRequest) {
     commit('getRequest', state.current.project.id)
     projectsService

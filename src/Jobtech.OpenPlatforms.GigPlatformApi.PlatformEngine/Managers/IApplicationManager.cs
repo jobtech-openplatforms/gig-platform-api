@@ -13,7 +13,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
 
         //Task<Application> GetApplicationAsync(ApplicationId applicationId);
         //Task<Application> GetApplicationByTokenAsync(ApplicationToken platformToken);
-        Task<Application> RegisterApplicationAsync(ApplicationRegistrationRequest value);
+        Task<Application> RegisterApplicationAsync(ApplicationCreationRequest value);
         //Task<Application> UpdateApplicationAsync(Application application);
         //Task<Application> UpdateApplicationAdminAsync(Application application);
 

@@ -8,6 +8,5 @@
         public string EmailVerificationUrl { get; set; }
 
         public string SecretKey { get; set; }
-        //public string ApplicationId { get; set; }
     }
 }

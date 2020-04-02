@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Helpers;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
 {
@@ -32,7 +33,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         public ProjectsController(IProjectManager projectManager,
             IGigDataHttpClient gigDataHttpClient,
             IPlatformAdminUserManager platformAdminUserManager,
-            IDocumentStore documentStoreHolder, ILogger<ProjectsController> logger)
+            IDocumentStore documentStoreHolder, 
+            ILogger<ProjectsController> logger)
         {
             _projectManager = projectManager;
             _gigDataHttpClient = gigDataHttpClient;
@@ -155,9 +157,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> PlatformUrl([FromBody]UpdatePlatformUrlRequest request)
         {
-            var errors = this.uriErrors(new Dictionary<string, string> {
+            var errors = Util.UriErrors(new Dictionary<string, string> {
                 { "platform-url", request.Url },
-            });
+            }, _logger);
             if (errors != null && errors.Any())
             {
                 return BadRequest(new { message = "All urls have to be valid.", errors = errors });
@@ -326,98 +328,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
             return Ok(project);
         }
 
-        [HttpPost("[action]")]
-        public async Task<IActionResult> ApplicationUrls([FromBody]UpdateApplicationUrlsRequest request)
-        {
-            var errors = this.uriErrors(new Dictionary<string, string> {
-                { "auth-callback-url", request.AuthCallbackUrl },
-                { "gig-data-notification-url", request.GigDataNotificationUrl },
-                { "email-verification-url", request.EmailVerificationUrl },
-            });
-            // if (errors != null && errors.Any())
-            // {
-            //     return BadRequest(new { message = "All urls have to be valid.", errors = errors });
-            // }
-            try
-            {
-                // Who's logged in?
-                using var session = _documentStore.OpenAsyncSession();
-                var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
-                // Which project are we working on?
-
-
-                var testMode = TestProjectId.IsValidIdentity(request.ProjectId) && !ProjectId.IsValidIdentity(request.ProjectId);
-
-                var project = testMode ? await _projectManager.GetTest((TestProjectId)request.ProjectId, session) : await _projectManager.Get((ProjectId)request.ProjectId, session);
-
-                // Does the user have access to the project?
-                if (!project.AdminIds.Contains(user.Id) && project.OwnerAdminId != user.Id)
-                {
-                    throw new ApiException("Seems you are not an admin on this project.", (int)System.Net.HttpStatusCode.Unauthorized);
-                }
-                var application = project.Applications?.FirstOrDefault();
-
-                if (application == null)
-                {
-                    var registeredApplication = await _gigDataHttpClient.CreateApplication(new CreateApplicationModel
-                    {
-                        Name = project.Name,
-                        AuthCallbackUrl = request.AuthCallbackUrl,
-                        EmailVerificationNotificationEndpointUrl = request.EmailVerificationUrl,
-                        NotificationEndpointUrl = request.GigDataNotificationUrl
-                    });
-                    if (!string.IsNullOrEmpty(registeredApplication.ApplicationId))
-                    {
-                        application = request.CreateApplication(registeredApplication);
-
-                    }
-                }
-                else if (
-                        application.AuthCallbackUrl == request.AuthCallbackUrl &&
-                        application.EmailVerificationUrl == request.EmailVerificationUrl &&
-                        application.GigDataNotificationUrl == request.GigDataNotificationUrl
-                    )
-                {
-                    return Ok(project);
-                }
-                else
-                {
-                    application = request.CreateApplication(application);
-                }
-
-                // One application per project, so just replace
-                project.Applications = new List<Core.Entities.Application> { application };
-                // Save
-                project = await _projectManager.Update(project, session);
-
-                return Ok(project);
-            }
-            catch (ApiException ex)
-            {
-                // return error message if there was an exception
-                return BadRequest(new { message = ex.Message });
-            }
-        }
-
-        private IEnumerable<string> uriErrors(Dictionary<string, string> uriStrings)
-        {
-            foreach (var uri in uriStrings)
-            {
-                var valid = false;
-                try
-                {
-                    new Uri(uri.Value);
-                    valid = true;
-                }
-                catch (Exception)
-                {
-                }
-                if (!valid)
-                {
-                    yield return uri.Key; // Just return the ID of the error field
-                }
-            }
-        }
+        
 
         private IEnumerable<string> stringErrors(Dictionary<string, string> strings)
         {

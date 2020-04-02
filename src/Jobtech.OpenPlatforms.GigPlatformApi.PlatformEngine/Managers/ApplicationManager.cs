@@ -60,7 +60,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
             }
         }
 
-        public async Task<Application> RegisterApplicationAsync(ApplicationRegistrationRequest value)
+        public async Task<Application> RegisterApplicationAsync(ApplicationCreationRequest value)
             => await CreateApplicationAsync(value);
 
         //public async Task<Application> UpdateApplicationAsync(Application application)

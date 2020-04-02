@@ -112,8 +112,6 @@ export default class SideNav extends Vue {
     color:$dimmed-grey;
     transition: color 0.3s ease;
   }
-  span{
-  }
   .testmode {
     span{
       color:$color-test;
