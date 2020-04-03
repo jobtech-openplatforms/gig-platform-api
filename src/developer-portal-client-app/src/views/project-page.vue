@@ -106,31 +106,14 @@ export default class ProjectPage extends Vue {}
       }
     }
   }
-
-  .box:not(.project) {
-    margin: 0 0 4rem;
-    width: 100%;
+  
+  .frame {
+    padding: $space-med;
     @include flex(column, null, null);
 
-    @include small-screen-and-up() {
-      width: 50%;
-
-      &:first-child{
-        padding-right:2vw;
-      }
-      &:last-child{
-        padding-left:2vw;
-      }
-    }
-
-    .frame {
-      padding: $space-med;
-      @include flex(column, null, null);
-
-      p {
-        flex: 1;
-        margin: 0;
-      }
+    p {
+      flex: 1;
+      margin: 0;
     }
   }
 
