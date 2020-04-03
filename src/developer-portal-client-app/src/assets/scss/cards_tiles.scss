@@ -30,3 +30,21 @@
   padding: 2rem;
   border: 1px solid $grey;
 }
+
+.box:not(.project) {
+  margin: 0 0 4rem;
+  width: 100%;
+  @include flex(column, null, null);
+
+  @include small-screen-and-up() {
+    width: 50%;
+
+    &:first-child {
+      padding-right: 2vw;
+    }
+
+    &:last-child {
+      padding-left: 2vw;
+    }
+  }
+}
