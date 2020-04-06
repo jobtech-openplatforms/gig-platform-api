@@ -30,13 +30,8 @@
           your service will be added to Open Platform's list of connected
           platforms, and your user's will be able to make data requests.
         GoLiveButton(v-if="currentProjectCompleted")
-        p(v-else class="error").
-          #[strong PLEASE NOTE]: To publish your platform in the Open
-          Platforms service, please fill out all of the
-          #[router-link(to="/project") project details]
-          like your platform's webpage, description and a logo, and run
-          the test again.
-
+        button.btn.btn-huge.btn-export.center.my-3(v-else @click="show") Continue
+        
       h2 Test result
       p Result with user&nbsp;
         em {{test.email}}
@@ -127,7 +122,8 @@
       .card
         pre(v-if="testResult.result.interactions") {{ JSON.stringify(testResult.result, null, 2) }}
 
-
+    modal#project-details(name="project-details" height="auto" :scrollable="true") 
+      ProjectDetails
 </template>
 
 <script lang="ts">
@@ -135,6 +131,7 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 import GoLiveButton from '../molecules/go-live-button.vue'
 import PlatformToken from '../molecules/platform-token.vue'
 import PlatformInstructions from '../molecules/platform-instructions.vue'
+import ProjectDetails from '../organisms/project-edit.vue'
 
 export default {
   computed: {
@@ -158,7 +155,8 @@ export default {
   components: {
     GoLiveButton,
     PlatformToken,
-    PlatformInstructions
+    PlatformInstructions, 
+    ProjectDetails
   },
   data() {
     return {
@@ -264,8 +262,10 @@ export default {
       this.editUrlDisabled = true
     },
     enableForm() {
-        this.editUrlDisabled = false
-      
+        this.editUrlDisabled = false 
+    },
+    show() {
+      this.$modal.show('project-details')
     }
   }
 }
@@ -317,5 +317,12 @@ export default {
 .result-wrapper {
   display: flex;
   flex-direction: row;
+}
+
+#project-details{
+  .project{
+    margin:4rem;
+      background:$light-grey;
+  }
 }
 </style>

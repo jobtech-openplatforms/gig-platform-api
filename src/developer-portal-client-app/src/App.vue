@@ -3,7 +3,7 @@
     TopNav
     //- Loading(:active.sync="loading" :can-cancel="false" :is-full-page="true" loader="dots")
     LoaderOverlay(v-if="loading")
-    #main
+    #main(v-bind:class="{noprojects : !hasProjects}")
       SideNav( v-if="!$auth.loading && $auth.isAuthenticated")
       #page
         div#alert-global( v-if="alert.message" :class="`alert ${alert.type}`" v-html="alert.message")
@@ -76,6 +76,9 @@ export default {
   overflow-x:hidden;
   max-width:$media-large;
   background-color:$light-grey;
+  &.noprojects{
+      padding-left:0;
+  }
 }
 
 

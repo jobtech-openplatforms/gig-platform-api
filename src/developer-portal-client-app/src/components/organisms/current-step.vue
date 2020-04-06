@@ -6,11 +6,9 @@
           #[router-link(to="/test-open-api") Fill out the data url]
           for retrieving data for a user on your platform.
       .step(v-if="step == 'currentProjectIncomplete'")
-        // h2 Next up!
         p Fill out the details for the project to be able to publish it with Open Platforms
       .step(v-if="step == 'testModeIncomplete'")
-        h2 [Test Mode] Next step!
-        p Fill out the details for the project to finish the project.
+        p Just one more thing: Fill out the details for the project to finish the project!
       .step(v-if="step == 'testModeComplete'")
         h2 Test Mode Complete!
         p Seems all settings are complete for this project in Test Mode. 

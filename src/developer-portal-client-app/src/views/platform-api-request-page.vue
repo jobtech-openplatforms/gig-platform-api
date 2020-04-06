@@ -1,5 +1,5 @@
 <template lang="pug">
-  .card
+  div
     h1 Open Platforms request structure
     h2 Request structure for calls to your platform
     p.
@@ -26,7 +26,7 @@
         specified by Open Platforms.
       li.
         You test the integration with the test tool
-        provided #[router-link(to="/test-open-api") here]
+        provided #[router-link.color-export(to="/test-open-api") here]
         by Open Platforms.
       li.
         Once the test is successful, request for the
@@ -56,7 +56,7 @@
         account to retrieve user data from.
     h2 JSON Schema
     p.
-      Please see the #[router-link(to="/json-schema") JSON Schema]
+      Please see the #[router-link.color-export(to="/json-schema") JSON Schema]
       for how to format the response to requests from
       Open Platforms.
 </template>

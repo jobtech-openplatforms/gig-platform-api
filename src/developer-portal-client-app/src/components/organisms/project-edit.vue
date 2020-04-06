@@ -1,7 +1,7 @@
 <template lang="pug">
 
       form.box.project.frame(@submit.prevent="handleSubmit")
-        .project-settings.project-header
+        .project-settings.project-header(v-bind:class="{ flex : formDisabled}" )
           .has-edit.form-group.project-name
             label.small(for="project-name") Project name
             input.bold.editable(type="text" :value="editingProject.name" id="project-name" @input="updateName" :disabled="formDisabled || testMode" placeholder="Dont forget to give your service a name!")
@@ -161,6 +161,75 @@ export default class ProjectEdit extends Vue {
 }
 </script>
 <style lang="scss">
+
+.project {
+  padding: 2rem;
+  max-width: 560px;
+  // margin-left: auto;
+  // margin-right: auto;
+  flex-grow: 1;
+
+  .edit-logo:after {
+    color: #fff;
+    bottom: 0;
+    top: unset;
+  }
+
+  .project-logo {
+    width: 78px;
+    height: 78px;
+    flex: 0 0 78px;
+    display: block;
+    cursor:pointer;
+    background-color:#fff;
+    margin-right:2rem;
+  }
+
+  .integration-status {
+    @include flex(row, null, center);
+    margin: 2rem 0;
+
+    .connection-type {
+      flex: 1;
+    }
+
+    .btn {
+      margin-left: auto;
+    }
+  }
+}
+
+.frame {
+  padding: $space-med;
+  @include flex(column, null, null);
+
+  p {
+    flex: 1;
+    margin: 0;
+  }
+}
+
+.delimiter {
+  margin: 4rem 0;
+}
+
+h4 {
+  margin-left: 2rem;
+}
+
+.project-settings.project-header.flex{
+  @include flex(row-reverse, flex-start, center);
+  .edit-logo{
+    @include flex-child(0, 1, auto);
+  }
+  .project-name{
+    @include flex-child(1, 0, auto);
+    input{
+      font-size:$font-big;
+      font-family: $serif;
+    }
+  }
+}
   #file-label{
     @include flex(row, flex-start, center);
   }
