@@ -14,6 +14,11 @@ import { Auth0Plugin } from './auth'
 import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/vue-loading.css'
 
+//Import modal
+import VModal from 'vue-js-modal'
+
+Vue.use(VModal)
+
 Vue.use(Auth0Plugin, {
   domain,
   clientId,
