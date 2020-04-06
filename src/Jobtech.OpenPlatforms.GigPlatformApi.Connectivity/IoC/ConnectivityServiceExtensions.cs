@@ -22,6 +22,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.IoC
                 a.ApiEndpointValidateEmail = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointValidateEmail));
 
                 a.ApiEndpointCreateApplication = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointCreateApplication));
+                a.ApiEndpointGetApplication = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointGetApplication));
+
                 a.ApiEndpointAppSetNotificationUrl = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointAppSetNotificationUrl));
                 a.ApiEndpointAppSetEmailVerificationUrl = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointAppSetEmailVerificationUrl));
                 a.ApiEndpointAppSetAuthCallbackUrl = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointAppSetAuthCallbackUrl));

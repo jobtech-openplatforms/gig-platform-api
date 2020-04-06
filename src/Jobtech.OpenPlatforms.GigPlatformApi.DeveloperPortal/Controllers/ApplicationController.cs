@@ -155,6 +155,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                             });
                             if (apiApplication != null)
                             {
+                            _logger.LogInformation("New application created. {id}", apiApplication.ApplicationId);
                                 recreated = true;
                                 application = new Core.Entities.Application
                                 {

@@ -32,9 +32,14 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
             try
             {
                 _logger.LogInformation("Get application request {@id}", applicationId);
+                _logger.LogInformation("Get application config {@config}", _config);
 
-                var result = await _client.GetAsync(_config.ApiEndpointGetApplication);
-                _logger.LogInformation("Sending request to {apiEndpoint}", _config.ApiEndpointGetApplication);
+                var endpoint = _config.ApiEndpointGetApplication.Replace("{applicationId}", applicationId);
+
+                _logger.LogInformation("Get request url {apiEndpoint}", endpoint);
+
+                var result = await _client.GetAsync(endpoint);
+                _logger.LogInformation("Sending request to {apiEndpoint}", endpoint);
 
                 if ((int)result.StatusCode < 400)
                     _logger.LogInformation("Get application status code {@statusCode}", result.StatusCode);
