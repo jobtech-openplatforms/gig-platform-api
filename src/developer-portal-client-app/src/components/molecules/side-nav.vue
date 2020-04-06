@@ -1,6 +1,10 @@
 <template lang="pug">
   .side-nav( v-bind:class="{ testmode: testMode, livemode: !testMode}")
     #banner
+      #banner-switch.toggle-buttons
+        button.btn-tiny.toggle-button.btn-outline-reverse.btn-test(@click="switchTestMode" v-bind:class="{ activestate: testMode}") Test
+        button.btn-tiny.toggle-button.btn-outline-reverse.btn-live(@click="switchTestMode" v-bind:class="{ activestate: !testMode}") Live
+
       #banner-content(v-if="currentProject")
         em You are in 
         strong.test-text(v-if="testMode") TEST 
@@ -9,13 +13,6 @@
         strong {{currentProject.name}}
     #menu-head
       .my-projects( @click="redirectUser") Projects
-      #mode-nav
-        .mode.testmode(v-if="testMode")
-          span.small.test-text TEST
-          button.btn-clean.small.live-text( @click="switchTestMode") LIVE
-        .mode.livemode(v-else)
-          button.btn-clean.small.test-text( @click="switchTestMode") TEST
-          span.small.live-text LIVE
     ul#projects-list(v-if="currentProjects")
       li.project(v-for="project in currentProjects" v-bind:class="{ active: current && currentProject && project.id === currentProject.id}")
         .project-bar(@click="setCurrentProject(project)")
@@ -31,7 +28,7 @@
           hr
           router-link.color-export( to="/share-user-data" active-class="active" v-bind:class="{ 'active': $route.path == '/test-open-api' }") Platform API
           router-link.color-import( to="/integrate-user-data" active-class="active") Application API
-          //- router-link.color-project( to="/project" active-class="active") project info
+          router-link.color-project( to="/project" active-class="active") Project info
     div.new-project
       router-link( to="/create" v-if="!testMode") + New project
 </template>
@@ -87,12 +84,19 @@ export default class SideNav extends Vue {
   top:0;
   left:0;
   background:rgba(0,0,0,0.45);
-  padding-left:calc(#{$sidebar-width} + 6rem);
   width:100vw;
+  @include flex(row, flex-start, center);
+
+    .toggle-buttons{
+      width: calc(#{$sidebar-width} - 1.5rem);
+      padding:0.5rem 2rem 0.75rem;
+    
+    }
+  
 
   #banner-content{
     max-width:$media-small;
-    margin-left:auto;
+    margin-left:8rem;
     margin-right:auto;
   }
 }
@@ -140,7 +144,8 @@ export default class SideNav extends Vue {
   color: $white;
   height: calc(100vh - 60px);
   position: fixed;
-  border-right:1.5rem solid $bg-color;
+  border-right:1.5rem solid $light-grey;
+  transition: border-right 0.2s ease;
   &.livemode {
     border-color:$color-live;
   }
@@ -212,7 +217,7 @@ export default class SideNav extends Vue {
 
       &.active {
         background: rgba(255, 255, 255, 0.075);
-        height: 150px;
+        height: 165px;
       }
       .project-bar {
         @include flex(row, flex-start, center);
@@ -266,7 +271,7 @@ export default class SideNav extends Vue {
         a {
           display: block;
           margin-left: 7rem;
-          padding: 0.5rem 0;
+          padding: 0.25rem 0;
           white-space: nowrap;
 
           &.active {
