@@ -2,14 +2,14 @@
   div.home.project-start-page.center(v-if="currentProject")
     div
       h1 Project {{currentProject.name}} created!
-      p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mattis vel neque non laoreet. Ut tempor, est sit amet dapibus molestie, purus quam imperdiet tellus, eget gravida sapien nunc vel quam. Proin et nunc augue. 
+      p Your project comes with a live and a test environment. The only thing shared between the environments is the project name. 
       .toggle-buttons.buttons
         button.btn-big.toggle-button.btn-outline.btn-test(@click="switchTestMode" v-bind:class="{ activestate: testMode}") Test mode
         button.btn-big.toggle-button.btn-outline.btn-live(@click="switchTestMode" v-bind:class="{ activestate: !testMode}") Live mode
       hr.my-4
 
       h2 Connections
-      p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mattis vel neque non laoreet. Ut tempor, est sit amet dapibus molestie, purus quam imperdiet tellus, eget gravida sapien nunc vel quam. Proin et nunc augue.
+      p You will need to have your platform connection live before you can use an application connection for retrieving real data, however you can absolutely start developing for it and test your work with the test data provided.
 
       .flex-wrapper
 
