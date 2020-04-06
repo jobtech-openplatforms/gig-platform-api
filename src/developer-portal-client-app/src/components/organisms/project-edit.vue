@@ -162,6 +162,61 @@ export default class ProjectEdit extends Vue {
 </script>
 <style lang="scss">
 
+.project {
+  padding: 2rem;
+  max-width: 560px;
+  // margin-left: auto;
+  // margin-right: auto;
+  flex-grow: 1;
+
+  .edit-logo:after {
+    color: #fff;
+    bottom: 0;
+    top: unset;
+  }
+
+  .project-logo {
+    width: 78px;
+    height: 78px;
+    flex: 0 0 78px;
+    display: block;
+    cursor:pointer;
+    background-color:#fff;
+    margin-right:2rem;
+  }
+
+  .integration-status {
+    @include flex(row, null, center);
+    margin: 2rem 0;
+
+    .connection-type {
+      flex: 1;
+    }
+
+    .btn {
+      margin-left: auto;
+    }
+  }
+}
+
+.frame {
+  padding: $space-med;
+  @include flex(column, null, null);
+
+  p {
+    flex: 1;
+    margin: 0;
+  }
+}
+
+.delimiter {
+  margin: 4rem 0;
+}
+
+h4 {
+  margin-left: 2rem;
+}
+
 .project-settings.project-header.flex{
   @include flex(row-reverse, flex-start, center);
   .edit-logo{
