@@ -92,11 +92,8 @@ import CurrentApplicationTokens from '../components/organisms/current-applicatio
       formDisabled: true
     }
   },
-  async created() {
-    // if (!this.currentApplication) {
-    //   await this.$store.dispatch('projects/setApplicationUrls', { authCallbackUrl: '/',  gigDataNotificationUrl: '/',  emailVerificationUrl: '/'})
-    // }
-    await this.$store.dispatch('projects/initCurrentProject')
+  created() {
+    this.$store.dispatch('projects/initCurrentProject')
     this.ready = true
   },
   components: {
@@ -125,6 +122,8 @@ export default class IntegrateUserDataPage extends Vue {
       ? this.currentApplication.emailVerificationUrl
       : ''
     this.formDisabled = this.currentApplication !== null && this.currentApplication.authCallbackUrl != null
+    if(!this.currentApplication)
+      this.$store.commit('projects/queueDispatchAfterInit', 'createApplication')
   }
 
   private isFormEdited() {

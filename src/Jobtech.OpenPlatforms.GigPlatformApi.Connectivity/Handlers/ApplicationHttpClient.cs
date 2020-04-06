@@ -26,6 +26,41 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
             _logger = logger;
         }
 
+        public async Task<GetApplicationResult> Get(string applicationId)
+        {
+            System.Net.HttpStatusCode statusCode = System.Net.HttpStatusCode.OK;
+            try
+            {
+                _logger.LogInformation("Get application request {@id}", applicationId);
+
+                var result = await _client.GetAsync(_config.ApiEndpointGetApplication);
+                _logger.LogInformation("Sending request to {apiEndpoint}", _config.ApiEndpointGetApplication);
+
+                if ((int)result.StatusCode < 400)
+                    _logger.LogInformation("Get application status code {@statusCode}", result.StatusCode);
+                else
+                {
+                    _logger.LogError("Get application status code {@statusCode}", result.StatusCode);
+                }
+
+                statusCode = result.StatusCode;
+
+                result.EnsureSuccessStatusCode();
+                var stringResult = await result.Content.ReadAsStringAsync();
+
+                _logger.LogInformation("Get application result {@result}", result);
+
+                var accessModelResponse = JsonConvert.DeserializeObject<GetApplicationResult>(stringResult);
+
+                return accessModelResponse;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex, "Unable to get application.");
+                throw new ApiException (ex, (int)statusCode, new List<string> { ex.Message, statusCode.ToString() });
+            }
+        }
+
         public async Task<CreateApplicationResult> CreateApplication(CreateApplicationModel request)
         {
             try
@@ -59,7 +94,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
             }
             catch (Exception ex)
             {
-                _logger.LogCritical(ex, "Unable to patch application from request.");
+                _logger.LogCritical(ex, "Unable to create application from request.");
                 throw;
             }
         }
@@ -78,12 +113,12 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
             {
                 // TODO: Make a model for this
                 var request = new { applicationId, url };
-                _logger.LogInformation("Patch  application request {@request}", request);
+                _logger.LogInformation("Patch application request {@request}", request);
 
                 var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
                 var result = await _client.PatchAsync(endpoint, content);
 
-                _logger.LogInformation("Patch sent {content}", content);
+                _logger.LogInformation("Patch sent to {endpoint} {@content}", endpoint, content);
 
                 if ((int)result.StatusCode < 400)
                     _logger.LogInformation("Patch application response status code {@statusCode}", result.StatusCode);
@@ -93,14 +128,14 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
                 }
                 // Read the response body for debugging
                 var debugResult = await result.Content.ReadAsStringAsync();
-                _logger.LogError("Create application debug {@debugResult}", debugResult);
+                _logger.LogError("Patch application debug {@debugResult}", debugResult);
 
                 result.EnsureSuccessStatusCode();
             }
             catch (Exception ex)
             {
-                _logger.LogCritical(ex, "Unable to create application from request.");
-                throw;
+                _logger.LogCritical(ex, "Unable to patch application from request.");
+                throw new ApiException("Unable to update application. Server error.", 500, new List<string> { ex.Message });
             }
         }
 

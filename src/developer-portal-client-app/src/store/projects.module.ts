@@ -27,7 +27,7 @@ const moduleState: ProjectsModuleState = {
 }
 
 const actions: ActionTree<ProjectsModuleState, RootState> = {
-  getAll({ state, commit }, currentProject) {
+  getAll({ state, commit, dispatch }, currentProject) {
     if (state.loading) {
       return
     }
@@ -49,6 +49,17 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
                 return currentProject
               },
               (error) => commit('getAllFailure', error)
+            )
+            .then(
+              (currentProject) => {
+                if (state.dispatchAfterInit) {
+                  state.dispatchAfterInit.forEach(action => {
+                    dispatch(action)
+                  });
+                }
+                return currentProject
+              },
+              (error) => error
             )
   },
 
@@ -134,14 +145,16 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
             )
   },
 
-  createApplication({ state, commit }, urls: ApplicationUrlsUpdateRequest) {
+  createApplication({ state, commit }) {
+    if (state.current && state.current.project && state.current.project.applications && state.current.project.applications.length>0) {
+      return state.current.project
+    }
     commit('getRequest', state.current.project.id)
     projectsService
       .createApplication(state.current.project.id)
       .then(
         (currentProject) => {
           commit('getSuccess', currentProject)
-          router.push('/integrate-user-data').catch(err => { })
           return currentProject
         },
         (error) => commit('getFailure', error)
@@ -166,7 +179,7 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
     commit('resetTest')
   },
 
-  initCurrentProject({ state, commit, dispatch }) {
+  initCurrentProject({ state, commit, dispatch }, thenDispatch: string) {
     if (state.current && state.current.project) {
       return state.current.project
     }
@@ -177,16 +190,6 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
       router.push('/projects').catch(err => { })
     }
     return state.current ? state.current.project : null
-
-    // Removed the check that the project exists in the list of projects
-    // const project = state.all.projects.find(obj => obj.id === p)
-    // // const project = JSON.parse(p)
-    // if (project && project.id) {
-    //   commit('changeCurrentProject', project)
-    // } else {
-    //   dispatch('unsetCurrentProject')
-    //   router.push('/projects').catch(err => { })
-    // }
   },
 
   setCurrentProject({ commit }, project) {
@@ -319,6 +322,13 @@ const mutations: MutationTree<ProjectsModuleState> = {
     }
     Vue.set(state, 'testMode', !state.testMode)
     localStorage.setItem('testMode', state.testMode ? '1':'')
+  },
+  queueDispatchAfterInit(state, action) {
+    state.dispatchAfterInit = state.dispatchAfterInit || []
+    state.dispatchAfterInit.push(action)
+  },
+  clearDispatchAfterInit(state) {
+    Vue.set(state, 'dispatchAfterInit', [])
   }
 
 }
@@ -480,6 +490,7 @@ interface BasicState {
 }
 
 export interface ProjectsModuleState {
+  dispatchAfterInit?: string[]
   loading: boolean
   current: CurrentPlatformState
   editing: CurrentPlatformState

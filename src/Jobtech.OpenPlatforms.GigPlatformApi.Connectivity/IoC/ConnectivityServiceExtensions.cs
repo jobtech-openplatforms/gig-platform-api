@@ -15,16 +15,19 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.IoC
             {
                 var section = configuration.GetSection("GigDataService");
                 a.AdminKey = section.GetValue<string>("AdminKey");
-                a.ApiEndpointActivatePlatform = section.GetValue<string>("ApiEndpointActivatePlatform");
-                a.ApiEndpointCreatePlatform = section.GetValue<string>("ApiEndpointActivatePlatform");
-                a.ApiEndpointDeactivatePlatform = section.GetValue<string>("ApiEndpointDeactivatePlatform");
-                a.ApiEndpointPlatformStatus = section.GetValue<string>("ApiEndpointPlatformStatus");
-                a.ApiEndpointValidateEmail = section.GetValue<string>("ApiEndpointValidateEmail");
+                a.ApiEndpointActivatePlatform = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointActivatePlatform));
+                a.ApiEndpointCreatePlatform = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointActivatePlatform));
+                a.ApiEndpointDeactivatePlatform = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointDeactivatePlatform));
+                a.ApiEndpointGetPlatform = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointGetPlatform));
+                a.ApiEndpointValidateEmail = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointValidateEmail));
 
                 a.ApiEndpointCreateApplication = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointCreateApplication));
                 a.ApiEndpointAppSetNotificationUrl = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointAppSetNotificationUrl));
                 a.ApiEndpointAppSetEmailVerificationUrl = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointAppSetEmailVerificationUrl));
                 a.ApiEndpointAppSetAuthCallbackUrl = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointAppSetAuthCallbackUrl));
+
+                a.ApiEndpointAppSetName = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointAppSetName));
+                a.ApiEndpointAppRotateSecret = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointAppRotateSecret));
 
             });
             collection.AddTransient<IAuthenticationConfigService, AuthenticationConfigService>();

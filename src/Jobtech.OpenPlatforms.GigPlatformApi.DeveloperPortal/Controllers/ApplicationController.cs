@@ -129,12 +129,64 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                     throw new ApiException("Seems you are not an admin on this project.", (int)System.Net.HttpStatusCode.Unauthorized);
                 }
                 var application = project.Applications?.FirstOrDefault();
+                bool recreated = false;
 
                 if (application != null)
                 {
-                    await _applicationHttpClient.PatchEmailVerificationUrl(application.Id, request.EmailVerificationUrl);
-                    await _applicationHttpClient.PatchApiEndpointAppSetNotificationUrl(application.Id, request.GigDataNotificationUrl);
-                    await _applicationHttpClient.PatchAuthCallbackUrl(application.Id, request.AuthCallbackUrl);
+                    // Check that the application exists through the API
+                    try
+                    {
+                        var apiApplication = await _applicationHttpClient.Get(application.Id);
+
+                    }
+                    catch (ApiException ex)
+                    {
+                        // Unable to get the application
+                        if (ex.InnerException is System.Net.Http.HttpRequestException && ex.StatusCode == (int)System.Net.HttpStatusCode.NotFound)
+                        {
+                            // Not found in API - recreate the application
+                            _logger.LogInformation("Application not found in API. Attempting to re-create.");
+                            var apiApplication = await _applicationHttpClient.CreateApplication(new CreateApplicationModel
+                            {
+                                Name = project.Name,
+                                AuthCallbackUrl = request.AuthCallbackUrl ?? "",
+                                EmailVerificationNotificationEndpointUrl = request.EmailVerificationUrl ?? "",
+                                NotificationEndpointUrl = request.GigDataNotificationUrl ?? ""
+                            });
+                            if (apiApplication != null)
+                            {
+                                recreated = true;
+                                application = new Core.Entities.Application
+                                {
+                                    Id = apiApplication.ApplicationId,
+                                    SecretKey = apiApplication.SecretKey,
+                                    AuthCallbackUrl = request.AuthCallbackUrl,
+                                    EmailVerificationUrl = request.EmailVerificationUrl,
+                                    GigDataNotificationUrl = request.GigDataNotificationUrl
+                                };
+                            }
+                        }
+                        throw;
+                    }
+                    catch (System.Exception)
+                    {
+                        throw;
+                    }
+                    if (!recreated)
+                    {
+
+                        await _applicationHttpClient.PatchEmailVerificationUrl(application.Id, request.EmailVerificationUrl);
+                        await _applicationHttpClient.PatchApiEndpointAppSetNotificationUrl(application.Id, request.GigDataNotificationUrl);
+                        await _applicationHttpClient.PatchAuthCallbackUrl(application.Id, request.AuthCallbackUrl);
+                        application = new Core.Entities.Application
+                        {
+                            Id = application.Id,
+                            SecretKey = application.SecretKey,
+                            AuthCallbackUrl = request.AuthCallbackUrl,
+                            EmailVerificationUrl = request.EmailVerificationUrl,
+                            GigDataNotificationUrl = request.GigDataNotificationUrl
+                        };
+                    }
                 }
                 else
                 {

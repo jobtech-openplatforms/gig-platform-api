@@ -19,8 +19,7 @@
           .integration-status
             strong Application&nbsp;
             span.yes {{currentApplication && currentApplication.authCallbackUrl ? 'Ready' : ''}}
-            router-link.btn.btn-import.btn-outline.btn-small(v-if="currentApplication && currentApplication.authCallbackUrl" to="/integrate-user-data" ) Edit...
-            button.btn.btn-import.btn-outline.btn-small(v-if="!currentApplication || !currentApplication.authCallbackUrl" @click="createApplication()") Add...
+            router-link.btn.btn-import.btn-outline.btn-small(to="/integrate-user-data" ) {{currentApplication && currentApplication.authCallbackUrl ? 'Edit...' : 'Add...'}}
 
     div.home.project-page.center(v-else-if="currentProjects")
       .arrow

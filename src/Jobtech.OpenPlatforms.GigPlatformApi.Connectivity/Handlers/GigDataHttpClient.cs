@@ -41,12 +41,12 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
             return accessModelResponse;
         }
 
-        public async Task<PlatformResponse> PlatformStatus(ProjectModel request)
+        public async Task<PlatformResponse> GetPlatform(ProjectModel request)
         {
                 _logger.LogInformation("Platform status request {@request}", request);
 
-            var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-            var result = await _client.PatchAsync(_config.ApiEndpointActivatePlatform.Replace("{platformId}", request.PlatformId), content);
+            // var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+            var result = await _client.GetAsync(_config.ApiEndpointGetPlatform.Replace("{platformId}", request.PlatformId));
 
             var stringResult = await result.Content.ReadAsStringAsync();
             try
@@ -56,7 +56,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Request failed {client}", _client);
                 var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(stringResult);
                 throw new ApiException("Unable to get platform status.", (int)result.StatusCode, new List<string> { errorResponse.Error, ex.Message });
             }

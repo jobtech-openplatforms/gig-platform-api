@@ -33,7 +33,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         public ProjectsController(IProjectManager projectManager,
             IGigDataHttpClient gigDataHttpClient,
             IPlatformAdminUserManager platformAdminUserManager,
-            IDocumentStore documentStoreHolder, 
+            IDocumentStore documentStoreHolder,
             ILogger<ProjectsController> logger)
         {
             _projectManager = projectManager;
@@ -46,7 +46,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Create([FromBody]CreateProjectRequest request)
         {
-            
+
             if (string.IsNullOrEmpty(request.Name))
             {
                 return BadRequest(new { message = "You have to enter a project name." });
@@ -233,6 +233,13 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Update([FromBody]UpdateProjectRequest request)
         {
+            var requestName = request.Name.Trim();
+
+            if (string.IsNullOrEmpty(requestName) || string.IsNullOrWhiteSpace(requestName))
+            {
+                throw new ApiException("Seems you are not an admin on this project.", (int)System.Net.HttpStatusCode.BadRequest);
+            }
+
             using var session = _documentStore.OpenAsyncSession();
             var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
 
@@ -242,10 +249,11 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
 
             if (!project.AdminIds.Contains(user.Id) && project.OwnerAdminId != user.Id)
             {
+                _logger.LogError("User {userId} is not part of {ownerId} or {@adminIds}", user.Id, project.OwnerAdminId, project.AdminIds);
                 throw new ApiException("Seems you are not an admin on this project.", (int)System.Net.HttpStatusCode.Unauthorized);
             }
 
-            project.Name = string.IsNullOrEmpty(request.Name) ? project.Name : request.Name;
+            project.Name = requestName;
             project.LogoUrl = request.LogoUrl;
             project.Description = request.Description;
             project.Webpage = request.Webpage;
@@ -258,6 +266,12 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> PlatformLive([FromBody]UpdatePlatformStatusRequest request)
         {
+            if (!ProjectId.IsValidIdentity(request.ProjectId))
+            {
+                // Test projects cannot be published
+                throw new ApiException("Not a valid project id. Test projects cannot be published.");
+            }
+
             using var session = _documentStore.OpenAsyncSession();
             var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
             var userId = (PlatformAdminUserId)user.Id;
@@ -278,48 +292,28 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 throw new ApiException("The project information is incomplete. Please fill out a name, webpage and description, and add a logo to the project, to publish it.", (int)System.Net.HttpStatusCode.ExpectationFailed, errors);
             }
 
+            var platformId = project.Platforms.FirstOrDefault().Id.ToString();
+
             try
             {
-                var status =
-                    await _gigDataHttpClient.PlatformStatus(new ProjectModel { PlatformId = project.Platforms.FirstOrDefault().Id.ToString() });
+                var apiPlatform =
+                    await _gigDataHttpClient.GetPlatform(new ProjectModel { PlatformId = platformId });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Platform with this ID probably doesn't exist
-                // TODO: Add check for actual error
-                try
-                {
-                    var registeredPlatform = await _gigDataHttpClient.CreatePlatform(
-                            new CreatePlatformModel
-                            {
-                                AuthMechanism = PlatformAuthenticationMechanism.Email,
-                                Name = project.Name,
-                                MaxRating = 5,
-                                MinRating = 1,
-                                RatingSuccessLimit = 3
-                            }
-                            );
-                    var platform = project.Platforms.FirstOrDefault().RegisteredWithId(registeredPlatform.PlatformId);
 
-                    // One platform per project, so just replace. Create() above also sets the LastUpdated date.
-                    project.Platforms = new List<Core.Entities.Platform> { platform };
-                    // Save
-                    project = await _projectManager.Update(project, session);
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                _logger.LogCritical(ex, "Unable to retrieve platform status for project {projectId} platform {platformId}", project.Id, project.Platforms?.FirstOrDefault()?.Id);
+                throw new ApiException(ex, 500);
             }
 
             if (request.Status == "deactivate")
             {
-                await _gigDataHttpClient.DeactivatePlatform(new ProjectModel { PlatformId = project.Platforms.FirstOrDefault().Id.ToString() });
+                await _gigDataHttpClient.DeactivatePlatform(new ProjectModel { PlatformId = platformId });
                 project.DeactivatePlatform();
             }
             else
             {
-                await _gigDataHttpClient.ActivatePlatform(new ProjectModel { PlatformId = project.Platforms.FirstOrDefault().Id.ToString() });
+                await _gigDataHttpClient.ActivatePlatform(new ProjectModel { PlatformId = platformId });
                 project.ActivatePlatform();
             }
 
@@ -328,7 +322,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
             return Ok(project);
         }
 
-        
+
 
         private IEnumerable<string> stringErrors(Dictionary<string, string> strings)
         {
