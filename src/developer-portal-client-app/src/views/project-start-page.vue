@@ -4,8 +4,8 @@
       h1 Project {{currentProject.name}} created!
       p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mattis vel neque non laoreet. Ut tempor, est sit amet dapibus molestie, purus quam imperdiet tellus, eget gravida sapien nunc vel quam. Proin et nunc augue. 
       .toggle-buttons.buttons
-        button.btn-big.toggle-button.btn-outline.btn-test(@switchTestMode v-bind:class="{ activestate: testMode}") Test mode
-        button.btn-big.toggle-button.btn-outline.btn-live(@switchTestMode v-bind:class="{ activestate: !testMode}") Live mode
+        button.btn-big.toggle-button.btn-outline.btn-test(@click="switchTestMode" v-bind:class="{ activestate: testMode}") Test mode
+        button.btn-big.toggle-button.btn-outline.btn-live(@click="switchTestMode" v-bind:class="{ activestate: !testMode}") Live mode
       hr.my-4
 
       h2 Connections
