@@ -69,7 +69,7 @@
             .has-edit.form-group
               input.editable(v-if="currentPlatform" type="text" name="exportDataUri" :value="currentPlatform.exportDataUri" @input="newUrl = $event.target.value" :disabled="editUrlDisabled" placeholder="Project export data url")
             button.btn.right.btn-export(v-if="!editUrlDisabled") Save
-        button.btn.right.btn-outline.btn-export.btn-small(v-if="formDisabled" type="button" @click="enableForm()") Edit...
+        button.btn.right.btn-outline.btn-export.btn-small(v-if="editUrlDisabled" type="button" @click="enableForm()") Edit...
 
     .token-keys(v-if="currentProject.platforms && (testStatus === 1 || testStatus === 3)")
       PlatformToken
@@ -320,7 +320,7 @@ export default {
 
 #project-details{
   .project{
-    margin:4rem;
+    margin:3rem;
       background:$light-grey;
   }
 }
