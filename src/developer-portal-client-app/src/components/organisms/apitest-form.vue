@@ -2,36 +2,35 @@
   .api-test
     div(v-if="testStatus < 2")
       h2 Test your API
-      p.
-        In order to test if your server works correctly, you need supply
-        an email address for a test user on your platform with at least one gig.
-      hr.my-2
-      button.btn.btn-right.btn-outline.btn-export.btn-small.mb-2(@click="toggleInstructions()") {{!showInstructions ? 'Show instructions &#9660' : 'Hide instructions &#9650'}}
+      p.flex-wrapper
+        span In order to test if your server works correctly, you need supply an email address for a test user on your platform with at least one gig.
+        button.btn.btn-right.btn-outline.btn-export.btn-small.mb-2.ml-4(@click="toggleInstructions()") {{!showInstructions ? 'Show instructions &#9660' : 'Hide instructions &#9650'}}
       hr.my-2
       PlatformInstructions(v-if="showInstructions")
 
     div(v-if="testStatus == 4")
       .success-header.mb-2
         h2 Success!
-      hr.mb-2
 
-      p.
-        It looks like your implementation has succeeded! Take a look at
-        the user data below. Does everything look alright? If so, you
-        are ready to go live with your data openness!
+      .flex-wrapper
+        p.
+          It looks like your implementation has succeeded! Take a look at
+          the user data below. Does everything look alright? If so, you
+          are ready to go live with your data openness!
+        .platform-pending(v-if="!currentPlatform.published")
+          p(v-if="currentProjectCompleted").
+            #[strong PLEASE NOTE]: After you press the 'Go Live' button,
+            your service will be added to Open Platform's list of connected
+            platforms, and your user's will be able to make data requests.
+          GoLiveButton(v-if="currentProjectCompleted")
+          button.btn.btn-huge.btn-export.center.ml-4(v-else @click="show") Continue
+
       hr.mb-2
 
       .platform-live(v-if="currentPlatform.published")
         h2(class="color-export").
-          This platform has is live on Open Platforms
-      .platform-pending(v-else)
-        p(v-if="currentProjectCompleted").
-          #[strong PLEASE NOTE]: After you press the 'Go Live' button,
-          your service will be added to Open Platform's list of connected
-          platforms, and your user's will be able to make data requests.
-        GoLiveButton(v-if="currentProjectCompleted")
-        button.btn.btn-huge.btn-export.center.my-3(v-else @click="show") Continue
-        
+          This platform is live on Open Platforms
+              
       h2 Test result
       p Result with user&nbsp;
         em {{test.email}}
@@ -70,7 +69,7 @@
             .has-edit.form-group
               input.editable(v-if="currentPlatform" type="text" name="exportDataUri" :value="currentPlatform.exportDataUri" @input="newUrl = $event.target.value" :disabled="editUrlDisabled" placeholder="Project export data url")
             button.btn.right.btn-export(v-if="!editUrlDisabled") Save
-        button.btn.right.btn-outline.btn-export.btn-small(v-if="formDisabled" type="button" @click="enableForm()") Edit...
+        button.btn.right.btn-outline.btn-export.btn-small(v-if="editUrlDisabled" type="button" @click="enableForm()") Edit...
 
     .token-keys(v-if="currentProject.platforms && (testStatus === 1 || testStatus === 3)")
       PlatformToken
@@ -321,7 +320,7 @@ export default {
 
 #project-details{
   .project{
-    margin:4rem;
+    margin:3rem;
       background:$light-grey;
   }
 }

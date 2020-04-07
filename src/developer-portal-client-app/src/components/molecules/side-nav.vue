@@ -22,8 +22,9 @@
 
           .project-name {{project.name}} 
             .small.test-text(v-if="testMode") [TEST] 
-          .connections(v-if="!(current && currentProject && project.id === currentProject.id)" v-bind:class="{hasplconn : project.platforms && project.platforms.length >= 1 && project.platforms[0] && (project.platforms[0].published || (testMode && project.platforms[0].exportDataUri))}")
-          .connections(v-if="!(current && currentProject && project.id === currentProject.id)" v-bind:class="{hasappconn : project.applications && project.applications.length >= 1 && project.applications[0] && project.applications[0].authCallbackUrl}")
+          .connection-wrapper
+            .connections(v-if="!(current && currentProject && project.id === currentProject.id)" v-bind:class="{hasplconn : project.platforms && project.platforms.length >= 1 && project.platforms[0] && (project.platforms[0].published || (testMode && project.platforms[0].exportDataUri))}")
+            .connections(v-if="!(current && currentProject && project.id === currentProject.id)" v-bind:class="{hasappconn : project.applications && project.applications.length >= 1 && project.applications[0] && project.applications[0].authCallbackUrl}")
         .details(v-if="current && current.project && project.id === current.project.id")
           hr
           router-link.color-project( to="/project" active-class="active") Project info
@@ -221,6 +222,12 @@ export default class SideNav extends Vue {
       &.active {
         background: rgba(255, 255, 255, 0.075);
         height: 165px;
+      }
+
+      .connection-wrapper{
+        .connections{
+          margin:0.5rem 0;
+        }
       }
 
       .connections {
