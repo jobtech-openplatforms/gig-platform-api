@@ -106,18 +106,17 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
 
 
         public async Task PatchApiEndpointAppSetNotificationUrl(string applicationId, string url)
-            => await Patch(_config.Api.ApiEndpointAppSetNotificationUrl.Replace("{applicationId}", applicationId), url);
+            => await Patch(_config.Api.ApiEndpointAppSetNotificationUrl.Replace("{applicationId}", applicationId), new { url });
         public async Task PatchEmailVerificationUrl(string applicationId, string url)
-            => await Patch(_config.Api.ApiEndpointAppSetEmailVerificationUrl.Replace("{applicationId}", applicationId), url);
+            => await Patch(_config.Api.ApiEndpointAppSetEmailVerificationUrl.Replace("{applicationId}", applicationId), new { url });
         public async Task PatchAuthCallbackUrl(string applicationId, string url)
-            => await Patch(_config.Api.ApiEndpointAppSetAuthCallbackUrl.Replace("{applicationId}", applicationId), url);
+            => await Patch(_config.Api.ApiEndpointAppSetAuthCallbackUrl.Replace("{applicationId}", applicationId), new { url });
 
-        public async Task Patch(string endpoint, string url)
+        public async Task Patch(string endpoint, object request)
         {
             try
             {
                 // TODO: Make a model for this
-                var request = new { url };
                 _logger.LogInformation("Patch application request {@request}", request);
 
                 var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
