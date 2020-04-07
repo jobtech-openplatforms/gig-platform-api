@@ -14,23 +14,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.IoC
             collection.Configure<GigDataServiceConfig>(a =>
             {
                 var section = configuration.GetSection("GigDataService");
-                a.AdminKey = section.GetValue<string>("AdminKey");
-                a.ApiEndpointActivatePlatform = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointActivatePlatform));
-                a.ApiEndpointCreatePlatform = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointActivatePlatform));
-                a.ApiEndpointDeactivatePlatform = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointDeactivatePlatform));
-                a.ApiEndpointGetPlatform = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointGetPlatform));
-                a.ApiEndpointValidateEmail = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointValidateEmail));
-
-                a.ApiEndpointCreateApplication = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointCreateApplication));
-                a.ApiEndpointGetApplication = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointGetApplication));
-
-                a.ApiEndpointAppSetNotificationUrl = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointAppSetNotificationUrl));
-                a.ApiEndpointAppSetEmailVerificationUrl = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointAppSetEmailVerificationUrl));
-                a.ApiEndpointAppSetAuthCallbackUrl = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointAppSetAuthCallbackUrl));
-
-                a.ApiEndpointAppSetName = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointAppSetName));
-                a.ApiEndpointAppRotateSecret = section.GetValue<string>(nameof(GigDataServiceConfig.ApiEndpointAppRotateSecret));
-
+                a.AdminKey = section.GetValue<string>(nameof(GigDataServiceConfig.AdminKey));
+                a.ApiBaseUrl = section.GetValue<string>(nameof(GigDataServiceConfig.ApiBaseUrl));
             });
             collection.AddTransient<IAuthenticationConfigService, AuthenticationConfigService>();
 

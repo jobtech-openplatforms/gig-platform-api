@@ -34,7 +34,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
                 _logger.LogInformation("Get application request {@id}", applicationId);
                 _logger.LogInformation("Get application config {@config}", _config);
 
-                var endpoint = _config.ApiEndpointGetApplication.Replace("{applicationId}", applicationId);
+                var endpoint = _config.Api.ApiEndpointGetApplication.Replace("{applicationId}", applicationId);
 
                 _logger.LogInformation("Get request url {apiEndpoint}", endpoint);
 
@@ -73,9 +73,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
                 _logger.LogInformation("Create application request {@request}", request);
 
                 var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-                var result = await _client.PostAsync(_config.ApiEndpointCreateApplication, content);
+                var result = await _client.PostAsync(_config.Api.ApiEndpointCreateApplication, content);
                 _logger.LogInformation("Post {content}", content);
-                _logger.LogInformation("Sending request to {apiEndpoint}", _config.ApiEndpointCreateApplication);
+                _logger.LogInformation("Sending request to {apiEndpoint}", _config.Api.ApiEndpointCreateApplication);
 
                 if ((int)result.StatusCode < 400)
                     _logger.LogInformation("Create application status code {@statusCode}", result.StatusCode);
@@ -106,11 +106,11 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
 
 
         public async Task PatchApiEndpointAppSetNotificationUrl(string applicationId, string url)
-            => await Patch(_config.ApiEndpointAppSetNotificationUrl, applicationId, url);
+            => await Patch(_config.Api.ApiEndpointAppSetNotificationUrl, applicationId, url);
         public async Task PatchEmailVerificationUrl(string applicationId, string url)
-            => await Patch(_config.ApiEndpointAppSetEmailVerificationUrl, applicationId, url);
+            => await Patch(_config.Api.ApiEndpointAppSetEmailVerificationUrl, applicationId, url);
         public async Task PatchAuthCallbackUrl(string applicationId, string url)
-            => await Patch(_config.ApiEndpointAppSetAuthCallbackUrl, applicationId, url);
+            => await Patch(_config.Api.ApiEndpointAppSetAuthCallbackUrl, applicationId, url);
 
         public async Task Patch(string endpoint, string applicationId, string url)
         {

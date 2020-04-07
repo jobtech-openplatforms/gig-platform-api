@@ -31,7 +31,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
                 _logger.LogInformation("Create platform request {@request}", request);
 
             var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-            var result = await _client.PostAsync(_config.ApiEndpointCreatePlatform, content);
+            var result = await _client.PostAsync(_config.Api.ApiEndpointCreatePlatform, content);
 
             result.EnsureSuccessStatusCode();
             var stringResult = await result.Content.ReadAsStringAsync();
@@ -46,7 +46,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
                 _logger.LogInformation("Platform status request {@request}", request);
 
             // var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-            var result = await _client.GetAsync(_config.ApiEndpointGetPlatform.Replace("{platformId}", request.PlatformId));
+            var result = await _client.GetAsync(_config.Api.ApiEndpointGetPlatform.Replace("{platformId}", request.PlatformId));
 
             var stringResult = await result.Content.ReadAsStringAsync();
             try
@@ -71,7 +71,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
                 _logger.LogInformation("Activate platform request {@request}", request);
 
             var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-            var result = await _client.PatchAsync(_config.ApiEndpointActivatePlatform.Replace("{platformId}", request.PlatformId), content);
+            var result = await _client.PatchAsync(_config.Api.ApiEndpointActivatePlatform.Replace("{platformId}", request.PlatformId), content);
 
             var stringResult = await result.Content.ReadAsStringAsync();
             try
@@ -92,7 +92,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
                 _logger.LogInformation("Deactivate platform request {@request}", request);
 
             var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-            var result = await _client.PatchAsync(_config.ApiEndpointDeactivatePlatform.Replace("{platformId}", request.PlatformId), content);
+            var result = await _client.PatchAsync(_config.Api.ApiEndpointDeactivatePlatform.Replace("{platformId}", request.PlatformId), content);
 
             var stringResult = await result.Content.ReadAsStringAsync();
             try

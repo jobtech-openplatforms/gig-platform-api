@@ -5,17 +5,27 @@
 
         public string Token { get; set; }
         public string AdminKey { get; set; }
-        public string ApiEndpointCreatePlatform { get; set; }
-        public string ApiEndpointGetPlatform { get; set; }
-        public string ApiEndpointValidateEmail { get; set; }
-        public string ApiEndpointActivatePlatform { get; set; }
-        public string ApiEndpointDeactivatePlatform { get; set; }
-        public string ApiEndpointCreateApplication { get; set; }
-        public string ApiEndpointGetApplication { get; set; }
-        public string ApiEndpointAppSetNotificationUrl { get; set; }
-        public string ApiEndpointAppSetEmailVerificationUrl { get; set; }
-        public string ApiEndpointAppSetAuthCallbackUrl { get; set; }
-        public string ApiEndpointAppSetName { get; set; }
-        public string ApiEndpointAppRotateSecret { get; set; }
+        public string ApiBaseUrl { get; set; }
+        public string ApiEndpointPlatformBase { get => ApiBaseUrl + "/api/Platform/admin"; }
+        public string ApiEndpointPlatformUrlById { get => ApiEndpointPlatformBase + "/{platformId}"; }
+        public string ApiEndpointCreatePlatform { get => ApiEndpointPlatformBase; }
+        public string ApiEndpointGetPlatform { get => ApiEndpointPlatformUrlById; }
+        public string ApiEndpointActivatePlatform { get => ApiEndpointPlatformUrlById + "/activate"; }
+        public string ApiEndpointDeactivatePlatform { get => ApiEndpointPlatformUrlById + "/deactivate"; }
+
+        public string ApiEndpointPlatformSetLogoUrl { get => ApiEndpointPlatformUrlById + "/set-logourl"; }
+        public string ApiEndpointPlatformSetDescription { get => ApiEndpointPlatformUrlById + "/set-description"; }
+
+
+        public string ApiEndpointAppBase { get => ApiBaseUrl + "/api/App/admin"; }
+        public string ApiEndpointAppUrlById { get => ApiEndpointPlatformBase + "/{applicationId}"; }
+
+        public string ApiEndpointCreateApplication { get => ApiEndpointAppBase; }
+        public string ApiEndpointGetApplication { get => ApiEndpointAppUrlById; }
+        public string ApiEndpointAppSetNotificationUrl { get => ApiEndpointAppUrlById + "/set-notification-endpoint-url"; }
+        public string ApiEndpointAppSetEmailVerificationUrl { get => ApiEndpointAppUrlById + "/set-email-verification-notification-endpoint-url"; }
+        public string ApiEndpointAppSetAuthCallbackUrl { get => ApiEndpointAppUrlById + "/set-auth-callback-url"; }
+        public string ApiEndpointAppSetName { get => ApiEndpointAppUrlById + "/set-name"; }
+        public string ApiEndpointAppRotateSecret { get => ApiEndpointAppUrlById + "/rotate-secret"; }
     }
 }
