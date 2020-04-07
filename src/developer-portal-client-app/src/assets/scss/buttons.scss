@@ -26,6 +26,7 @@
     display: inline-block;
     font-family: $serif;
     border: 0;
+    white-space:nowrap;
 
     &:after {
         position: absolute;
