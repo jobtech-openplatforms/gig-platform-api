@@ -25,13 +25,11 @@
             label.small(for="project-description") Description
             textarea.editable(placeholder="Give us some quick info about your service!" id="project-description" :value="editingProject.description" @input="updateDescription" :disabled="formDisabled") {{editing.description}}
             p(v-if="!formDisabled") Enter a short description of your platform (max 100 characters).
-          //- hr(v-if="!formDisabled")
-          .buttons.mb-2(v-if="!formDisabled")
+          .buttons(v-if="!formDisabled")
             button.btn.right.btn-project( :disabled="status === 2" type="submit") Save
             button.btn.right.btn-secondary( :disabled="status === 2" @click="cancelEdit()") Cancel
-          .buttons.mb-2
-            button.btn.right.btn-outline.btn-project(v-if="formDisabled" type="button" @click="enableForm()") Edit...
-
+          .buttons(v-else)
+            button.btn.right.btn-outline.btn-project(type="button" @click="enableForm()") Edit...
           slot
 </template>
 
