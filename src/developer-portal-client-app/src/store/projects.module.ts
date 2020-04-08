@@ -257,6 +257,7 @@ const mutations: MutationTree<ProjectsModuleState> = {
   testSuccess(state, testData) {
     Vue.set(state, 'loading', false)
     state.test.result = testData
+    state.test.error = {}
     state.testStatus = ModuleStatus.success
     return testData
   },

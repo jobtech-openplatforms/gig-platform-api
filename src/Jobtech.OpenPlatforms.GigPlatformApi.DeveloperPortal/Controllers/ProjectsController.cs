@@ -102,29 +102,6 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
             }
         }
 
-        [HttpPost("[action]")]
-        public async Task<IActionResult> GenerateTestProjects()
-        {
-            try
-            {
-                using var session = _documentStore.OpenAsyncSession();
-                var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
-                var projects = await _projectManager.GetAll(user.Id, session);
-                foreach (var item in projects)
-                {
-                    var project = await _projectManager.Get((ProjectId)item.Id, session);
-                    var entityToCreate = project.ToTestEntity();
-                    var testProject = await _projectManager.Create(entityToCreate);
-                }
-                var testProjects = await _projectManager.GetAllTest(user.Id, session);
-                return Ok(testProjects);
-            }
-            catch (ApiException ex)
-            {
-                // return error message if there was an exception
-                return BadRequest(new { message = ex.Message });
-            }
-        }
 
         [HttpGet("")]
         public async Task<IActionResult> Get()
@@ -192,7 +169,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 if (project.Platforms == null || !project.Platforms.Any())
                 {
                     var registeredPlatform = request.TestMode ?
-                        new PlatformViewModel(System.Guid.NewGuid(), project.Name, Jobtech.OpenPlatforms.GigDataCommon.Library.Models.GigDataService.PlatformAuthenticationMechanism.Email)
+                        new PlatformViewModel(System.Guid.NewGuid(), project.Name, Jobtech.OpenPlatforms.GigDataCommon.Library.Models.GigDataService.PlatformAuthenticationMechanism.Email, false, project.Description,project.LogoUrl,project.Webpage)
                         : await _gigDataHttpClient.CreatePlatform(
                         new CreatePlatformModel
                         {
@@ -200,7 +177,10 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                             Name = project.Name,
                             MaxRating = 5,
                             MinRating = 1,
-                            RatingSuccessLimit = 3
+                            RatingSuccessLimit = 3,
+                            Description  = project.Description,
+                            LogoUrl = project.LogoUrl,
+                            WebsiteUrl = project.Webpage
                         }
                         );
                     platform = Core.Entities.Platform.Create(registeredPlatform.PlatformId, request.Url);
@@ -260,6 +240,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
 
             project = await _projectManager.Update(project, session);
 
+            // TODO: Update API with new changes
+
             return Ok(project);
         }
 
@@ -301,17 +283,30 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
             }
             catch (ApiException ex)
             {
+                _logger.LogInformation("InnerException {exception} status code {statusCode}", ex.InnerException, ex.StatusCode);
                 if (ex.InnerException is System.Net.Http.HttpRequestException && ex.StatusCode == 404)
                 {
                     // The platform wasn't found - see if we can create it
+                    _logger.LogInformation(ex, "Unable to get platform {platformId} - attempting creation", project.Platforms?.FirstOrDefault()?.Id);
                     var apiPlatform = await _gigDataHttpClient.CreatePlatform(new CreatePlatformModel
-                        {
-                            AuthMechanism = PlatformAuthenticationMechanism.Email,
-                            Name = project.Name,
-                            MaxRating = 5,
-                            MinRating = 1,
-                            RatingSuccessLimit = 3
-                        });
+                    {
+                        AuthMechanism = PlatformAuthenticationMechanism.Email,
+                        Name = project.Name,
+                        MaxRating = 5,
+                        MinRating = 1,
+                        RatingSuccessLimit = 3,
+                        Description  = project.Description,
+                        LogoUrl = project.LogoUrl,
+                        WebsiteUrl = project.Webpage
+                    });
+                    if (apiPlatform == null)
+                    {
+                        _logger.LogCritical(ex, "Unable to create platform for project {projectId}", project.Id);
+                        throw;
+                    }
+                    platformId = apiPlatform.PlatformId.ToString();
+                    project.Platforms = new List<Core.Entities.Platform> { Core.Entities.Platform.Create(apiPlatform.PlatformId, project.Platforms.FirstOrDefault().ExportDataUri) };
+                    _logger.LogInformation("Created platform {platformId} and added to project {projectId}", apiPlatform.PlatformId, project.Id);
                 }
                 else
                 {

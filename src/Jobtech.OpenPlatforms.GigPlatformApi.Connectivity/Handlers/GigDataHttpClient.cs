@@ -35,8 +35,11 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
 
             result.EnsureSuccessStatusCode();
             var stringResult = await result.Content.ReadAsStringAsync();
+            _logger.LogInformation("Create platform response string {@stringResult}", stringResult);
 
             var accessModelResponse = JsonConvert.DeserializeObject<PlatformViewModel>(stringResult);
+            
+            _logger.LogInformation("Create platform response {@accessModelResponse}", accessModelResponse);
 
             return accessModelResponse;
         }
@@ -56,9 +59,10 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Request failed {client}", _client);
+                _logger.LogError("Request error response {@stringResult}", stringResult);
+                _logger.LogError(ex, "Request failed {@client}", _client);
                 var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(stringResult);
-                throw new ApiException("Unable to get platform status.", (int)result.StatusCode, new List<string> { errorResponse.Error, ex.Message });
+                throw new ApiException(ex, "Unable to get platform status.", result.StatusCode, new List<string> { errorResponse.Error, ex.Message });
             }
 
             var response = JsonConvert.DeserializeObject<PlatformResponse>(stringResult);
