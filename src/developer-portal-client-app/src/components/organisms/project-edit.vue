@@ -12,7 +12,8 @@
             hr.my-2(v-if="!formDisabled")
           .has-edit.editable.edit-logo
             label#file-label(for="file")
-              div.project-logo(:style="{'background-image': 'url(' + editingProject.logoUrl || 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDMyIDMyIiBoZWlnaHQ9IjMycHgiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjMycHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnIGlkPSJjYW1lcmEiPjxwYXRoIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTE2LDEwLjAwMWMtNC40MTksMC04LDMuNTgxLTgsOGMwLDQuNDE4LDMuNTgxLDgsOCw4ICAgYzQuNDE4LDAsOC0zLjU4Miw4LThDMjQsMTMuNTgzLDIwLjQxOCwxMC4wMDEsMTYsMTAuMDAxeiBNMjAuNTU1LDIxLjkwNmMtMi4xNTYsMi41MTYtNS45NDMsMi44MDctOC40NTksMC42NSAgIGMtMi41MTctMi4xNTYtMi44MDctNS45NDQtMC42NS04LjQ1OWMyLjE1NS0yLjUxNyw1Ljk0My0yLjgwNyw4LjQ1OS0wLjY1QzIyLjQyLDE1LjYwMiwyMi43MTEsMTkuMzkxLDIwLjU1NSwyMS45MDZ6IiBmaWxsPSIjMzMzMzMzIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48cGF0aCBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNiwxNC4wMDFjLTIuMjA5LDAtMy45OTksMS43OTEtNCwzLjk5OXYwLjAwMiAgIGMwLDAuMjc1LDAuMjI0LDAuNSwwLjUsMC41czAuNS0wLjIyNSwwLjUtMC41VjE4YzAuMDAxLTEuNjU2LDEuMzQzLTIuOTk5LDMtMi45OTljMC4yNzYsMCwwLjUtMC4yMjQsMC41LTAuNSAgIFMxNi4yNzYsMTQuMDAxLDE2LDE0LjAwMXoiIGZpbGw9IiMzMzMzMzMiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjxwYXRoIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTI5LjQ5Miw5LjA0MmwtNC4zMzQtMC43MjNsLTEuMzczLTMuNDM0ICAgQzIzLjMyNiwzLjc0LDIyLjIzMiwzLDIxLDNIMTFDOS43NjgsMyw4LjY3NCwzLjc0LDguMjE0LDQuODg2TDYuODQyLDguMzE5TDIuNTA5LDkuMDQyQzEuMDU1LDkuMjgzLDAsMTAuNTI3LDAsMTJ2MTUgICBjMCwxLjY1NCwxLjM0NiwzLDMsM2gyNmMxLjY1NCwwLDMtMS4zNDYsMy0zVjEyQzMyLDEwLjUyNywzMC45NDUsOS4yODMsMjkuNDkyLDkuMDQyeiBNMzAsMjdjMCwwLjU1My0wLjQ0NywxLTEsMUgzICAgYy0wLjU1MywwLTEtMC40NDctMS0xVjEyYzAtMC40ODksMC4zNTQtMC45MDYsMC44MzYtMC45ODZsNS40NDQtMC45MDdsMS43OTEtNC40NzhDMTAuMjI0LDUuMjUsMTAuNTkxLDUsMTEsNWgxMCAgIGMwLjQwOCwwLDAuNzc1LDAuMjQ5LDAuOTI4LDAuNjI5bDEuNzkxLDQuNDc4bDUuNDQ1LDAuOTA3QzI5LjY0NiwxMS4wOTQsMzAsMTEuNTExLDMwLDEyVjI3eiIgZmlsbD0iIzMzMzMzMyIgZmlsbC1ydWxlPSJldmVub2RkIi8+PC9nPjwvc3ZnPg==' + ')'}")
+              div.project-logo(v-if="editingProject.logoUrl != null" :style="{'background-image': 'url(' + editingProject.logoUrl + ')'}")
+              div.project-logo(v-else)
               input.inputfile(v-if="!formDisabled" :disabled="formDisabled" type="file" name="file" id="file" @change="upload" accept="image/*")
               span(v-if="!formDisabled") This logo will be displayed in platform listings etc. Please use a logotype/icon that looks nice on a square with white background (for example the same icon you'd use on Facebook).
         .project-settings
@@ -25,11 +26,10 @@
             label.small(for="project-description") Description
             textarea.editable(placeholder="Give us some quick info about your service!" id="project-description" :value="editingProject.description" @input="updateDescription" :disabled="formDisabled") {{editing.description}}
             p(v-if="!formDisabled") Enter a short description of your platform (max 100 characters).
-          .buttons(v-if="!formDisabled")
-            button.btn.right.btn-project( :disabled="status === 2" type="submit") Save
-            button.btn.right.btn-secondary( :disabled="status === 2" @click="cancelEdit()") Cancel
-          .buttons(v-else)
-            button.btn.right.btn-outline.btn-project(type="button" key="123456789" @click="enableForm") Edit...
+          .buttons
+            button.btn.right.btn-project(v-if="!formDisabled" :disabled="status === 2" type="submit") Save
+            button.btn.right.btn-secondary(v-if="!formDisabled" :disabled="status === 2" @click="cancelEdit()") Cancel
+            button.btn.right.btn-outline.btn-project(v-if="formDisabled" type="button" key="123456789" @click="enableForm()") Edit...
           slot
 </template>
 
@@ -94,7 +94,6 @@ export default class ProjectEdit extends Vue {
     if (this.formDisabled) {
       this.formDisabled = false
     }
-    // return false
   }
 
   private upload(event) {
