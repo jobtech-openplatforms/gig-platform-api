@@ -16,9 +16,9 @@
     ul#projects-list(v-if="currentProjects")
       li.project(v-for="project in currentProjects" v-bind:class="{ active: current && currentProject && project.id === currentProject.id}")
         .project-bar(@click="setCurrentProject(project)")
-          router-link.project-link(to="/project" v-if="project.logoUrl != null")
-            //- img.project-logo(:src="project.logoUrl")
-            div.project-logo(v-if="project.logoUrl != null" :style="{'background-image': 'url(' + project.logoUrl + ')'}")
+          router-link.project-link(to="/project")
+            span.project-logo(v-if="project.logoUrl != null" :style="{'background-image': 'url(' + project.logoUrl + ')'}")
+            span.project-logo(v-else)
 
           .project-name {{project.name}} 
             .small.test-text(v-if="testMode") [TEST] 
@@ -251,7 +251,7 @@ export default class SideNav extends Vue {
       .project-bar {
         @include flex(row, flex-start, center);
         cursor: pointer;
-        padding:0 1rem;
+        padding-right:1rem;
         height:$project-menu-logo-height;
 
         .project-link{
@@ -263,8 +263,6 @@ export default class SideNav extends Vue {
         .project-logo {
           width: 100%;
           height:100%;
-          margin-right:2rem;
-          margin-left:-1rem;
         }
 
         .project-name {
@@ -281,7 +279,7 @@ export default class SideNav extends Vue {
         padding-bottom: 1rem;
         a {
           @include flex(row, space-between, center);
-          margin-left: 7rem;
+          margin-left: 6rem;
           padding: 0.25rem 1rem 0.25rem 0;
           white-space: nowrap;
 
