@@ -29,7 +29,7 @@
             button.btn.right.btn-project( :disabled="status === 2" type="submit") Save
             button.btn.right.btn-secondary( :disabled="status === 2" @click="cancelEdit()") Cancel
           .buttons(v-else)
-            button.btn.right.btn-outline.btn-project(type="button" @click="enableForm()") Edit...
+            button.btn.right.btn-outline.btn-project(type="button" key="123456789" @click="enableForm") Edit...
           slot
 </template>
 
@@ -94,7 +94,7 @@ export default class ProjectEdit extends Vue {
     if (this.formDisabled) {
       this.formDisabled = false
     }
-    return false
+    // return false
   }
 
   private upload(event) {
