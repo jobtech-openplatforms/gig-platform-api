@@ -299,6 +299,26 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 var apiPlatform =
                     await _gigDataHttpClient.GetPlatform(new ProjectModel { PlatformId = platformId });
             }
+            catch (ApiException ex)
+            {
+                if (ex.InnerException is System.Net.Http.HttpRequestException && ex.StatusCode == 404)
+                {
+                    // The platform wasn't found - see if we can create it
+                    var apiPlatform = await _gigDataHttpClient.CreatePlatform(new CreatePlatformModel
+                        {
+                            AuthMechanism = PlatformAuthenticationMechanism.Email,
+                            Name = project.Name,
+                            MaxRating = 5,
+                            MinRating = 1,
+                            RatingSuccessLimit = 3
+                        });
+                }
+                else
+                {
+                    _logger.LogCritical(ex, "Unable to get platform status for project {projectId} platform {platformId}", project.Id, project.Platforms?.FirstOrDefault()?.Id);
+                    throw;
+                }
+            }
             catch (Exception ex)
             {
 

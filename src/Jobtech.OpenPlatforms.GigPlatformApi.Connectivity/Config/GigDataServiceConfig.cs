@@ -18,7 +18,7 @@
 
 
         public string ApiEndpointAppBase { get => ApiBaseUrl + "/api/App/admin"; }
-        public string ApiEndpointAppUrlById { get => ApiEndpointPlatformBase + "/{applicationId}"; }
+        public string ApiEndpointAppUrlById { get => ApiEndpointAppBase + "/{applicationId}"; }
 
         public string ApiEndpointCreateApplication { get => ApiEndpointAppBase; }
         public string ApiEndpointGetApplication { get => ApiEndpointAppUrlById; }
