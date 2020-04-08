@@ -25,11 +25,10 @@
             label.small(for="project-description") Description
             textarea.editable(placeholder="Give us some quick info about your service!" id="project-description" :value="editingProject.description" @input="updateDescription" :disabled="formDisabled") {{editing.description}}
             p(v-if="!formDisabled") Enter a short description of your platform (max 100 characters).
-          .buttons(v-if="!formDisabled")
-            button.btn.right.btn-project( :disabled="status === 2" type="submit") Save
-            button.btn.right.btn-secondary( :disabled="status === 2" @click="cancelEdit()") Cancel
-          .buttons(v-else)
-            button.btn.right.btn-outline.btn-project(type="button" @click="enableForm()") Edit...
+          .buttons
+            button.btn.right.btn-project(v-if="!formDisabled" :disabled="status === 2" type="submit") Save
+            button.btn.right.btn-secondary(v-if="!formDisabled" :disabled="status === 2" @click="cancelEdit()") Cancel
+            button.btn.right.btn-outline.btn-project(v-if="formDisabled" type="button" @click="enableForm()") Edit...
           slot
 </template>
 
@@ -94,7 +93,6 @@ export default class ProjectEdit extends Vue {
     if (this.formDisabled) {
       this.formDisabled = false
     }
-    return false
   }
 
   private upload(event) {
