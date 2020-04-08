@@ -172,7 +172,7 @@ export default class ProjectEdit extends Vue {
     top: unset;
   }
 
-  .project-logo {
+  .project-settings .project-logo {
     width: 78px;
     height: 78px;
     flex: 0 0 78px;
