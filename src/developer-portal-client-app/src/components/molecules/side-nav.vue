@@ -36,7 +36,7 @@
             .connections(v-bind:class="{hasappconn : project.applications && project.applications.length >= 1 && project.applications[0] && project.applications[0].authCallbackUrl}")
 
     div.new-project
-      router-link( to="/create" v-if="!testMode") + New project
+      router-link( to="/create") + New project
 </template>
 
 <script lang="ts">
@@ -258,11 +258,6 @@ export default class SideNav extends Vue {
           width: $project-menu-logo-width;
           height: $project-menu-logo-height;
           margin-right:1.5rem;
-        }
-
-        .project-logo {
-          width: 100%;
-          height:100%;
         }
 
         .project-name {
