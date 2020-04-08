@@ -1,6 +1,6 @@
 <template lang="pug">
   form.buttons( @submit.prevent="handleSubmit" v-if="!currentPlatform.published")
-    button.btn.btn-huge.btn-export.center.my-3(type="submit" :disabled="completed") Go live!
+    button.btn.btn-huge.btn-export.center.ml-4(type="submit" :disabled="completed") Go live!
     p(v-if="currentError" class="error")
       strong {{currentError.message}}
     ul(v-if="currentError && currentError.errors")

@@ -18,13 +18,12 @@
           the user data below. Does everything look alright? If so, you
           are ready to go live with your data openness!
         .platform-pending(v-if="!currentPlatform.published")
-          p(v-if="currentProjectCompleted").
-            #[strong PLEASE NOTE]: After you press the 'Go Live' button,
-            your service will be added to Open Platform's list of connected
-            platforms, and your user's will be able to make data requests.
           GoLiveButton(v-if="currentProjectCompleted")
           button.btn.btn-huge.btn-export.center.ml-4(v-else @click="show") Continue
-
+      p.mt-2(v-if="currentProjectCompleted").
+          #[strong PLEASE NOTE]: After you press the 'Go Live' button,
+          your service will be added to Open Platform's list of connected
+          platforms, and your user's will be able to make data requests.
       hr.mb-2
 
       .platform-live(v-if="currentPlatform.published")
