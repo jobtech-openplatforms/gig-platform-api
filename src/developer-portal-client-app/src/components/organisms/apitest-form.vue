@@ -150,8 +150,7 @@ export default {
     }
   },
   mounted() {
-    this.resetTest()
-    // this.$store.commit('projects/resetTest')
+    this.$store.commit('projects/resetTest')
     if (!this.currentPlatform || !this.currentPlatform.exportDataUri) {
         this.$router.push('/share-user-data')
     }

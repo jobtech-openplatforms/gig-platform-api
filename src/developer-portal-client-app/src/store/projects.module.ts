@@ -29,6 +29,7 @@ const moduleState: ProjectsModuleState = {
 const actions: ActionTree<ProjectsModuleState, RootState> = {
   getAll({ state, commit, dispatch }, currentProject) {
     if (state.loading) {
+      console.log("Project module loading. Not loading projects.")
       return
     }
     commit('getAllRequest')
@@ -79,8 +80,9 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
       .goLive(projectId)
       .then(
         (result) => {
+          commit('goLiveSuccess', result)
           dispatch('getAll')
-          return commit('goLiveSuccess', result)
+          return result || true
         },
         (error) => commit('goLiveFailure', error)
       )
