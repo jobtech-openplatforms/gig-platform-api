@@ -90,7 +90,7 @@ export default {
   margin-left:auto;
   margin-right:auto;
   @include tiny-screen{
-    padding:3rem 2rem;
+    padding:6rem 2rem;
   }
 
   a{
