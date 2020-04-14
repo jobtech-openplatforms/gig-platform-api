@@ -15,17 +15,10 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
 {
     public class ApplicationHttpClient : GigDataHttpClient, IApplicationHttpClient
     {
-        // private readonly HttpClient _client;
-        // private readonly IAuthenticationConfigService _config;
-        // private readonly ILogger<ApplicationHttpClient> _logger;
 
         public ApplicationHttpClient(HttpClient client, IAuthenticationConfigService authenticationConfigService, ILogger<ApplicationHttpClient> logger)
             : base(client, authenticationConfigService, logger)
         {
-            // _client = client;
-            // _config = authenticationConfigService;
-            // _client.DefaultRequestHeaders.Add("admin-key", _config.AdminKey);
-            // _logger = logger;
         }
 
         public async Task<GetApplicationResult> Get(string applicationId)

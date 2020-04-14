@@ -37,7 +37,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
 
         public async Task<Project> Update(Project project, IAsyncDocumentSession session)
         {
-            _logger.LogInformation("Project update request {id}", project.Id);
+            _logger.LogInformation("Project update request {@id}", project.Id);
 
             if (TestProjectId.IsValidIdentity(project.Id))
             {
