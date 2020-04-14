@@ -50,9 +50,9 @@
             input(type="email" id="api-test-email" :disabled="testStatus === 2" v-model="test.email" name="testemail" placeholder="existinguser@yourplatform.com")
           .feedback
             .invalid-feedback(v-if="error") {{ error }}
-        button.btn.btn-export.btn-right(v-if="!submitted" :disabled="testStatus === 2") Run the test!
-        button.btn.btn-export.btn-right(v-else @click="newTest()" :disabled="testStatus === 2") New Test
-      button.btn.btn-primary.btn-right( :disabled="testStatus === 2" v-if="submitted && !completed" @click="cancelTest()") Cancel
+        button.btn.btn-export.btn-right(v-if="!submitted"   key="78910" :disabled="testStatus === 2") Run the test!
+        button.btn.btn-export.btn-right(v-else @click="newTest()"  key="78911" :disabled="testStatus === 2") New Test
+      button.btn.btn-primary.btn-right( :disabled="testStatus === 2"  key="78912" v-if="submitted && !completed" @click="cancelTest()") Cancel
     h2(v-if="(submitted && !completed) || testStatus === 2") Performing test...
 
     .card(v-if="currentPlatform && !currentPlatform.exportDataUri")
@@ -67,8 +67,8 @@
         .inline
             .has-edit.form-group
               input.editable(v-if="currentPlatform" type="text" name="exportDataUri" :value="currentPlatform.exportDataUri" @input="newUrl = $event.target.value" :disabled="editUrlDisabled" placeholder="Project export data url")
-            button.btn.right.btn-export(v-if="!editUrlDisabled") Save
-        button.btn.right.btn-outline.btn-export.btn-small(v-if="editUrlDisabled" type="button" @click="enableForm()") Edit...
+            button.btn.right.btn-export(v-if="!editUrlDisabled"  key="7890") Save
+        button.btn.right.btn-outline.btn-export.btn-small(v-if="editUrlDisabled"  key="7891" type="button" @click="enableForm()") Edit...
 
     .token-keys(v-if="currentProject.platforms && (testStatus === 1 || testStatus === 3)")
       PlatformToken

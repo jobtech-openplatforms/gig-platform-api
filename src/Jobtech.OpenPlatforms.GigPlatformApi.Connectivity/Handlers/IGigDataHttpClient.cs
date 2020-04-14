@@ -6,9 +6,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
 {
     public interface IGigDataHttpClient
     {
-        Task<PlatformViewModel> CreatePlatform(CreatePlatformModel request);
-        Task<PlatformResponse> GetPlatform(ProjectModel request);
-        Task ActivatePlatform(ProjectModel request);
-        Task DeactivatePlatform(ProjectModel request);
+        Task<TResult> CreateAsync<TRequest, TResult>(string endpoint, TRequest request, string creatingType);
+        Task<T> GetAsync<T>(string endpoint, string id, string gettingType);
+        Task PatchAsync(string endpoint, object request);
+
     }
 }

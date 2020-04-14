@@ -25,13 +25,13 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
     public class ProjectsController : ControllerBase
     {
         private readonly IProjectManager _projectManager;
-        private readonly IGigDataHttpClient _gigDataHttpClient;
+        private readonly IPlatformAdminHttpClient _gigDataHttpClient;
         private readonly IPlatformAdminUserManager _platformAdminUserManager;
         private readonly IDocumentStore _documentStore;
         private readonly ILogger<ProjectsController> _logger;
 
         public ProjectsController(IProjectManager projectManager,
-            IGigDataHttpClient gigDataHttpClient,
+            IPlatformAdminHttpClient gigDataHttpClient,
             IPlatformAdminUserManager platformAdminUserManager,
             IDocumentStore documentStoreHolder,
             ILogger<ProjectsController> logger)

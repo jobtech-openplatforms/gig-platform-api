@@ -20,6 +20,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.IoC
             collection.AddTransient<IAuthenticationConfigService, AuthenticationConfigService>();
 
             collection.AddHttpClient<IGigDataHttpClient, GigDataHttpClient>();
+            collection.AddHttpClient<IPlatformAdminHttpClient, PlatformAdminHttpClient>();
             collection.AddHttpClient<IApplicationHttpClient, ApplicationHttpClient>();
 
             return collection;

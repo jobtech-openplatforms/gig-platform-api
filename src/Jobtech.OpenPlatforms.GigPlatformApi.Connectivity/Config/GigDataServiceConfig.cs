@@ -15,7 +15,7 @@
         public string ApiEndpointDeactivatePlatform { get => ApiEndpointPlatformUrlById + "/deactivate"; }
 
         public string ApiEndpointPlatformSetName { get => ApiEndpointPlatformUrlById + "/set-name"; }
-        public string ApiEndpointPlatformSetWebsite { get => ApiEndpointPlatformUrlById + "/set-website"; }
+        public string ApiEndpointPlatformSetWebsiteUrl { get => ApiEndpointPlatformUrlById + "/set-websiteurl"; }
         public string ApiEndpointPlatformSetLogoUrl { get => ApiEndpointPlatformUrlById + "/set-logourl"; }
         public string ApiEndpointPlatformSetDescription { get => ApiEndpointPlatformUrlById + "/set-description"; }
 
@@ -31,7 +31,7 @@
         public string ApiEndpointAppSetName { get => ApiEndpointAppUrlById + "/set-name"; }
         public string ApiEndpointAppSetDescription { get => ApiEndpointAppUrlById + "/set-description"; }
         public string ApiEndpointAppSetLogoUrl { get => ApiEndpointAppUrlById + "/set-logourl"; }
-        public string ApiEndpointAppSetWebsite { get => ApiEndpointAppUrlById + "/set-website"; }
+        public string ApiEndpointAppSetWebsiteUrl { get => ApiEndpointAppUrlById + "/set-websiteurl"; }
         public string ApiEndpointAppRotateSecret { get => ApiEndpointAppUrlById + "/rotate-secret"; }
         public string ApiEndpointAppActivate { get => ApiEndpointAppUrlById + "/activate"; }
         public string ApiEndpointAppDeactivate { get => ApiEndpointAppUrlById + "/deactivate"; }

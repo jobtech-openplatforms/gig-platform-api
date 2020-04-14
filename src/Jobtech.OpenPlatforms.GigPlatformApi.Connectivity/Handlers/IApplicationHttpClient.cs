@@ -4,13 +4,18 @@ using Jobtech.OpenPlatforms.GigDataCommon.Library.Models.GigDataService;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
 {
-    public interface IApplicationHttpClient
+    public interface IApplicationHttpClient : IGigDataHttpClient
     {
         Task<CreateApplicationResult> CreateApplication(CreateApplicationModel request);
-        Task Patch(string endpoint, object request);
+        Task<GetApplicationResult> Get(string id);
         Task PatchApiEndpointAppSetNotificationUrl(string applicationId, string url);
         Task PatchAuthCallbackUrl(string applicationId, string url);
         Task PatchEmailVerificationUrl(string applicationId, string url);
-        Task<GetApplicationResult> Get(string id);
+        Task PatchApiEndpointAppSetName(string applicationId, string name);
+        Task PatchApiEndpointAppSetDescription(string applicationId, string description);
+        Task PatchApiEndpointAppSetLogoUrl(string applicationId, string logoUrl);
+        Task PatchApiEndpointAppSetWebsiteUrl(string applicationId, string websiteUrl);
+        Task ActivateApplication(string applicationId);
+        Task DeactivateApplication(string applicationId);
     }
 }
