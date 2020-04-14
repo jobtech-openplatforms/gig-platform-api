@@ -53,11 +53,7 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
             )
             .then(
               (currentProject) => {
-                if (state.dispatchAfterInit) {
-                  state.dispatchAfterInit.forEach(action => {
-                    dispatch(action)
-                  });
-                }
+                dispatch('actionsAfterInit')
                 return currentProject
               },
               (error) => error
@@ -130,11 +126,7 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
       .getProject(id)
       .then(
         (currentProject) => {
-          if (state.dispatchAfterInit) {
-            state.dispatchAfterInit.forEach(action => {
-              dispatch(action)
-            });
-          }
+          dispatch('actionsAfterInit')
           commit('getSuccess', currentProject)
         },
         (error) => commit('getFailure', error)
@@ -198,6 +190,9 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
       // tslint:disable-next-line:no-empty
       router.push('/projects').catch(err => { })
     }
+    
+    dispatch('actionsAfterInit')
+
     return state.current ? state.current.project : null
   },
 
@@ -216,7 +211,15 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
     commit('changeCurrentProject', null)
     localStorage.removeItem('projectId')
     return
-  }
+  },
+  actionsAfterInit({state, dispatch, commit}) {
+    if (state.dispatchAfterInit) {
+      state.dispatchAfterInit.forEach(action => {
+        dispatch(action)
+      });
+      commit('clearDispatchAfterInit')
+    }
+  },
 }
 
 const mutations: MutationTree<ProjectsModuleState> = {

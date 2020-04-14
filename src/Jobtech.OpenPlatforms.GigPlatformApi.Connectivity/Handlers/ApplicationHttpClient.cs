@@ -28,13 +28,13 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
         public async Task<CreateApplicationResult> CreateApplication(CreateApplicationModel request)
             => await CreateAsync<CreateApplicationModel, CreateApplicationResult>(_config.Api.ApiEndpointCreateApplication, request, nameof(Application));
 
-        public async Task PatchApiEndpointAppSetName(string applicationId, string name)
+        public async Task SetName(string applicationId, string name)
             => await PatchAsync(_config.Api.ApiEndpointAppSetName.Replace("{applicationId}", applicationId), new { name });
-        public async Task PatchApiEndpointAppSetDescription(string applicationId, string description)
+        public async Task SetDescription(string applicationId, string description)
             => await PatchAsync(_config.Api.ApiEndpointAppSetDescription.Replace("{applicationId}", applicationId), new { description });
-        public async Task PatchApiEndpointAppSetLogoUrl(string applicationId, string logoUrl)
+        public async Task SetLogoUrl(string applicationId, string logoUrl)
             => await PatchAsync(_config.Api.ApiEndpointAppSetLogoUrl.Replace("{applicationId}", applicationId), new { logoUrl });
-        public async Task PatchApiEndpointAppSetWebsiteUrl(string applicationId, string websiteUrl)
+        public async Task SetWebsiteUrl(string applicationId, string websiteUrl)
             => await PatchAsync(_config.Api.ApiEndpointAppSetWebsiteUrl.Replace("{applicationId}", applicationId), new { websiteUrl });
 
         public async Task PatchApiEndpointAppSetNotificationUrl(string applicationId, string url)

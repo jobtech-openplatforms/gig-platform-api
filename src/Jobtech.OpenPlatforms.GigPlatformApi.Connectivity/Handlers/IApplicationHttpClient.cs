@@ -11,10 +11,10 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
         Task PatchApiEndpointAppSetNotificationUrl(string applicationId, string url);
         Task PatchAuthCallbackUrl(string applicationId, string url);
         Task PatchEmailVerificationUrl(string applicationId, string url);
-        Task PatchApiEndpointAppSetName(string applicationId, string name);
-        Task PatchApiEndpointAppSetDescription(string applicationId, string description);
-        Task PatchApiEndpointAppSetLogoUrl(string applicationId, string logoUrl);
-        Task PatchApiEndpointAppSetWebsiteUrl(string applicationId, string websiteUrl);
+        Task SetName(string applicationId, string name);
+        Task SetDescription(string applicationId, string description);
+        Task SetLogoUrl(string applicationId, string logoUrl);
+        Task SetWebsiteUrl(string applicationId, string websiteUrl);
         Task ActivateApplication(string applicationId);
         Task DeactivateApplication(string applicationId);
     }

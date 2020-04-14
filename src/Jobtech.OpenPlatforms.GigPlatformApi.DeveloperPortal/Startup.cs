@@ -7,6 +7,7 @@ using Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine.Managers;
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.IoC;
 using Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Exceptions;
 using Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.HttpClients;
+using Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.IoC;
 using Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Managers;
 using Jobtech.OpenPlatforms.GigPlatformApi.EventDispatcher.IoC;
 using Jobtech.OpenPlatforms.GigPlatformApi.FileStore.Config;
@@ -136,7 +137,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
                     Contact = new OpenApiContact
                     {
                         Email = "calle@roombler.com",
-                        Name = "Calle Hunnefalk"
+                        Name = "Calle Hunefalk"
                     }
                 });
                 c.DescribeAllParametersInCamelCase();
@@ -152,15 +153,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
             // RavenDb
             services.AddRavenDb(Configuration);
 
-
-            // Configure file storage
-            services.AddScoped<IFileStorageConfigService, FileStorageConfigService>();
-            services.Configure<FileStoreConfig>(Configuration.GetSection("FileStoreConfig"));
-            services.AddScoped<IFileManager, FileManager>();
-
-            // Can't this be done smarter with .Net CORE DI? Do we need a better DI?
-            services.AddScoped<IUserManager, UserManager>();
-            services.AddScoped<IPlatformAdminUserManager, PlatformAdminUserManager>();
+            services.AddDevPortalDependencies(Configuration);
 
             services.AddEventDispatcher(Configuration);
             services.AddPlatformEngine(Configuration);
