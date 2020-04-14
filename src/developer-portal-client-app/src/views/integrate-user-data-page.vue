@@ -71,7 +71,8 @@
           p
             strong E-mail verification URL
             pre.imported {{emailVerificationUrl}}
-
+    modal#project-details(name="project-details" height="auto" :scrollable="true") 
+      ProjectDetails
 </template>
 
 <script lang="ts">
@@ -79,11 +80,12 @@ import { Component, Vue } from 'vue-property-decorator'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import { ApplicationState } from '../store/projects.module'
 import CurrentApplicationTokens from '../components/organisms/current-application-tokens.vue'
+import ProjectDetails from '../components/organisms/project-edit.vue'
 
 @Component({
   computed: {
     ...mapState('projects', ['status', 'current']),
-    ...mapGetters('projects', ['currentApplication'])
+    ...mapGetters('projects', ['currentApplication', 'currentProjectCompleted'])
   },
   data() {
     return {
@@ -97,7 +99,8 @@ import CurrentApplicationTokens from '../components/organisms/current-applicatio
     this.ready = true
   },
   components: {
-    CurrentApplicationTokens
+    CurrentApplicationTokens,
+    ProjectDetails
   }
 })
 export default class IntegrateUserDataPage extends Vue {
@@ -190,6 +193,10 @@ export default class IntegrateUserDataPage extends Vue {
     }
     return false
   }
+
+  openModal(modal) {
+      this.$modal.show(modal)
+    }
 }
 </script>
 
