@@ -76,6 +76,10 @@ export default {
   overflow-x:hidden;
   max-width:$media-large;
   background-color:$light-grey;
+  @include tiny-screen{
+    padding-left:$sidebar-width-small;
+  }
+
   &.noprojects{
       padding-left:0;
   }

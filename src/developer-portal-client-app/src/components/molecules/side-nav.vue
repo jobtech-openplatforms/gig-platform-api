@@ -150,6 +150,10 @@ export default class SideNav extends Vue {
   position: fixed;
   border-right:1.5rem solid $light-grey;
   transition: border-right 0.2s ease;
+
+  @include tiny-screen{
+    width:$sidebar-width-small;
+  }
   &.livemode {
     border-color:$color-live;
   }
@@ -221,7 +225,9 @@ export default class SideNav extends Vue {
 
       &.active {
         background: rgba(255, 255, 255, 0.075);
-        height: 165px;
+        @include small-screen-and-up{
+          height: 165px;
+        }
       }
 
       .connection-wrapper{
@@ -268,10 +274,18 @@ export default class SideNav extends Vue {
           text-overflow: ellipsis;
           min-width: 0;
           flex: 1 1 auto;
+          @include tiny-screen{
+            display:none;
+          }
         }
       }
       .details {
         padding-bottom: 1rem;
+        
+        @include tiny-screen{
+          display:none;
+        }
+
         a {
           @include flex(row, space-between, center);
           margin-left: 6rem;
