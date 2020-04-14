@@ -183,6 +183,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
                 .AllowAnyHeader());
 
             app.UseHttpsRedirection();
+    
+            app.UseSerilogRequestLogging();
 
             app.UseAuthentication();
             app.UseAuthorization();

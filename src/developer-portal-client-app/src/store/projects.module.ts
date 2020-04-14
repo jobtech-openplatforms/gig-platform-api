@@ -123,13 +123,20 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
       )
   },
 
-  getProject({ commit }, id) {
+  getProject({ state, commit, dispatch }, id) {
     commit('getRequest', id)
 
     projectsService
       .getProject(id)
       .then(
-        (currentProject) => commit('getSuccess', currentProject),
+        (currentProject) => {
+          if (state.dispatchAfterInit) {
+            state.dispatchAfterInit.forEach(action => {
+              dispatch(action)
+            });
+          }
+          commit('getSuccess', currentProject)
+        },
         (error) => commit('getFailure', error)
       )
   },

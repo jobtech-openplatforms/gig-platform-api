@@ -30,28 +30,28 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
         {
             try
             {
-                _logger.LogInformation("Create {@creatingType}: request {@request}", creatingType, request);
+                _logger.LogInformation("CREATE {@creatingType}: request {@request}", creatingType, request);
 
                 var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
                 var result = await _client.PostAsync(endpoint, content);
-                _logger.LogInformation("Create {@creatingType}: Post {content}", creatingType, content);
-                _logger.LogInformation("Create {@creatingType}: Sending request to {apiEndpoint}", creatingType, endpoint);
+                _logger.LogInformation("CREATE {@creatingType}: Post {@content}", creatingType, content);
+                _logger.LogInformation("CREATE {@creatingType}: Sending request to {apiEndpoint}", creatingType, endpoint);
 
                 if ((int)result.StatusCode < 400)
-                    _logger.LogInformation("Create {@creatingType}: status code {@statusCode}", creatingType, result.StatusCode);
+                    _logger.LogInformation("CREATE {@creatingType}: status code {@statusCode}", creatingType, result.StatusCode);
                 else
                 {
-                    _logger.LogError("Create {@creatingType}: status code {@statusCode}", creatingType, result.StatusCode);
+                    _logger.LogError("CREATE {@creatingType}: status code {@statusCode}", creatingType, result.StatusCode);
                     // Read the response body for debugging
                     var debugResult = await result.Content.ReadAsStringAsync();
-                    _logger.LogDebug("Create {@creatingType}: debug {@debugResult}", creatingType, debugResult);
+                    _logger.LogDebug("CREATE {@creatingType}: debug {@debugResult}", creatingType, debugResult);
                 }
 
 
                 result.EnsureSuccessStatusCode();
                 var stringResult = await result.Content.ReadAsStringAsync();
 
-                _logger.LogInformation("Create {@creatingType}: {@result}", creatingType, result);
+                _logger.LogInformation("CREATE {@creatingType}: {@result}", creatingType, result);
 
                 var accessModelResponse = JsonConvert.DeserializeObject<K>(stringResult);
 
@@ -59,7 +59,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
             }
             catch (Exception ex)
             {
-                _logger.LogCritical(ex, "Create {@creatingType}: Unable to create from request.", creatingType);
+                _logger.LogCritical(ex, "CREATE {@creatingType}: Unable to create from request.", creatingType);
                 throw;
             }
         }
@@ -69,18 +69,18 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
             System.Net.HttpStatusCode statusCode = System.Net.HttpStatusCode.OK;
             try
             {
-                _logger.LogInformation("Get {@gettingType}: request {@id}", gettingType, id);
-                _logger.LogInformation("Get {@gettingType}: config {@config}", gettingType, _config);
-                _logger.LogInformation("Get {@gettingType}: request url {@apiEndpoint}", gettingType, endpoint);
+                _logger.LogInformation("GET {@gettingType}: request {@id}", gettingType, id);
+                // _logger.LogDebug("GET {@gettingType}: config {@config}", gettingType, _config);
+                _logger.LogInformation("GET {@gettingType}: request url {@apiEndpoint}", gettingType, endpoint);
 
                 var result = await _client.GetAsync(endpoint);
-                _logger.LogInformation("Get {@gettingType}: Sent request", gettingType);
+                _logger.LogInformation("GET {@gettingType}: Sent request", gettingType);
 
                 if ((int)result.StatusCode < 400)
-                    _logger.LogInformation("Get {@gettingType}: status code {@statusCode}", gettingType, result.StatusCode);
+                    _logger.LogInformation("GET {@gettingType}: status code {@statusCode}", gettingType, result.StatusCode);
                 else
                 {
-                    _logger.LogError("Get {@gettingType}: status code {@statusCode}", gettingType, result.StatusCode);
+                    _logger.LogError("GET {@gettingType}: status code {@statusCode}", gettingType, result.StatusCode);
                 }
 
                 statusCode = result.StatusCode;
@@ -88,7 +88,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
                 result.EnsureSuccessStatusCode();
                 var stringResult = await result.Content.ReadAsStringAsync();
 
-                _logger.LogInformation("Get {@gettingType}: result {@result}", gettingType, result);
+                _logger.LogInformation("GET {@gettingType}: result {@result}", gettingType, result);
 
                 var accessModelResponse = JsonConvert.DeserializeObject<T>(stringResult);
 
@@ -96,7 +96,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
             }
             catch (Exception ex)
             {
-                _logger.LogCritical(ex, "Unable to get {@gettingType}.", gettingType);
+                _logger.LogCritical(ex, "GET {@gettingType}: FAILED - Unable to GET.", gettingType);
+                _logger.LogCritical(ex, "GET Exception: {ex}", ex);
                 throw new ApiException(ex, (int)statusCode, new List<string> { ex.Message, statusCode.ToString() });
             }
         }
