@@ -10,25 +10,24 @@
 
     div(v-if="testStatus == 4")
       .success-header.mb-2
-        h2 Success!
-
-      .flex-wrapper
+        h1 Success!
+          span.ml-1(v-if="currentPlatform.published" class="color-export").
+            This platform is live on Open Platforms
+      .flex-wrapper(v-if="!currentPlatform.published")
         p.
           It looks like your implementation has succeeded! Take a look at
           the user data below. Does everything look alright? If so, you
           are ready to go live with your data openness!
-        .platform-pending(v-if="!currentPlatform.published")
+        .platform-pending
           GoLiveButton(v-if="currentProjectCompleted")
-          button.btn.btn-huge.btn-export.center.ml-4(v-else @click="show") Continue
-      p.mt-2(v-if="currentProjectCompleted").
+          button.btn.btn-huge.btn-export.center.ml-4(v-else @click="openModal('project-details')") Continue
+      p.mt-2(v-if="currentProjectCompleted && !currentPlatform.published").
           #[strong PLEASE NOTE]: After you press the 'Go Live' button,
           your service will be added to Open Platform's list of connected
-          platforms, and your user's will be able to make data requests.
+          platforms, and your users will be able to make data requests.
       hr.mb-2
 
-      .platform-live(v-if="currentPlatform.published")
-        h2(class="color-export").
-          This platform is live on Open Platforms
+      
               
       h2 Test result
       p Result with user&nbsp;
@@ -52,7 +51,6 @@
             .invalid-feedback(v-if="error") {{ error }}
         button.btn.btn-export.btn-right(v-if="!submitted" :disabled="testStatus === 2") Run the test!
         button.btn.btn-export.btn-right(v-else @click="newTest()" :disabled="testStatus === 2") New Test
-      button.btn.btn-primary.btn-right( :disabled="testStatus === 2" v-if="submitted && !completed" @click="cancelTest()") Cancel
     h2(v-if="(submitted && !completed) || testStatus === 2") Performing test...
 
     .card(v-if="currentPlatform && !currentPlatform.exportDataUri")
@@ -267,8 +265,8 @@ export default {
     enableForm() {
         this.editUrlDisabled = false 
     },
-    show() {
-      this.$modal.show('project-details')
+    openModal(modal) {
+      this.$modal.show(modal)
     }
   }
 }
