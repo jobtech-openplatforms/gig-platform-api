@@ -46,7 +46,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
 
             var p = await session.LoadAsync<Project>(project.Id);
 
-            _logger.LogInformation("Project before {@p}", p);
+            // _logger.LogDebug("Project before {@p}", p);
             if (p.Name != project.Name)
             {
                 p.Name = project.Name;
@@ -60,7 +60,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
             p.OwnerAdminId = project.OwnerAdminId;
             p.AdminIds = project.AdminIds;
             await session.SaveChangesAsync();
-            _logger.LogInformation("Project after {@p}", p);
+            // _logger.LogDebug("Project after {@p}", p);
+            _logger.LogInformation("Project updated {@id}", p.Id);
             return p;
         }
 
