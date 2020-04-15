@@ -47,10 +47,10 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
             var p = await session.LoadAsync<Project>(project.Id);
 
             // _logger.LogDebug("Project before {@p}", p);
-            if (p.Name != project.Name)
+            if (ProjectId.IsValidIdentity(project.Id))
             {
-                p.Name = project.Name;
                 await UpdateTestProjectName(project.Id, project.Name, session);
+                p.Name = project.Name;
             }
             p.LogoUrl = project.LogoUrl;
             p.Webpage = project.Webpage;
@@ -71,10 +71,12 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
             var p = await session.Query<TestProject>().Where(tp => tp.LiveProjectId == liveProjectId).FirstOrDefaultAsync();
             _logger.LogInformation("TestProject changing name from {oldName} to {newName}", p.Name, projectName);
             p.Name = projectName;
+            await session.SaveChangesAsync();
         }
 
         private async Task<TestProject> UpdateTest(TestProject project, IAsyncDocumentSession session)
         {
+            _logger.LogInformation("TestProject UPDATE: New data {@project}", project);
             var p = await session.LoadAsync<TestProject>(project.Id);
             p.LogoUrl = project.LogoUrl;
             // p.Name = project.Name; // Disallow editing project name to be different than live project name

@@ -112,7 +112,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
                 var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
                 var result = await _client.PatchAsync(endpoint, content);
 
-                _logger.LogInformation("Patch [2] sent to {endpoint} {@content}", endpoint, content);
+                _logger.LogInformation("Patch [2] sent to {@endpoint}", endpoint);
 
                 if ((int)result.StatusCode < 400)
                     _logger.LogInformation("Patch [3] response status code {@statusCode}", result.StatusCode);
