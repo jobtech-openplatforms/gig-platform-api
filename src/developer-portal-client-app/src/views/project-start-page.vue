@@ -22,7 +22,7 @@
           h3.color-import Application
           .frame-wrapper
             p Get access to your user's data or let them access their data from other Open Platforms partners. Aliquam vehicula enim ac erat pellentesque mattis. Phasellus dignissim augue eget lectus cursus, quis accumsan elit lacinia. Nam blandit at urna sed posuere. Nam venenatis ipsum lacus, nec consequat nunc dictum ac. In non tempus velit. 
-              router-link.color-import(to="/")  Read more
+              router-link.color-import(to="/test-application")  Read more
 
 </template>
 
