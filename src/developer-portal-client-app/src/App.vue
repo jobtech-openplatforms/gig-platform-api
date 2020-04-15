@@ -72,13 +72,10 @@ export default {
 #main {
   @include flex(row, null, null);
   @include flex-child(1, null, null);
-  padding-left:$sidebar-width;
+  @include sidebar-width(padding-left);
   overflow-x:hidden;
-  max-width:$media-large;
+  max-width:$medium-screen-width;
   background-color:$light-grey;
-  @include tiny-screen{
-    padding-left:$sidebar-width-small;
-  }
 
   &.noprojects{
       padding-left:0;
@@ -87,7 +84,7 @@ export default {
 
 
 #page{
-  max-width:$media-small;
+  max-width:$large-screen-width;
   overflow:hidden;
   @include flex-child(1, null, null);
   padding:8rem 6rem 2rem;

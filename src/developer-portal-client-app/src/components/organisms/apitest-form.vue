@@ -9,7 +9,7 @@
       PlatformInstructions(v-if="showInstructions")
 
     div(v-if="testStatus == 4")
-      .success-header.mb-2
+      .success-header
         h1 Success!
           span.ml-1(v-if="currentPlatform.published" class="color-export").
             This platform is live on Open Platforms
@@ -27,8 +27,6 @@
           platforms, and your users will be able to make data requests.
       hr.mb-2
 
-      
-              
       h2 Test result
       p Result with user&nbsp;
         em {{test.email}}
@@ -49,7 +47,7 @@
             input(type="email" id="api-test-email" :disabled="testStatus === 2" v-model="test.email" name="testemail" placeholder="existinguser@yourplatform.com")
           .feedback
             .invalid-feedback(v-if="error") {{ error }}
-        button.btn.btn-export.btn-right(v-if="!submitted"   key="78910" :disabled="testStatus === 2") Run the test!
+        button.btn.btn-export.btn-right(v-if="!submitted" key="78910" :disabled="testStatus === 2") Run the test!
         button.btn.btn-export.btn-right(v-else @click="newTest()"  key="78911" :disabled="testStatus === 2") New Test
     h2(v-if="(submitted && !completed) || testStatus === 2") Performing test...
 

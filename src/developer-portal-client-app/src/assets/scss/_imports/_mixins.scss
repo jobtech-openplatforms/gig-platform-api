@@ -11,10 +11,6 @@
   flex-basis: $flex-basis;
 }
 
-$tiny-screen-width: 767px;
-$small-screen-width: 990px;
-$medium-screen-width: 1200px;
-
 @mixin tiny-screen {
   @media (max-width: #{$tiny-screen-width}) {
     @content;
@@ -48,5 +44,16 @@ $medium-screen-width: 1200px;
 @mixin medium-screen-and-up {
   @media (min-width: #{$small-screen-width + 1px}) {
     @content;
+  }
+}
+
+
+@mixin sidebar-width($attr) {
+  @include tiny-screen {
+    #{$attr}: $sidebar-width-small;
+  }
+
+  @include small-screen-and-up {
+    #{$attr}: $sidebar-width;
   }
 }
