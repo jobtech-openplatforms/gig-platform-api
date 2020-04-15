@@ -120,6 +120,11 @@
         pre(v-if="testResult.result.interactions") {{ JSON.stringify(testResult.result, null, 2) }}
 
     modal#project-details(name="project-details" height="auto" :scrollable="true") 
+      div
+        h2 Complete project info to continue
+        p.
+          To continue and publish the platform on Open Platforms, 
+          please fill out the project details.
       ProjectDetails
 </template>
 

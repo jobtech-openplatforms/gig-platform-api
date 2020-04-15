@@ -145,6 +145,8 @@ export default class ProjectEdit extends Vue {
       self.submitted = false
       self.disableForm()
       self.$store.dispatch('projects/getAll')
+      self.$modal.hide('project-details')
+
     })
   }
 

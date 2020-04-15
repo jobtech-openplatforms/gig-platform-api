@@ -88,6 +88,10 @@
             pre.imported {{emailVerificationUrl}}
 
     modal#project-details(name="project-details" height="auto" :scrollable="true") 
+      h2 Complete project info to continue
+      p.
+        To continue and publish the application, 
+        please fill out the project details.
       ProjectDetails
 </template>
 
