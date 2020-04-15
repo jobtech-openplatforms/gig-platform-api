@@ -1,6 +1,5 @@
 <template lang="pug">  
 div(v-if="currentApplication")
-  p To use the API you'll need these API keys:
   .token-keys
     .token-key
     .label-muted ApplicationId

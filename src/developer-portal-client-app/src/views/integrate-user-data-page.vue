@@ -1,14 +1,31 @@
 <template lang="pug">
   div.home
     div(v-if="ready")
-      h1 Application API
-      p This API can be used both to let your user's to share their data with your application, and to let your user's connect additional platforms to their Open Platforms account. You can read more about the API in the
-        strong
-          a.color-import(href="https://gigdata-api.openplatforms.org" target="_blank")  Application API Documentation
+      div(v-if="(currentApplication && currentApplication.authCallbackUrl)")
+          h1 Test your application
+          p.flex-wrapper
+            span.
+              To help you test the application you are developing to retrieve data from
+              platforms for a user, we have created some test methods you can use to
+              send test data to receive in your application.
+            button.btn.btn-right.btn-outline.btn-import.btn-small.mb-2.ml-4(@click="toggleInstructions()") {{!showInstructions ? 'Show instructions &#9660' : 'Hide instructions &#9650'}}
+          AppInstructions(v-if="showInstructions")
 
+          p.
+            #[strong Tip!] #[em To test while developing on localhost, consider using a service like] #[a(href="https://ngrok.com/" target="_blank") ngrok] #[em to receive data from Open Platforms to your development machine.]
+          hr.my-2
+
+      div(v-else)
+        h1 Application API
+        p This API can be used both to let your user's to share their data with your application, and to let your user's connect additional platforms to their Open Platforms account. You can read more about the API in the
+          strong
+            a.color-import(href="https://gigdata-api.openplatforms.org" target="_blank")  Application API Documentation
+      
+      
+      p(v-if="!currentApplication.authCallbackUrl") To use the API you'll need these API keys:
       current-application-tokens
 
-      p.my-4 #[strong PLEASE NOTE] The Application-API is still in beta, the basic concept will stay the same but there might be minor changes to the API endpoints.
+      p.my-4(v-if="!currentApplication.authCallbackUrl") #[strong PLEASE NOTE] The Application-API is still in beta, the basic concept will stay the same but there might be minor changes to the API endpoints.
 
       h3 Application endpoints
       div
@@ -51,13 +68,11 @@
               .help-text(v-if="!formDisabled") If you let your user's connect new platforms through the API, Open Platform will verify the user's email address. If you want to recieve notifications when the user has confirmed their address, enter a url in this field.
               .feedback
           .form-unsaved(v-if="formEdited")
-            h3 Recent edits to the urls have not been saved
+            h3 Recent edits to the urls have not been saved 
           .buttons
             button.btn.btn-import.right(v-if="!formDisabled" type="submit") Save
             button.btn.btn-secondary.right(v-if="!formDisabled && (authCallbackUrl||gigDataNotificationUrl||emailVerificationUrl)" @click="cancelEdit()" type="reset") Cancel
-          .buttons
-            button.btn.btn-import.btn-outline.right.small(v-if="formDisabled" type="button" @click="enableForm()") Edit...
-            router-link.btn.btn-import.btn-primary.right.small(v-if="formDisabled" to="/test-application") Test...
+            button.btn.btn-import.btn-outline.right.small(v-if="formDisabled" key="123" type="button" @click="enableForm()") Edit...
 
           .error(v-if="!formDisabled") {{current.error && current.error.message ? current.error.message : current.error}}
         div(v-else)
@@ -71,6 +86,7 @@
           p
             strong E-mail verification URL
             pre.imported {{emailVerificationUrl}}
+
     modal#project-details(name="project-details" height="auto" :scrollable="true") 
       ProjectDetails
 </template>
@@ -80,6 +96,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import { ApplicationState } from '../store/projects.module'
 import CurrentApplicationTokens from '../components/organisms/current-application-tokens.vue'
+import AppInstructions from '../components/organisms/app-instructions.vue'
 import ProjectDetails from '../components/organisms/project-edit.vue'
 
 @Component({
@@ -91,16 +108,25 @@ import ProjectDetails from '../components/organisms/project-edit.vue'
     return {
       ready: false,
       submitted: false,
-      formDisabled: true
+      formDisabled: true,
+      showInstructions: false
+
     }
   },
+  methods: {
+    toggleInstructions() {
+      this.showInstructions = !this.showInstructions
+    }
+  },
+
   created() {
     this.$store.dispatch('projects/initCurrentProject')
     this.ready = true
   },
   components: {
     CurrentApplicationTokens,
-    ProjectDetails
+    ProjectDetails,
+    AppInstructions
   }
 })
 export default class IntegrateUserDataPage extends Vue {
@@ -155,6 +181,10 @@ export default class IntegrateUserDataPage extends Vue {
 
   private handleSubmit(e) {
     this.submitted = true
+
+    if (!this.currentProjectCompleted) {
+      this.$modal.show("project-details")
+    }
     this.$store
       .dispatch('projects/setApplicationUrls', {
         authCallbackUrl: this.authCallbackUrl,

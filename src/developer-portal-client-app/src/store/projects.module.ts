@@ -169,7 +169,7 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
       .then(
         (currentProject) => {
           commit('getSuccess', currentProject)
-          router.push('/project').catch(err => { })
+          // router.push('/project').catch(err => { })
           return currentProject
         },
         (error) => commit('getFailure', error)
