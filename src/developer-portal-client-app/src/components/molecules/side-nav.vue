@@ -93,15 +93,13 @@ export default class SideNav extends Vue {
   width:100vw;
   @include flex(row, flex-start, center);
 
-    .toggle-buttons{
-      width: calc(#{$sidebar-width} - 1.5rem);
-      padding:0.5rem 2rem 0.75rem;
-    
-    }
+    #banner-switch{
+        @include sidebar-width(width);
+        padding:0.5rem 2rem 0.75rem;
+      }
   
 
   #banner-content{
-    max-width:$media-small;
     margin-left:8rem;
     margin-right:auto;
   }
@@ -141,19 +139,16 @@ export default class SideNav extends Vue {
 }
 
 .side-nav {
+  @include sidebar-width(width);
   background: #3b3b3b;
   left: 0;
   float: left;
-  width: $sidebar-width;
   color: $white;
   height: calc(100vh - 60px);
   position: fixed;
   border-right:1.5rem solid $light-grey;
   transition: border-right 0.2s ease;
 
-  @include tiny-screen{
-    width:$sidebar-width-small;
-  }
   &.livemode {
     border-color:$color-live;
   }
