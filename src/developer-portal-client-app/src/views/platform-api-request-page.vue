@@ -15,6 +15,9 @@
         Create an endpoint (URL) that is publicly
         accessible for calls from Open Platforms to
         request data for a specified user.
+        For testing we recommend using #[strong Test mode].
+        #[router-link.color-export(to="/share-user-data") Enter your endpoint url] 
+        for the platform.
       li.
         The endpoint verifies the security token
         from Open Platforms and returns an HTTP

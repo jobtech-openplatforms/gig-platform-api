@@ -11,6 +11,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities
         public bool Published { get; set; }
 
         public static Platform Create() => new Platform { Id = Guid.NewGuid(), PlatformToken = Guid.NewGuid().ToString(), LastUpdate = DateTime.UtcNow };
+        public static Platform Create(Guid platformId) => new Platform { Id = platformId, PlatformToken = Guid.NewGuid().ToString(), LastUpdate = DateTime.UtcNow };
         public static Platform Create(Guid platformId, string exportDataUri) => new Platform { Id = platformId, PlatformToken = Guid.NewGuid().ToString(), ExportDataUri = exportDataUri, LastUpdate = DateTime.UtcNow };
 
         public Platform RegisteredWithId(Guid id)

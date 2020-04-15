@@ -7,6 +7,7 @@ using Jobtech.OpenPlatforms.GigDataCommon.Library.Models.GigDataService;
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models;
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Services;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.Exceptions;
+using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -28,6 +29,11 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
             => await GetAsync<PlatformResponse>(
                         _config.Api.ApiEndpointGetPlatform.Replace("{platformId}", request.PlatformId),
                         request.PlatformId,
+                        nameof(Core.Entities.Platform));
+        public async Task<PlatformResponse> GetPlatform(PlatformId id)
+            => await GetAsync<PlatformResponse>(
+                        _config.Api.ApiEndpointGetPlatform.Replace("{platformId}", id.Value.ToString()),
+                        id.Value.ToString(),
                         nameof(Core.Entities.Platform));
 
         public async Task ActivatePlatform(ProjectModel request)
