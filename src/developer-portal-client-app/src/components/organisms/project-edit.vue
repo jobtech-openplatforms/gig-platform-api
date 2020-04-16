@@ -85,6 +85,7 @@ export default class ProjectEdit extends Vue {
 
   private cancelEdit() {
     this.$store.commit('projects/cancelEdit')
+    this.$modal.hide('project-details')
     this.disableForm()
   }
   private disableForm() {
@@ -142,10 +143,10 @@ export default class ProjectEdit extends Vue {
     const self = this
     this.$store.dispatch('projects/updateProject', self.$store.state.projects.editing.project)
     .then((result) => {
+      self.$modal.hide('project-details')
       self.submitted = false
       self.disableForm()
       self.$store.dispatch('projects/getAll')
-      self.$modal.hide('project-details')
 
     })
   }
