@@ -41,7 +41,8 @@ export default class TopNav extends Vue {}
 
 <style lang="scss">
 .app-logo-container {
-  height: 40px;
+  height:8vw;
+  max-height: 40px;
   img {
     width: auto;
     height: 100%;

@@ -1,17 +1,15 @@
 <template lang="pug">
   div.start
-    //- .tile(v-if="!all.projects")
-    .tile
-      .intro-text
-        h2 Welcome to Open Platforms developer portal!
-        p Through the Open Platforms API you can:
-          ul
-            li #[strong Connect your Platform] - Make sure your users can access their experience/reputation data on your platform.
-            li #[strong Register your Application] - Get access to your user's data or let them access their data from other Open Platforms partners.
-        .buttons.mt-4
-          router-link.btn.btn-project.new-project( to="/create") New project
-        p.small.mt-2 
-          em This version of the service is desktop only. 
+    .intro-text
+      h2 Welcome to Open Platforms developer portal!
+      p Through the Open Platforms API you can:
+        ul
+          li #[strong Connect your Platform] - Make sure your users can access their experience/reputation data on your platform.
+          li #[strong Register your Application] - Get access to your user's data or let them access their data from other Open Platforms partners.
+      .buttons.mt-4
+        router-link.btn.btn-project.new-project( to="/create") New project
+      p.small.mt-2 
+        em This version of the service is desktop only. 
 </template>
 
 <script lang="ts">
@@ -50,11 +48,19 @@ export default class ProjectsPage extends Vue {}
 .start {
   background-image: url('../assets/img/open-platforms-symbol.svg');
   background-position: 100% 90%;
-  background-size: 60% auto;
-  min-height: 100%;
+  background-size: 50% auto;
   background-repeat: no-repeat;
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
   .intro-text{
-    width:400px;
+    margin-left: 15vw;
+    padding-top: 6rem; 
+    @include small-screen-and-up{
+      width: 40vw;
+    }
   }
 }
 

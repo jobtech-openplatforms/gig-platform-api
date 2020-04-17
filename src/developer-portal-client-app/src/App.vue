@@ -74,22 +74,21 @@ export default {
   @include flex-child(1, null, null);
   @include sidebar-width(padding-left);
   overflow-x:hidden;
-  max-width:$medium-screen-width;
+  max-width:$large-screen-width;
   background-color:$light-grey;
+  position:relative;
 
   &.noprojects{
       padding-left:0;
   }
 }
 
-
 #page{
-  max-width:$large-screen-width;
-  overflow:hidden;
+  overflow:auto;
   @include flex-child(1, null, null);
-  padding:8rem 6rem 2rem;
   margin-left:auto;
   margin-right:auto;
+  padding:8rem 6rem 2rem;
   @include tiny-screen{
     padding:6rem 2rem;
   }
