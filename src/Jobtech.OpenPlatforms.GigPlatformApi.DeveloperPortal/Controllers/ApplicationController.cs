@@ -94,7 +94,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 _logger.LogError(ex, "Unable to create application. {@request}", request);
                 // return error message if there was an exception
 
-                return BadRequest(new { message = ex.Message });
+                // return BadRequest(new { message = ex.Message });
+                throw;
             }
         }
 
@@ -167,7 +168,11 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                                 };
                             }
                         }
-                        throw;
+                        if (ex.InnerException is System.Net.Http.HttpRequestException && ex.StatusCode == (int)System.Net.HttpStatusCode.RequestTimeout)
+                        {
+                            throw;
+                        }
+                        // throw;
                     }
                     catch (System.Exception)
                     {

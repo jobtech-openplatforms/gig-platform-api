@@ -29,7 +29,7 @@ const moduleState: ProjectsModuleState = {
 const actions: ActionTree<ProjectsModuleState, RootState> = {
   getAll({ state, commit, dispatch }, currentProject) {
     if (state.loading) {
-      console.log("Project module loading. Not loading projects.")
+      console.log("Project module loading. Not loading projects."+(new Date().getSeconds())+'.'+(new Date().getMilliseconds()))
       return
     }
     commit('getAllRequest')
@@ -147,6 +147,7 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
   },
 
   createApplication({ state, commit }) {
+    console.log("createApplication"+(new Date().getSeconds())+'.'+(new Date().getMilliseconds()))
     if (state.current && state.current.project && state.current.project.applications && state.current.project.applications.length>0) {
       return state.current.project
     }
@@ -181,6 +182,7 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
   },
 
   initCurrentProject({ state, commit, dispatch }, thenDispatch: string) {
+    console.log("initCurrentProject "+(new Date().getSeconds())+'.'+(new Date().getMilliseconds()))
     if (state.current && state.current.project) {
       return state.current.project
     }
@@ -213,6 +215,7 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
     return
   },
   actionsAfterInit({state, dispatch, commit}) {
+    console.log("actionsAfterInit "+(new Date().getSeconds())+'.'+(new Date().getMilliseconds()))
     if (state.dispatchAfterInit) {
       state.dispatchAfterInit.forEach(action => {
         dispatch(action)
@@ -337,8 +340,10 @@ const mutations: MutationTree<ProjectsModuleState> = {
     localStorage.setItem('testMode', state.testMode ? '1':'')
   },
   queueDispatchAfterInit(state, action) {
+    console.log('queueDispatchAfterInit '+(new Date().getSeconds())+'.'+(new Date().getMilliseconds()))
     state.dispatchAfterInit = state.dispatchAfterInit || []
-    state.dispatchAfterInit.push(action)
+    if(!state.dispatchAfterInit.includes(action))
+      state.dispatchAfterInit.push(action)
   },
   clearDispatchAfterInit(state) {
     Vue.set(state, 'dispatchAfterInit', [])
