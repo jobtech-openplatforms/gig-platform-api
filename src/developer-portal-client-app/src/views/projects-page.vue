@@ -46,6 +46,7 @@ export default class ProjectsPage extends Vue {}
 
 <style lang="scss">
 .start {
+  @include sidebar-width(margin-left);
   background-image: url('../assets/img/open-platforms-symbol.svg');
   background-position: 100% 90%;
   background-size: 50% auto;
@@ -56,8 +57,8 @@ export default class ProjectsPage extends Vue {}
   right:0;
   bottom:0;
   .intro-text{
-    margin-left: 15vw;
-    padding-top: 6rem; 
+    margin-left: 6vw;
+    padding-top: 11rem;
     @include small-screen-and-up{
       width: 40vw;
     }
