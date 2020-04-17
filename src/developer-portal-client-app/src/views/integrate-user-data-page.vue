@@ -114,16 +114,27 @@ import ProjectDetails from '../components/organisms/project-edit.vue'
       submitted: false,
       formDisabled: true,
       showInstructions: false
-
     }
   },
-  methods: {
-    toggleInstructions() {
-      this.showInstructions = !this.showInstructions
+  beforeUpdate() {
+    console.log('beforeUpdate '+(new Date().getSeconds())+'.'+(new Date().getMilliseconds()))
+    if (!this.currentApplication) {
+      console.log('beforeUpdate: currentApplication empty '+(new Date().getSeconds())+'.'+(new Date().getMilliseconds()))
+      this.$store.dispatch('projects/createApplication')
     }
   },
-
+  updated() {
+    console.log('updated '+(new Date().getSeconds())+'.'+(new Date().getMilliseconds()))
+    if (!this.currentApplication) {
+      console.log('updated: currentApplication empty ' +(new Date().getSeconds())+'.'+(new Date().getMilliseconds()))
+    }
+  },
   created() {
+    console.log('created '+(new Date().getSeconds())+'.'+(new Date().getMilliseconds()))
+    if (!this.currentApplication) {
+      console.log('created: currentApplication empty')
+      this.$store.dispatch('projects/createApplication')
+    }
     this.$store.dispatch('projects/initCurrentProject')
     this.ready = true
   },
@@ -142,9 +153,16 @@ export default class IntegrateUserDataPage extends Vue {
   private currentApplication: any
   private formDisabled: boolean = true
   private formEdited: boolean = false
+  private showInstructions: boolean = false
+  // private currentProjectCompleted: boolean = false
 
   private async mounted() {
     await this.$store.dispatch('projects/initCurrentProject')
+    console.log('mounted '+(new Date().getSeconds())+'.'+(new Date().getMilliseconds()))
+    if (!this.currentApplication) {
+      console.log('mounted: currentApplication empty')
+      this.$store.commit('projects/queueDispatchAfterInit', 'createApplication')
+    }    
     this.authCallbackUrl = this.currentApplication
       ? this.currentApplication.authCallbackUrl
       : ''
@@ -154,9 +172,10 @@ export default class IntegrateUserDataPage extends Vue {
     this.emailVerificationUrl = this.currentApplication
       ? this.currentApplication.emailVerificationUrl
       : ''
-    this.formDisabled = this.currentApplication !== null && this.currentApplication.authCallbackUrl != null
-    if(!this.currentApplication)
-      this.$store.commit('projects/queueDispatchAfterInit', 'createApplication')
+    this.formDisabled =
+      this.currentApplication !== null &&
+      this.currentApplication.authCallbackUrl != null
+    // if (!this.currentApplication)
   }
 
   private isFormEdited() {
@@ -187,7 +206,7 @@ export default class IntegrateUserDataPage extends Vue {
     this.submitted = true
 
     if (!this.currentProjectCompleted) {
-      this.$modal.show("project-details")
+      this.$modal.show('project-details')
     }
     this.$store
       .dispatch('projects/setApplicationUrls', {
@@ -228,9 +247,13 @@ export default class IntegrateUserDataPage extends Vue {
     return false
   }
 
+  toggleInstructions() {
+    this.showInstructions = !this.showInstructions
+  }
+
   openModal(modal) {
-      this.$modal.show(modal)
-    }
+    this.$modal.show(modal)
+  }
 }
 </script>
 
