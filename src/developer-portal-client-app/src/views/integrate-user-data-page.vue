@@ -1,7 +1,7 @@
 <template lang="pug">
-  div.home
-    div(v-if="ready")
-      div(v-if="(currentApplication && currentApplication.authCallbackUrl)")
+  div.home(v-if="ready")
+    div(v-if="currentApplication")
+      div(v-if="currentApplication.authCallbackUrl")
           h1 Test your application
           p.flex-wrapper
             span.
@@ -68,8 +68,8 @@
               .help-text(v-if="!formDisabled") If you let your user's connect new platforms through the API, Open Platform will verify the user's email address. If you want to recieve notifications when the user has confirmed their address, enter a url in this field.
               .feedback
           .form-unsaved(v-if="formEdited")
-            h3 Recent edits to the urls have not been saved 
-          .buttons
+            p.error Recent edits to the urls have not been saved 
+          .buttons.mb-2
             button.btn.btn-import.right(v-if="!formDisabled" type="submit") Save
             button.btn.btn-secondary.right(v-if="!formDisabled && (authCallbackUrl||gigDataNotificationUrl||emailVerificationUrl)" @click="cancelEdit()" type="reset") Cancel
             button.btn.btn-import.btn-outline.right.small(v-if="formDisabled" key="123" type="button" @click="enableForm()") Edit...
@@ -153,6 +153,7 @@ export default class IntegrateUserDataPage extends Vue {
     this.formDisabled = this.currentApplication !== null && this.currentApplication.authCallbackUrl != null
     if(!this.currentApplication)
       this.$store.commit('projects/queueDispatchAfterInit', 'createApplication')
+    console.log("formDisabled: " + this.formDisabled);
   }
 
   private isFormEdited() {
