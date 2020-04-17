@@ -1,6 +1,5 @@
 <template lang="pug">
   div.start
-    //- .tile(v-if="!all.projects")
     .intro-text
       h2 Welcome to Open Platforms developer portal!
       p Through the Open Platforms API you can:
