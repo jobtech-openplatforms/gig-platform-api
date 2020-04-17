@@ -74,7 +74,7 @@ export default {
   background:#3b3b3b;
   @include small-screen-and-up {
     background: #3b3b3b url('../assets/img/open-platforms-symbol.svg') right center /
-      75vmin auto no-repeat;
+      55vmin auto no-repeat;
   }
   @include small-screen{
     background-size: 67wmin;
