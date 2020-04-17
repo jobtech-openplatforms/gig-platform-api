@@ -48,7 +48,6 @@
           .feedback
             .invalid-feedback(v-if="error") {{ error }}
         button.btn.btn-export.btn-right(v-if="!submitted" key="78910" :disabled="testStatus === 2") Run the test!
-        button.btn.btn-export.btn-right(v-else @click="newTest()"  key="78911" :disabled="testStatus === 2") New Test
     h2(v-if="(submitted && !completed) || testStatus === 2") Performing test...
 
     .card(v-if="currentPlatform && !currentPlatform.exportDataUri")
