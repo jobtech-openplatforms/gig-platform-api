@@ -96,6 +96,7 @@ export default class SideNav extends Vue {
     #banner-switch{
         @include sidebar-width(width);
         padding:0.5rem 2rem 0.75rem;
+        white-space:nowrap;
       }
   
 
@@ -195,6 +196,10 @@ export default class SideNav extends Vue {
       rgba(59, 59, 59, 1) 100%
     );
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#003b3b3b', endColorstr='#3b3b3b',GradientType=0 );
+
+    a{
+      white-space:nowrap;
+    }
   }
   
   #projects-list {
