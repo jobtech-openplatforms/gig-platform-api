@@ -44,7 +44,7 @@ export default class OpenDataForm extends Vue {
     this.$store
       .dispatch('projects/setPlatformUrl', this.exportDataUri)
       .then((result) => {
-        this.$router.push('/test-open-api')
+        this.$router.push('/platform-test')
         this.submitted = false
       })
       .catch((error) => {

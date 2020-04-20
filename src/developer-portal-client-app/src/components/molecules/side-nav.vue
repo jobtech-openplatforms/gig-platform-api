@@ -28,10 +28,10 @@
         .details(v-if="current && current.project && project.id === current.project.id")
           hr
           router-link.color-project( to="/project" active-class="active") Project info
-          router-link.color-export( to="/share-user-data" active-class="active" v-bind:class="{ 'active': $route.path == '/test-open-api' }") 
+          router-link.color-export( to="/platform-settings" active-class="active" v-bind:class="{ 'active': $route.path == '/platform-test' }") 
             span Platform API
             .connections(v-bind:class="{hasplconn : project.platforms && project.platforms.length >= 1 && project.platforms[0] && (project.platforms[0].published || (testMode && project.platforms[0].exportDataUri))}")
-          router-link.color-import( to="/integrate-user-data" active-class="active") 
+          router-link.color-import( to="/application-settings" active-class="active") 
             span Application API
             .connections(v-bind:class="{hasappconn : project.applications && project.applications.length >= 1 && project.applications[0] && project.applications[0].authCallbackUrl}")
 

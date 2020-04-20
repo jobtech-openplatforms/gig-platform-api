@@ -28,7 +28,7 @@ import PlatformInstructions from '../components/molecules/platform-instructions.
     if (!this.currentProject) {
       this.$router.push('/projects')
     } else if (this.currentPlatform && this.currentPlatform.exportDataUri) {
-      this.$router.push('/test-open-api')
+      this.$router.push('/platform-test')
     }
     this.ready = true
   },
@@ -39,7 +39,7 @@ import PlatformInstructions from '../components/molecules/platform-instructions.
     PlatformInstructions
   }
 })
-export default class OpenUserDataPage extends Vue {
+export default class PlatformSettingsPage extends Vue {
   private submitted: boolean = false
   private ready: boolean = false
   private exportDataUri: string = ''

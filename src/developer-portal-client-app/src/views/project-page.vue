@@ -13,13 +13,13 @@
           .integration-status
             strong Platform
             span.yes.ml-1 {{currentPlatform && (currentPlatform.published === true) ? ' Active' : ''}}
-            router-link.btn.btn-export.btn-outline.btn-small(to="/share-user-data") {{currentPlatform && currentPlatform.exportDataUri ? (currentPlatform.published ? 'Edit...' : 'Test...') : 'Add...'}}
+            router-link.btn.btn-export.btn-outline.btn-small(to="/platform-settings") {{currentPlatform && currentPlatform.exportDataUri ? (currentPlatform.published ? 'Edit...' : 'Test...') : 'Add...'}}
 
           hr
           .integration-status
             strong Application
             span.yes.ml-1 {{currentApplication && currentApplication.authCallbackUrl ? 'Ready' : ''}}
-            router-link.btn.btn-import.btn-outline.btn-small(to="/integrate-user-data" ) {{currentApplication && currentApplication.authCallbackUrl ? 'Edit...' : 'Add...'}}
+            router-link.btn.btn-import.btn-outline.btn-small(to="/application-settings" ) {{currentApplication && currentApplication.authCallbackUrl ? 'Edit...' : 'Add...'}}
 
     div.home.project-page.center(v-else-if="currentProjects")
       .arrow

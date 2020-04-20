@@ -4,8 +4,8 @@
     div(class="app-logo-container")
       <img class="app-logo" src="../../assets/img/open-platforms-logo-icon.png">
       <img class="app-logo" src="../../assets/img/open-platforms-logo-text.png">
-    //- router-link.btn.color-export( to="/share-user-data" active-class="active") Platform API documentation//
-    //- router-link.btn.color-import( to="/integrate-user-data" active-class="active") Application API documentation//
+    //- router-link.btn.color-export( to="/platform-settings" active-class="active") Platform API documentation//
+    //- router-link.btn.color-import( to="/application-settings" active-class="active") Application API documentation//
     div(v-if="!$auth.loading")
       router-link.btn.color-project( to="/project-start" active-class="active") Help
 

@@ -425,11 +425,6 @@ export const projects: Module<ProjectsModuleState, RootState> = {
   getters
 }
 
-// Guessing... :-D
-// export interface TestProjectState extends ProjectState {
-//   liveProjectId: string
-// }
-
 export interface ProjectState extends ProjectUpdateRequest {
   liveProjectId?: string // Only available on TestProject
   platforms?: PlatformState[]
@@ -474,7 +469,6 @@ export interface AllPlatformsState extends BasicState {
 
 export interface CurrentPlatformState extends BasicState {
   project?: ProjectState,
-  // testProject?: ProjectState
 }
 
 export interface AdminUserState extends BasicState {

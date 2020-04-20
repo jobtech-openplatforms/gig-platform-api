@@ -1,26 +1,26 @@
 <template lang="pug">
   div
     h1 Open Platforms request structure
-    h2 Request structure for calls to your platform
+    h2 Request structure for calls to your application
     p.
       This documentation describes how to implement
       the integration with Open Platforms in your
-      service.
+      application.
     h2 How it works
     p.
       Briefly described, this is how the Open Platforms
       connection is established with your service.
     ol
       li.
-        Create an endpoint (URL) that is publicly
+        Create three endpoints (URLs) that are publicly
         accessible for calls from Open Platforms to
-        request data for a specified user.
+        update data for a specified user.
         For testing we recommend using #[strong Test mode].
-        #[router-link.color-export(to="/share-user-data") Enter your endpoint url] 
-        for the platform.
+        #[router-link.color-export(to="/application-settings") Enter your endpoint url] 
+        for the application.
       li.
-        The endpoint verifies the security token
-        from Open Platforms and returns an HTTP
+        The endpoints should verifiy the application ID and Secret Key
+        from Open Platforms and return an HTTP
         status in the 400-599 range (recommended: 401
         Unauthorized) if the token is incorrect.
       li.
@@ -29,15 +29,15 @@
         specified by Open Platforms.
       li.
         You test the integration with the test tool
-        provided #[router-link.color-export(to="/test-open-api") here]
+        provided #[router-link.color-export(to="/application-test") here]
         by Open Platforms.
       li.
         Once the test is successful, request for the
-        platform to #[strong Go Live] to be integrated
+        application to #[strong Go Live] to be integrated
         in apps chosen by the user.
       li.
-        Open Platforms periodically retrieves updates
-        from your platform for each connected user.
+        Open Platforms periodically sends updates
+        from your application for each connected user.
     h2 Prerequisites
     p.
       The following prerequisites are required for
@@ -46,22 +46,17 @@
       from your service.
     ul
       li.
-        Your platform or service is accessible from the
-        web and you are able to add a custom url to be
+        Your application or service is accessible from the
+        web and you are able to add custom urls to be
         called by Open Platforms with user data in the
         correct format.
       li.
-        You are able to verify a header with a sceurity
-        token in the endpoint.
-      li.
-        Your platform has unique e-mail addresses for
-        users so that there is no conflict between which
-        account to retrieve user data from.
+        You are able to verify a header with authentication
+        in the endpoint.
     h2 JSON Schema
     p.
-      Please see the #[router-link.color-export(to="/json-schema") JSON Schema]
-      for how to format the response to requests from
-      Open Platforms.
+      #[strong TODO:] Describe the format for communication
+      with applications
 </template>
 
 <script lang="ts">
@@ -69,5 +64,5 @@ import { Component, Vue } from 'vue-property-decorator'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 @Component({})
-export default class PlatformApiRequestPage extends Vue {}
+export default class ApplicationDocumentationPage extends Vue {}
 </script>

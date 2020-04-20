@@ -3,7 +3,7 @@
     h4 What's needed?
     ol
       li
-        p You need to build an endpoint that returns the user's data in our specified data format. You can read more about the #[router-link.color-export(to="/platform-api-requests") request structure and data format here]
+        p You need to build an endpoint that returns the user's data in our specified data format. You can read more about the #[router-link.color-export(to="/platform-documentation") request structure and data format here]
       li
         p When a user wants to access their data, we will make a request to your endpoint on their behalf. This request will include two parameters:
         ul
