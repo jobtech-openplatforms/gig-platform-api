@@ -22,7 +22,25 @@
         or more platforms into their account with the service.
 
       h2 Platform integration
+      p.
+        The #[em.color-export Platform] integration is for you if your service
+        serves as a platform for gig workers to perform gigs for customers.
+        Preferably including earnings per gig and reputation data like reviews
+        and ratings.
+      p.
+        To integrate with Open Platforms, you will have to create an SSL secured URL endpoint
+        that is publicly accessible for the Open Platforms system to retrieve data
+        for the individual gig worker from.
+      h3 How it works
+      h3 TEST mode and LIVE mode
+      p.
+        The Open Platforms development portal includes two modes for access - TEST mode
+        for development and testing, and LIVE mode for live access.
       h2 Application integration
+      p.
+        The #[em.color-import Application] integration is for services who want to import
+        gig data (performed gigs, earnings, reputation, etc.) from one or more platforms.
+      h3 How it works
 
 </template>
 
