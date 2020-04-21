@@ -9,13 +9,32 @@
       blockquote(style="font-size:larger").
         The purpose for Open Platforms is to provide the infrastructure
         for data mobility and innovation in the gig economy.
+
       hr
+
       h3 Data mobility for gig workers
       p.
         Open Platforms allows gig workers to migrate their experience data
         from one gig platform to another or to an application where they
         can make use of their experience data. 
+      h4 Use cases
+      p.
+        Here are a few examples of how Open Platforms can provide value.
+      ul
+        li.
+          Gig workers can import their experience from other platforms
+          #[br][image: Gig worker reputation > signup > import > land new gigs]
+        li.
+          Platforms can include external experience as part of the reputation 
+          for a gig worker, reducing the hurdle to get new gigs.
+          #[br][image: Gig worker reputation > signup > import > land new gigs]
+
+        li.
+          Applications can use gig data to show a CV/resumé for a gig worker.
+          #[br][image: Import from all platforms > include verified on CV]
+
       hr
+
       h3 Benefits for gig platforms
       p.
         Why should gig platforms connect their service to Open Platforms?
