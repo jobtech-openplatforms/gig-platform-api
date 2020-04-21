@@ -225,10 +225,12 @@ export default {
         .then((response) => {
           this.showform = true
           this.completed = true
+          this.submitted = false
         })
         .catch((error) => {
           alert(error)
           this.completed = true
+          this.submitted = false
         })
       // 4. On response or error, change display state
       // 5. Show response
