@@ -314,7 +314,7 @@ const mutations: MutationTree<ProjectsModuleState> = {
   cancelEdit(state) {
     Vue.set(state.editing, 'project', state.current.project)
   },
-  switchMode(state) {
+  switchMode(state, remain) {
     if (state.current.project) {
       // Get same project from other mode
       var project =
@@ -333,7 +333,8 @@ const mutations: MutationTree<ProjectsModuleState> = {
         localStorage.setItem('projectId', project.id)
         Vue.set(state.current, 'project', project)
         Vue.set(state.editing, 'project', project)
-        router.push('/project').catch(err => { })
+        if(!remain)
+          router.push('/project').catch(err => { })
       }
     }
     Vue.set(state, 'testMode', !state.testMode)

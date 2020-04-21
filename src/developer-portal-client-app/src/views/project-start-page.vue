@@ -40,7 +40,7 @@ import { mapState, mapGetters, mapMutations } from 'vuex'
   },
   methods: {
     switchTestMode() {
-      this.$store.commit('projects/switchMode')
+      this.$store.commit('projects/switchMode', true)
     }
   },
 })
