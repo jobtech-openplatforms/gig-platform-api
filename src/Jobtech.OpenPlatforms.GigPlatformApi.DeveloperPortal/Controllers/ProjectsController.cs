@@ -92,7 +92,12 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 {
                     var project = await _projectManager.Get((ProjectId)item.Id, session);
                     var entityToCreate = project.ToTestEntity();
-                    var testProject = await _projectManager.Create(entityToCreate);
+                    var existingTestProject = await _projectManager.GetTestByLiveId((ProjectId)item.Id, session);
+                    if (existingTestProject == null)
+                    {
+                        // Race condition - consider lock or other solution
+                        await _projectManager.Create(entityToCreate);
+                    }
                 }
                 var testProjects = await _projectManager.GetAllTest(user.Id, session);
                 return Ok(testProjects);
@@ -115,7 +120,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 var testProjects = await _projectManager.GetAllTest(user.Id, session);
                 if (projects.Any(p => !testProjects.Any(tp => tp.LiveProjectId == p.Id)))
                 {
-                    foreach (var project in projects.Where(p => !testProjects.Any(tp => tp.LiveProjectId== p.Id )))
+                    foreach (var project in projects.Where(p => !testProjects.Any(tp => tp.LiveProjectId == p.Id)))
                     {
                         await _projectManager.Create(project.ToTestEntity());
                     }

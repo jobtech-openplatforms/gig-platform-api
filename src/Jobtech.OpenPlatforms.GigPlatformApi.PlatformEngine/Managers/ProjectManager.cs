@@ -29,6 +29,10 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
                             .OrderByDescending(p => p.Id)
                             .ToListAsync();
 
+        public async Task<TestProject> GetTestByLiveId(ProjectId projectId, IAsyncDocumentSession session)
+            => await session.Query<TestProject>()
+                            .FirstOrDefaultAsync(p => p.LiveProjectId == projectId.Value);
+
 
         public async Task<Project> Update(Project project)
         {

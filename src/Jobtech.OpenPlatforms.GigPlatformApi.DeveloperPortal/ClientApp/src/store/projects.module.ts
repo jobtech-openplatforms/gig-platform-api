@@ -27,23 +27,28 @@ const moduleState: ProjectsModuleState = {
 }
 
 const actions: ActionTree<ProjectsModuleState, RootState> = {
-  getAll({ commit }, currentProject) {
+  getAll({ commit, state }, currentProject) {
+    if (state.all && (state.all.projects || state.all.testProjects)) {
+      const p = localStorage.getItem('projectId')
+      return state.all.projects.find(obj => obj.id === p) ||
+        state.all.testProjects.find(obj => obj.id === p)
+    }
     commit('getAllRequest')
     return projectsService
-            .getAll()
-            .then(
-              (allProjects) => {
-                commit('getAllSuccess', allProjects)
-                if (!currentProject) {
-                  const p = localStorage.getItem('projectId')
-                  currentProject = allProjects.projects.find(obj => obj.id === p) ||
-                                    allProjects.testProjects.find(obj => obj.id === p)
-                  commit('changeCurrentProject', currentProject)
-                }
-                return currentProject
-              },
-              (error) => commit('getAllFailure', error)
-            )
+      .getAll()
+      .then(
+        (allProjects) => {
+          commit('getAllSuccess', allProjects)
+          if (!currentProject) {
+            const p = localStorage.getItem('projectId')
+            currentProject = allProjects.projects.find(obj => obj.id === p) ||
+              allProjects.testProjects.find(obj => obj.id === p)
+            commit('changeCurrentProject', currentProject)
+          }
+          return currentProject
+        },
+        (error) => commit('getAllFailure', error)
+      )
   },
 
   testPlatform({ commit }, testData) {
@@ -82,10 +87,10 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
           return currentProject
         },
         (error) => {
-            commit('getFailure', error)
-            throw error
-          }
-    )
+          commit('getFailure', error)
+          throw error
+        }
+      )
   },
 
   updateProject({ state, commit, dispatch }, projectData) {
@@ -118,11 +123,11 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
   setPlatformUrl({ state, commit, dispatch }, url: string) {
     commit('getRequest', state.current.project.id)
     return projectsService
-            .setPlatformUrl(state.current.project.id, url)
-            .then(
-              (currentProject) => commit('getSuccess', currentProject),
-              (error) => commit('getFailure', error)
-            )
+      .setPlatformUrl(state.current.project.id, url)
+      .then(
+        (currentProject) => commit('getSuccess', currentProject),
+        (error) => commit('getFailure', error)
+      )
   },
 
   setApplicationUrls({ state, commit }, urls: ApplicationUrlsUpdateRequest) {

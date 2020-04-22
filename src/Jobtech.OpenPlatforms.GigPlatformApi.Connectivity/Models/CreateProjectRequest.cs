@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
@@ -63,8 +64,14 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
                                             new Platform
                                             {
                                                 Id = System.Guid.NewGuid(),
+                                                PlatformToken = Guid.NewGuid().ToString(),
                                                 Published = false
-                                            }),
+                                            })
+                                        ??
+                                        new List<Platform>
+                                        {
+                                            Platform.Create()
+                                        },
                 Webpage = project.Webpage
             };
 
