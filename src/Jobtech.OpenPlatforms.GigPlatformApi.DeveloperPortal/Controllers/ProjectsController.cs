@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Jobtech.OpenPlatforms.GigDataCommon.Library.Models.GigDataService;
+﻿using Jobtech.OpenPlatforms.GigDataCommon.Library.Models.GigDataService;
 using Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine.Managers;
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Extensions;
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers;
@@ -16,6 +12,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Raven.Client.Documents;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
 {
@@ -177,8 +177,16 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 }
                 else
                 {
-                    var existingPlatform = await _platformAdminHttpClient.GetPlatform(project.Platforms.FirstOrDefault().Id);
-                    platform = new Core.Entities.Platform { Id = existingPlatform.PlatformId, PlatformToken = project.Platforms.FirstOrDefault().PlatformToken, ExportDataUri = request.Url, LastUpdate = DateTime.UtcNow, Published = !existingPlatform.IsInactive };
+                    if (!testMode)
+                    {
+                        var existingPlatform = await _platformAdminHttpClient.GetPlatform(project.Platforms.FirstOrDefault().Id);
+                        platform = new Core.Entities.Platform { Id = existingPlatform.PlatformId, PlatformToken = project.Platforms.FirstOrDefault().PlatformToken, ExportDataUri = request.Url, LastUpdate = DateTime.UtcNow, Published = !existingPlatform.IsInactive };
+                    }
+                    else
+                    {
+                        platform = project.Platforms.FirstOrDefault();
+                        platform.ExportDataUri = request.Url;
+                    }
                 }
                 // One platform per project, so just replace. Create() above also sets the LastUpdated date.
                 project.Platforms = new List<Core.Entities.Platform> { platform };
@@ -200,7 +208,6 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Update([FromBody] UpdateProjectRequest request)
         {
-
             using var session = _documentStore.OpenAsyncSession();
             var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
 
@@ -280,7 +287,6 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
             }
             catch (Exception ex)
             {
-
                 _logger.LogCritical(ex, "Unable to retrieve platform status for project {projectId} platform {platformId}", project.Id, project.Platforms?.FirstOrDefault()?.Id);
                 throw new ApiException(ex, 500);
             }
