@@ -38,9 +38,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
             => await PatchAsync(_config.Api.ApiEndpointAppSetWebsiteUrl.Replace("{applicationId}", applicationId), new { websiteUrl });
 
         public async Task PatchApiEndpointAppSetNotificationUrl(string applicationId, string url)
-            => await PatchAsync(_config.Api.ApiEndpointAppSetNotificationUrl.Replace("{applicationId}", applicationId), new { url });
-        public async Task PatchEmailVerificationUrl(string applicationId, string url)
-            => await PatchAsync(_config.Api.ApiEndpointAppSetEmailVerificationUrl.Replace("{applicationId}", applicationId), new { url });
+            => await PatchAsync(_config.Api.ApiEndpointAppSetDataUpdateCallbackUrl.Replace("{applicationId}", applicationId), new { url });
+        //public async Task PatchEmailVerificationUrl(string applicationId, string url)
+        //    => await PatchAsync(_config.Api.ApiEndpointAppSetEmailVerificationUrl.Replace("{applicationId}", applicationId), new { url });
         public async Task PatchAuthCallbackUrl(string applicationId, string url)
             => await PatchAsync(_config.Api.ApiEndpointAppSetAuthCallbackUrl.Replace("{applicationId}", applicationId), new { url });
 

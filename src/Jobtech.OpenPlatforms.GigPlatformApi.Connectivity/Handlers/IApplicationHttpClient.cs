@@ -10,7 +10,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
         Task<GetApplicationResult> Get(string id);
         Task PatchApiEndpointAppSetNotificationUrl(string applicationId, string url);
         Task PatchAuthCallbackUrl(string applicationId, string url);
-        Task PatchEmailVerificationUrl(string applicationId, string url);
+        //Task PatchEmailVerificationUrl(string applicationId, string url);
         Task SetName(string applicationId, string name);
         Task SetDescription(string applicationId, string description);
         Task SetLogoUrl(string applicationId, string logoUrl);

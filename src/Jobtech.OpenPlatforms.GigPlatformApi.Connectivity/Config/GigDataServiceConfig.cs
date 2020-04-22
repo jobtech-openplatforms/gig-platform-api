@@ -25,9 +25,9 @@
 
         public string ApiEndpointCreateApplication { get => ApiEndpointAppBase; }
         public string ApiEndpointGetApplication { get => ApiEndpointAppUrlById; }
-        public string ApiEndpointAppSetNotificationUrl { get => ApiEndpointAppUrlById + "/set-notification-endpoint-url"; }
-        public string ApiEndpointAppSetEmailVerificationUrl { get => ApiEndpointAppUrlById + "/set-email-verification-notification-endpoint-url"; }
-        public string ApiEndpointAppSetAuthCallbackUrl { get => ApiEndpointAppUrlById + "/set-auth-callback-url"; }
+        public string ApiEndpointAppSetDataUpdateCallbackUrl { get => ApiEndpointAppUrlById + "/set-data-update-callback-url"; }
+        //public string ApiEndpointAppSetEmailVerificationUrl { get => ApiEndpointAppUrlById + "/set-email-verification-notification-endpoint-url"; }
+        public string ApiEndpointAppSetAuthCallbackUrl { get => ApiEndpointAppUrlById + "/set-authorization-callback-url"; }
         public string ApiEndpointAppSetName { get => ApiEndpointAppUrlById + "/set-name"; }
         public string ApiEndpointAppSetDescription { get => ApiEndpointAppUrlById + "/set-description"; }
         public string ApiEndpointAppSetLogoUrl { get => ApiEndpointAppUrlById + "/set-logourl"; }

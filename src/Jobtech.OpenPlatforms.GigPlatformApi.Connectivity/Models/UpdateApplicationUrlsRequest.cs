@@ -14,8 +14,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
         {
             Id = oldApplication.Id,
             AuthCallbackUrl = this.AuthCallbackUrl,
-            GigDataNotificationUrl = this.GigDataNotificationUrl,
-            EmailVerificationUrl = this.EmailVerificationUrl,
+            DataUpdateCallbackUrl = this.DataUpdateCallbackUrl,
+            //EmailVerificationUrl = this.EmailVerificationUrl,
             //ApplicationId = createApplicationResult.ApplicationId,
             SecretKey = oldApplication.SecretKey
         };
@@ -29,8 +29,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
         {
             Id = application.Id,
             AuthCallbackUrl = updateApplicationUrlsRequest.AuthCallbackUrl,
-            GigDataNotificationUrl = updateApplicationUrlsRequest.GigDataNotificationUrl,
-            EmailVerificationUrl = updateApplicationUrlsRequest.EmailVerificationUrl,
+            DataUpdateCallbackUrl = updateApplicationUrlsRequest.DataUpdateCallbackUrl,
+            //EmailVerificationUrl = updateApplicationUrlsRequest.EmailVerificationUrl,
             //ApplicationId = application.ApplicationId,
             SecretKey = application.SecretKey
         };

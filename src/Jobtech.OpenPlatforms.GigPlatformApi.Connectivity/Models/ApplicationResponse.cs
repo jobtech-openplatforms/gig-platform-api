@@ -7,8 +7,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
     {
         public string Id { get; set; }
         public string AuthCallbackUrl { get; set; }
-        public string GigDataNotificationUrl { get; set; }
-        public string EmailVerificationUrl { get; set; }
+        public string DataUpdateCallbackUrl { get; set; }
+        //public string EmailVerificationUrl { get; set; }
 
         public string SecretKey { get; set; }
         //public string ApplicationId { get; set; }
@@ -18,8 +18,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
         public static ApplicationResponse AsResponse(this Application application)
             => new ApplicationResponse { Id = application.Id,
                 AuthCallbackUrl = application.AuthCallbackUrl,
-                GigDataNotificationUrl = application.GigDataNotificationUrl,
-                EmailVerificationUrl = application.EmailVerificationUrl,
+                DataUpdateCallbackUrl = application.DataUpdateCallbackUrl,
+                //EmailVerificationUrl = application.EmailVerificationUrl,
                 //ApplicationId = application.ApplicationId,
                 SecretKey = application.SecretKey
             };
