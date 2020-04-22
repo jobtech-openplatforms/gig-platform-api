@@ -8,15 +8,18 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
     public class CreateProjectRequest
     {
         public string Name { get; set; }
+        public bool TestMode { get; set; }
 
         public static implicit operator Project(CreateProjectRequest createProjectRequest) => new Project { Name = createProjectRequest.Name };
     }
+    
     public class CreateProjectModel : CreateProjectRequest
     {
         public string CreatedBy { get; set; }
         public string OwnerAdminId { get; set; }
         public string[] AdminIds { get; set; }
     }
+
     public static class CreateProjectModelExtensions
     {
         public static CreateProjectModel WithOwner(this CreateProjectRequest createProjectRequest, PlatformAdminUserId createdBy)
@@ -28,13 +31,15 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
                     Name = createProjectRequest.Name
                 };
 
-        public static Project ToEntity(this CreateProjectModel createProjectModel) => new Project
-        {
-            Name = createProjectModel.Name,
-            OwnerAdminId = createProjectModel.OwnerAdminId,
-            AdminIds = createProjectModel.AdminIds,
-            Platforms = new List<Platform> { Platform.Create() }
-        };
+        public static Project ToEntity(this CreateProjectModel createProjectModel, Platform platform) 
+            => new Project
+                {
+                    Name = createProjectModel.Name,
+                    OwnerAdminId = createProjectModel.OwnerAdminId,
+                    AdminIds = createProjectModel.AdminIds,
+                    Platforms = new List<Platform> { platform },
+                    Applications = new List<Application> () // TODO: Create application elsewhere and ensure the entity is updated  
+                };
 
         public static TestProject ToTestEntity(this Project project) 
             => new TestProject {
@@ -63,8 +68,18 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
                                             new Platform
                                             {
                                                 Id = System.Guid.NewGuid(),
+                                                PlatformToken = System.Guid.NewGuid().ToString(),
                                                 Published = false
-                                            }),
+                                            })
+                                            ??
+                                            new List<Platform> {
+                                                new Platform
+                                                {
+                                                    Id = System.Guid.NewGuid(),
+                                                    PlatformToken = System.Guid.NewGuid().ToString(),
+                                                    Published = false
+                                                }
+                                            },
                 Webpage = project.Webpage
             };
 

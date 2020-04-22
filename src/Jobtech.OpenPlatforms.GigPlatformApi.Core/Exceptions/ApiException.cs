@@ -29,16 +29,26 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Core.Exceptions
         public ApiException(Exception ex, 
                             int statusCode = 500,
                             IEnumerable<string> errors = null) : 
-            base(ex.Message)
+            base(ex.Message, ex)
         {
             StatusCode = statusCode;
             Errors = errors;
         }
 
         public ApiException(Exception ex,
+                            string message,
                             HttpStatusCode statusCode,
                             IEnumerable<string> errors = null) :
-            base(ex.Message)
+            base(message, ex)
+        {
+            StatusCode = (int)statusCode;
+            Errors = errors;
+        }
+        
+        public ApiException(Exception ex,
+                            HttpStatusCode statusCode,
+                            IEnumerable<string> errors = null) :
+            base(ex.Message, ex)
         {
             StatusCode = (int)statusCode;
             Errors = errors;

@@ -6,6 +6,7 @@ using Jobtech.OpenPlatforms.GigPlatformApi.Core.Exceptions;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
 using Jobtech.OpenPlatforms.GigPlatformApi.FileStore.Managers;
 using Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers;
+using Jobtech.OpenPlatforms.GigPlatformApi.Store;
 using Jobtech.OpenPlatforms.GigPlatformApi.Store.Config;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -25,23 +26,28 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
 
         private readonly IFileManager _fileManager;
 
-        public MediaController(IProjectManager projectManager, IPlatformAdminUserManager platformAdminUserManager, IDocumentStoreHolder documentStoreHolder, IFileManager fileManager)
+        public MediaController(IProjectManager projectManager, IPlatformAdminUserManager platformAdminUserManager, IDocumentStore documentStoreHolder, IFileManager fileManager)
         {
             _projectManager = projectManager;
             _platformAdminUserManager = platformAdminUserManager;
-            _documentStore = documentStoreHolder.Store;
+            _documentStore = documentStoreHolder;
             _fileManager = fileManager;
         }
 
         [HttpPost]
-        [Route("[action]/projects/{projectId}")]
-        public async Task<IActionResult> Save([FromForm]IFormFile file, [FromRoute] string projectId)
+        [Route("[action]/{projectNamespace:alpha}/{projectId}")]
+        public async Task<IActionResult> Save([FromForm]IFormFile file, [FromRoute] string projectNamespace, [FromRoute] string projectId)
         {
             // Who's logged in?
             using var session = _documentStore.OpenAsyncSession();
             var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
+
+            projectId = $"{projectNamespace}/{projectId}"; 
+
+            var testMode = TestProjectId.IsValidIdentity(projectId) && !ProjectId.IsValidIdentity(projectId);
+
             // Which project are we working on?
-            var project = await _projectManager.Get((ProjectId)projectId);
+            var project = testMode ? await _projectManager.GetTest((TestProjectId)projectId, session) : await _projectManager.Get((ProjectId)projectId, session);
             // Does the user have access to the project?
             if (!project.AdminIds.Contains(user.Id) && project.OwnerAdminId != user.Id)
             {

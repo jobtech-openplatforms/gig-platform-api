@@ -9,21 +9,12 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Services
         {
             Token = gigDataServiceConfig.Value.Token;
             AdminKey = gigDataServiceConfig.Value.AdminKey;
-            ApiEndpointCreatePlatform = gigDataServiceConfig.Value.ApiEndpointCreatePlatform;
-            ApiEndpointValidateEmail = gigDataServiceConfig.Value.ApiEndpointValidateEmail;
-            ApiEndpointCreateApplication = gigDataServiceConfig.Value.ApiEndpointCreateApplication;
-            ApiEndpointPlatformStatus = gigDataServiceConfig.Value.ApiEndpointPlatformStatus;
-            ApiEndpointActivatePlatform = gigDataServiceConfig.Value.ApiEndpointActivatePlatform;
-            ApiEndpointDeactivatePlatform = gigDataServiceConfig.Value.ApiEndpointDeactivatePlatform;
+            Api = gigDataServiceConfig.Value;
+           
         }
 
         public string Token { get; }
         public string AdminKey { get; }
-        public string ApiEndpointCreatePlatform { get; }
-        public string ApiEndpointValidateEmail { get; }
-        public string ApiEndpointCreateApplication { get; }
-        public string ApiEndpointPlatformStatus { get; }
-        public string ApiEndpointActivatePlatform { get; }
-        public string ApiEndpointDeactivatePlatform { get; }
+        public GigDataServiceConfig Api { get; }
     }
 }

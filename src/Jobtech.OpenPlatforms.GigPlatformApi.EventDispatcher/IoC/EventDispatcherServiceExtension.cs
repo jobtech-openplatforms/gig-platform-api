@@ -35,6 +35,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.EventDispatcher.IoC
                             o.SimpleRetryStrategy(errorQueueAddress: "gigplatformapi.error",
                                 secondLevelRetriesEnabled: true);
                         })
+                        .Logging(l => l.Serilog())
                         .Routing(r => r.TypeBased()
                             .Map<PlatformUserUpdateDataMessage>("platformdatafetcher.input"))
                         .Serialization(

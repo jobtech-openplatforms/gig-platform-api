@@ -6,7 +6,6 @@ using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.Exceptions;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
-using Jobtech.OpenPlatforms.GigPlatformApi.Store.Config;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 
@@ -16,9 +15,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
     {
         private readonly IDocumentStore _documentStore;
 
-        public PlatformManager(IDocumentStoreHolder documentStore)
+        public PlatformManager(IDocumentStore documentStore)
         {
-            _documentStore = documentStore.Store;
+            _documentStore = documentStore;
         }
 
         public async Task<Platform> AddAdminAsync(Platform platform, PlatformAdminUser admin)
@@ -33,7 +32,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
                     throw new ApiException($"The platform with id {platform.Id} was not found.");
                 }
                 admin = await session.LoadAsync<PlatformAdminUser>(admin.Id);
-                if (!project.AdminIds.Contains(admin.Id) && project.OwnerAdminId!= admin.Id)
+                if (!project.AdminIds.Contains(admin.Id) && project.OwnerAdminId != admin.Id)
                 {
                     var ids = project.AdminIds.ToList();
                     ids.Add(admin.Id);
@@ -46,17 +45,29 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
             }
         }
 
-
         public async Task<Platform> GetPlatformAsync(PlatformId id)
         {
             using (IAsyncDocumentSession session = _documentStore.OpenAsyncSession())
             {
-                var project  = await
+                var project = await
                     session
                     .Query<Project>()
                     .Where(p => p.Platforms.Any(a => a.Id == id.Value))
                     .FirstOrDefaultAsync();
-                return project?
+
+                if (project != null)
+                {
+                    return project?
+                        .Platforms?
+                        .FirstOrDefault();
+                }
+                var testProject = await
+                    session
+                    .Query<TestProject>()
+                    .Where(p => p.Platforms.Any(a => a.Id == id.Value))
+                    .FirstOrDefaultAsync();
+
+                return testProject?
                     .Platforms?
                     .FirstOrDefault();
             }

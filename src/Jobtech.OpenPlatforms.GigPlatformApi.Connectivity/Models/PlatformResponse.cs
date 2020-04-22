@@ -14,7 +14,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
         public string Webpage { get;  set; }
         public string LogoUrl { get;  set; }
         public PlatformAuthenticationMechanism AuthMechanism { get;  set; }
-        public bool IsConnected { get;  set; }
+        public bool IsInactive { get;  set; }
     }
 
     public static class PlatformResponseExtensions

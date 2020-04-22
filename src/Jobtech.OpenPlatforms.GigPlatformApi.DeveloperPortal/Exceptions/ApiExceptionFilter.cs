@@ -53,7 +53,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Exceptions
 
                 context.HttpContext.Response.StatusCode = 500;
 
-                _logger.LogError("There are not always veggies in the fridge. {error}", apiError);
+                _logger.LogError("An error occurred. {@error}", apiError);
             }
 
             // always return a JSON result

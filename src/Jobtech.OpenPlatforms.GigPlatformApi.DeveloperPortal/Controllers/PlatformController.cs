@@ -40,12 +40,11 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
             // Get platform
             var platform = await _platformManager.GetPlatformAsync(id);
 
-
             // If there is no connection, check that the platform exists
             if (platform == null)
             {
                 // TODO: Log this
-                return NotFound(PlatformUserDataResponse.Fail("", $"No platform found with ID '{id}'."));
+                return NotFound(PlatformUserDataResponse.Fail("", $"No platform found with ID '{id}'. [-]"));
             }
 
             if (string.IsNullOrEmpty(platform.ExportDataUri))

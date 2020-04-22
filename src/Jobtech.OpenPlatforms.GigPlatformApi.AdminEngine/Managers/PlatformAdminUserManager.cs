@@ -6,7 +6,6 @@ using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.Exceptions;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
-using Jobtech.OpenPlatforms.GigPlatformApi.Store.Config;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 
@@ -16,9 +15,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine.Managers
     {
         private IDocumentStore _documentStore;
 
-        public PlatformAdminUserManager(IDocumentStoreHolder documentStore)
+        public PlatformAdminUserManager(IDocumentStore documentStore)
         {
-            _documentStore = documentStore.Store;
+            _documentStore = documentStore;
         }
 
         //public PlatformAdminUser GetUser(PlatformAdminUserId userId)
