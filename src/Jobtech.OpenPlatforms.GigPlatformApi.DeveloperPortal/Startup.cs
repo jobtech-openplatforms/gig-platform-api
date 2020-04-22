@@ -32,6 +32,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
 {
     public class Startup
     {
+        readonly string AllowSpecificOrigins = "_allowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -100,7 +102,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
 
             services.AddCors(options =>
                 {
-                    options.AddPolicy("AllowAll",
+                    options.AddPolicy(name: AllowSpecificOrigins,
                         builder =>
                         {
                             builder
@@ -192,7 +194,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllers()
+                    .RequireCors(AllowSpecificOrigins);
             });
         }
     }

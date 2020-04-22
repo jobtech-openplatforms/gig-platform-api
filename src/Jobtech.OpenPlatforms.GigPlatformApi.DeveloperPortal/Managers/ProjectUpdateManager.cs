@@ -87,9 +87,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Managers
             if (project.LogoUrl != request.LogoUrl)
             {
                 // TODO: Catch exception thrown on failed update
-                if (application != null)
+                if (application != null && !testMode)
                     await _applicationHttpClient.SetLogoUrl(application.Id, request.LogoUrl);
-                if (platform != null)
+                if (platform != null && !testMode)
                     await _platformAdminHttpClient.SetLogoUrl(platform.Id.ToString(), request.LogoUrl);
                 project.LogoUrl = request.LogoUrl;
                 updates.Add(nameof(Project.LogoUrl));
@@ -98,9 +98,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Managers
             if (project.Description != request.Description)
             {
                 // TODO: Catch exception thrown on failed update
-                if (application != null)
+                if (application != null && !testMode)
                     await _applicationHttpClient.SetDescription(application.Id, request.Description);
-                if (platform != null)
+                if (platform != null && !testMode)
                     await _platformAdminHttpClient.SetDescription(platform.Id.ToString(), request.Description);
                 project.Description = request.Description;
                 updates.Add(nameof(Project.Description));
@@ -109,9 +109,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Managers
             if (project.Webpage != request.Webpage)
             {
                 // TODO: Catch exception thrown on failed update
-                if (application != null)
+                if (application != null && !testMode)
                     await _applicationHttpClient.SetWebsiteUrl(application.Id, request.Webpage);
-                if (platform != null)
+                if (platform != null && !testMode)
                     await _platformAdminHttpClient.SetWebsiteUrl(platform.Id.ToString(), request.Webpage);
                 project.Webpage = request.Webpage;
                 updates.Add(nameof(Project.Webpage));
