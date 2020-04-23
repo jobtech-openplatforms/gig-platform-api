@@ -7,6 +7,7 @@
       p Tested URL:
         br
         code {{response.testedUrl}}
+      hr
     div {{error}}
 </template>
 
@@ -43,9 +44,6 @@ export default class AppAuthTest extends Vue {
         (responseObj) => {
           const data = responseObj.data
           this.response = data
-          if (!data.success) {
-            this.error = data.message
-          }
         },
         (error) => {
           console.log(error)
