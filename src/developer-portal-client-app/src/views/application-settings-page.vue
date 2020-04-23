@@ -2,7 +2,7 @@
   div.home(v-if="ready")
     div(v-if="currentApplication")
       div(v-if="currentApplication.authCallbackUrl")
-          h1 Test your application
+          h1 Application settings
           p.flex-wrapper
             span.
               To help you test the application you are developing to retrieve data from
