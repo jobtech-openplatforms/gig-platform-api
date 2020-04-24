@@ -72,11 +72,16 @@ export default {
 #main {
   @include flex(row, null, null);
   @include flex-child(1, null, null);
-  @include sidebar-width(padding-left);
+  // @include sidebar-width(padding-left);
+  padding-left:$sidebar-width;
   overflow-x:hidden;
   max-width:$large-screen-width;
   background-color:$light-grey;
   position:relative;
+
+  @include tiny-screen{
+    padding-left:0;
+  }
 
   &.noprojects{
       padding-left:0;
@@ -88,10 +93,9 @@ export default {
   @include flex-child(1, null, null);
   margin-left:auto;
   margin-right:auto;
-  padding:8rem 6rem 2rem;
-  @include tiny-screen{
-    padding:6rem 2rem;
-  }
+  padding-top:8rem;
+  padding-bottom:2rem;
+  @include page-horizontal-spacing(margin-left margin-right);
 
   a{
     font-weight:bold;
