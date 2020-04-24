@@ -1,9 +1,8 @@
 <template lang="pug">
-  .side-nav(v-if="currentProjects.length > 0" v-bind:class="{ testmode: testMode, livemode: !testMode}")
+  .side-nav(v-if="currentProjects.length > 0" v-bind:class="{ testmode: testMode, livemode: !testMode, open: mobileMenuOpen}")
     #banner
-      #banner-switch.toggle-buttons
-        button.btn-tiny.toggle-button.btn-outline-reverse.btn-test(@click="switchTestMode" v-bind:class="{ activestate: testMode}") Test
-        button.btn-tiny.toggle-button.btn-outline-reverse.btn-live(@click="switchTestMode" v-bind:class="{ activestate: !testMode}") Live
+      button#mobile-menu(@click="toggleMobileMenu")
+      
 
       #banner-content(v-if="currentProject")
         em You are in 
@@ -12,10 +11,13 @@
         em mode on project 
         strong {{currentProject.name}}
     #menu-head
+      #banner-switch.toggle-buttons
+        button.btn-tiny.toggle-button.btn-outline-reverse.btn-test(@click="switchTestMode" v-bind:class="{ activestate: testMode}") Test
+        button.btn-tiny.toggle-button.btn-outline-reverse.btn-live(@click="switchTestMode" v-bind:class="{ activestate: !testMode}") Live
       .my-projects( @click="redirectUser") Projects
     ul#projects-list(v-if="currentProjects")
       li.project(v-for="project in currentProjects" v-bind:class="{ active: current && currentProject && project.id === currentProject.id}")
-        .project-bar(@click="setCurrentProject(project)")
+        .project-bar(@click="setCurrentProject(project); toggleMobileMenu()")
           router-link.project-link(to="/project")
             span.project-logo(v-if="project.logoUrl != null" :style="{'background-image': 'url(' + project.logoUrl + ')'}")
             span.project-logo(v-else)
@@ -23,8 +25,8 @@
           .project-name {{project.name}} 
             .small.test-text(v-if="testMode") [TEST] 
           .connection-wrapper
-            .connections(v-if="!(current && currentProject && project.id === currentProject.id)" v-bind:class="{hasplconn : project.platforms && project.platforms.length >= 1 && project.platforms[0] && (project.platforms[0].published || (testMode && project.platforms[0].exportDataUri))}")
-            .connections(v-if="!(current && currentProject && project.id === currentProject.id)" v-bind:class="{hasappconn : project.applications && project.applications.length >= 1 && project.applications[0] && project.applications[0].authCallbackUrl}")
+            .connections(v-bind:class="{hasplconn : project.platforms && project.platforms.length >= 1 && project.platforms[0] && (project.platforms[0].published || (testMode && project.platforms[0].exportDataUri))}")
+            .connections(v-bind:class="{hasappconn : project.applications && project.applications.length >= 1 && project.applications[0] && project.applications[0].authCallbackUrl}")
         .details(v-if="current && current.project && project.id === current.project.id")
           hr
           router-link.color-project( to="/project" active-class="active") Project info
@@ -35,8 +37,9 @@
             span Application API
             .connections(v-bind:class="{hasappconn : project.applications && project.applications.length >= 1 && project.applications[0] && project.applications[0].authCallbackUrl}")
 
-    div.new-project
-      router-link( to="/create") + New project
+    .new-project
+      div(@click="toggleMobileMenu()")
+        router-link( to="/create") + New project
 </template>
 
 <script lang="ts">
@@ -52,18 +55,24 @@ import { State, Mutation, namespace } from 'vuex-class'
   },
   data() {
     return {
-      ready: false
+      ready: false,
+      mobileMenuOpen: false,
+      toggleMobileMenu()
     }
   },
+
   methods: {
     ...mapActions('projects', ['getAll', 'setCurrentProject']),
     redirectUser() {
       this.$store.dispatch('projects/unsetCurrentProject').then((result) => {
         this.$router.push('/projects')
-      })
+      }) 
     },
     switchTestMode() {
       this.$store.commit('projects/switchMode')
+    },
+    toggleMobileMenu(){
+      this.mobileMenuOpen = !this.mobileMenuOpen
     }
   },
   async created() {
@@ -86,23 +95,39 @@ export default class SideNav extends Vue {
 }
 
 #banner{
-  position:absolute;
-  top:0;
+  position:fixed;
+  top:$topbar-height;
   left:0;
   background:rgba(0,0,0,0.45);
   width:100vw;
+  min-height:3rem;
   @include flex(row, flex-start, center);
+  
+  #mobile-menu{
+    display:none;
+    @include tiny-screen{
+      display:block;
+      background:transparent url('../../assets/img/menu.svg') left center / contain no-repeat;
+      width:40px;
+      height:40px;
+      margin-left:2rem;
+      border:0;
+    }
+  }
 
     #banner-switch{
         @include sidebar-width(width);
-        padding:0.5rem 2rem 0.75rem;
+        padding:0.5rem 1rem 0.75rem;
         white-space:nowrap;
       }
   
 
   #banner-content{
-    margin-left:8rem;
+    @include sidebar-width(margin-left);
     margin-right:auto;
+    @include tiny-screen{
+      margin:0;
+    }
   }
 }
 
@@ -111,11 +136,8 @@ export default class SideNav extends Vue {
   flex-direction:row;
   justify-content:space-between;
   align-items:center;
-  margin: 6rem 1rem 1rem;
-
-  .mode > *:last-child{
-    margin-left:1rem;
-  }
+  padding: 6rem 1rem 1rem;
+  position:relative;
 
   button{
     color:$dimmed-grey;
@@ -145,10 +167,16 @@ export default class SideNav extends Vue {
   left: 0;
   float: left;
   color: $white;
-  height: calc(100vh - 60px);
+  height: calc(100vh - #{$topbar-height});
   position: fixed;
   border-right:1.5rem solid $light-grey;
-  transition: border-right 0.2s ease;
+  transition: all 0.2s ease;
+  z-index:2;
+  &:not(.open){
+    @include tiny-screen{
+      left:-$sidebar-width-small;
+    }
+  }
 
   &.livemode {
     border-color:$color-live;
@@ -227,20 +255,21 @@ export default class SideNav extends Vue {
         background: rgba(255, 255, 255, 0.075);
         @include small-screen-and-up{
           height: 165px;
+          .connection-wrapper{
+            display:none;
+          }
         }
-      }
-
-      .connection-wrapper{
         .connections{
           margin:0.5rem 0;
         }
       }
 
+      
       .connections {
           border-radius: 50%;
           width: 1rem;
           height: 1rem;
-          margin-left: 0.5rem;
+          margin: 0.5rem 0 0.5rem 0.5rem;
           justify-self: end;
           flex: 0 0 1rem;
           background-color:#3b3b3b;
@@ -261,9 +290,14 @@ export default class SideNav extends Vue {
         height:$project-menu-logo-height;
 
         .project-link{
+          @include flex-child(0, 0, auto);
           width: $project-menu-logo-width;
           height: $project-menu-logo-height;
           margin-right:1.5rem;
+          @include tiny-screen{
+             width: calc(#{$project-menu-logo-width} * 2 / 3);
+             height: calc(#{$project-menu-logo-height} * 2 / 3);
+          }
         }
 
         .project-name {
@@ -274,26 +308,24 @@ export default class SideNav extends Vue {
           text-overflow: ellipsis;
           min-width: 0;
           flex: 1 1 auto;
-          @include tiny-screen{
-            display:none;
-          }
+          
         }
       }
       .details {
         padding-bottom: 1rem;
-        
-        @include tiny-screen{
-          display:none;
-        }
+
 
         a {
           @include flex(row, space-between, center);
-          margin-left: 6rem;
           padding: 0.25rem 1rem 0.25rem 0;
           white-space: nowrap;
 
           &.active {
             font-weight: bold;
+          }
+
+          @include small-screen-and-up{
+            margin-left: 6rem;
           }
         }
         hr {

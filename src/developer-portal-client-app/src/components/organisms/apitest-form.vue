@@ -2,7 +2,7 @@
   .api-test
     div(v-if="testStatus < 2")
       h2 Test your API
-      p.flex-wrapper
+      p.flex-wrapper.test-instructions
         span In order to test if your server works correctly, you need supply an email address for a test user on your platform with at least one gig.
         button.btn.btn-right.btn-outline.btn-export.btn-small.mb-2.ml-4(@click="toggleInstructions()") {{!showInstructions ? 'Show instructions &#9660' : 'Hide instructions &#9650'}}
       hr.my-2
@@ -327,8 +327,8 @@ export default {
 
 #project-details{
   .project{
-    margin:3rem;
-      background:$light-grey;
+    @include box-spacing(margin);
+    background:$light-grey;
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template lang="pug">
 
-      form.box.project.frame(@submit.prevent="handleSubmit")
+      form.project.frame(@submit.prevent="handleSubmit")
         .project-settings.project-header(v-bind:class="{ flex : formDisabled}" )
           .has-edit.form-group.project-name
             label.small(for="project-name") Project name
@@ -26,7 +26,7 @@
             label.small(for="project-description") Description
             textarea.editable(placeholder="Give us some quick info about your service!" id="project-description" :value="editingProject.description" @input="updateDescription" :disabled="formDisabled") {{editing.description}}
             p(v-if="!formDisabled") Enter a short description of your platform (max 100 characters).
-          .buttons
+          .buttons.mb-2
             button.btn.right.btn-project(v-if="!formDisabled" :disabled="status === 2" type="submit") Save
             button.btn.right.btn-secondary(v-if="!formDisabled" :disabled="status === 2" @click="cancelEdit()") Cancel
             button.btn.right.btn-outline.btn-project(v-if="formDisabled" type="button" key="123456789" @click="enableForm()") Edit...
@@ -163,10 +163,8 @@ export default class ProjectEdit extends Vue {
 <style lang="scss">
 
 .project {
-  padding: 2rem;
   max-width: 560px;
-  // margin-left: auto;
-  // margin-right: auto;
+  padding-bottom:0;
   flex-grow: 1;
 
   .edit-logo:after {
@@ -199,16 +197,6 @@ export default class ProjectEdit extends Vue {
   }
 }
 
-.frame {
-  padding: $space-med;
-  @include flex(column, null, null);
-
-  p {
-    flex: 1;
-    margin: 0;
-  }
-}
-
 .delimiter {
   margin: 4rem 0;
 }
@@ -223,7 +211,7 @@ h4 {
     @include flex-child(0, 1, auto);
   }
   .project-name{
-    @include flex-child(1, 0, auto);
+    @include flex-child(1, 1, auto);
     input{
       font-size:$font-big;
       font-family: $serif;
@@ -231,6 +219,6 @@ h4 {
   }
 }
   #file-label{
-    @include flex(row, flex-start, center);
+    @include flex(row, flex-start, flex-start);
   }
 </style>

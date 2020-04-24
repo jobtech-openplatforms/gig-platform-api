@@ -13,14 +13,15 @@ html {
 }
 
 body {
-    background: $body-background;
+    background: $bg-color;
     line-height: $line-height;
     font-size: $font-med;
     margin: 0;
 }
 
 .flex-wrapper {
-    @include flex(row, flex-start, center);
+    @include flex(row, flex-end, center);
+    flex-wrap: wrap;
 }
 
 hr {
@@ -39,6 +40,10 @@ pre {
         font-size: $font-big;
         font-weight: bold;
         margin: 1rem 0;
+
+        @include tiny-screen {
+            font-size: 1.5rem;
+        }
     }
 }
 
@@ -60,16 +65,6 @@ pre {
 .has-edit {
     position: relative;
 
-    // &::after {
-    //     content: '\00270E';
-    //     display: block;
-    //     font-size: 2rem;
-    //     position: absolute;
-    //     right: 1rem;
-    //     top: 1rem;
-    //     color: $dimmed-grey;
-    // }
-
     .editable {
         padding-right: 3rem;
         cursor: pointer;
@@ -87,7 +82,7 @@ pre {
 
 .token-keys {
     background-color: $border-grey;
-    padding: 2rem 4rem;
+    @include box-spacing(padding);
 }
 
 .label-muted {
@@ -126,9 +121,15 @@ pre {
     background-repeat: no-repeat;
     background-position: center center;
     background-image: url('./assets/img/icon_image.svg');
-    width:100%;
-    height:100%;
-    display:block; 
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.test-instructions {
+    span {
+        @include flex-child(1, 1, 400px);
+    }
 }
 
 //Loader

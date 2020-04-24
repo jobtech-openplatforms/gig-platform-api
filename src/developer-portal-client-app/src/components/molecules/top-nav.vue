@@ -2,8 +2,7 @@
 
   .top-nav
     div(class="app-logo-container")
-      <img class="app-logo" src="../../assets/img/open-platforms-logo-icon.png">
-      <img class="app-logo" src="../../assets/img/open-platforms-logo-text.png">
+      <img class="app-logo" src="../../assets/img/open-platforms-logo-text.svg">
     //- router-link.btn.color-export( to="/platform-settings" active-class="active") Platform API documentation//
     //- router-link.btn.color-import( to="/application-settings" active-class="active") Application API documentation//
     div(v-if="!$auth.loading")

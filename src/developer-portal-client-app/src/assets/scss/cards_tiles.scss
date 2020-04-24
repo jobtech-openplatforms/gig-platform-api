@@ -11,11 +11,15 @@
   padding: $space-med $space-big;
   background: white;
   box-shadow: $box-shadow-card;
-  border-radius: $border-radius-small;
+  border-radius: $border-radius;
   color: #000;
   margin-bottom: 10px;
   overflow: hidden;
   word-break: break-word;
+
+  @include tiny-screen {
+    padding: $space-med;
+  }
 
   .discrete-link {
     color: $grey;
@@ -27,12 +31,18 @@
 }
 
 .frame {
-  padding: 2rem;
+  padding: $space-med;
   border: 1px solid $grey;
+  @include flex(column, null, null);
+
+  p {
+    flex: 1;
+    margin: 0;
+  }
 }
 
 .box:not(.project) {
-  margin: 0 0 4rem;
+  margin: $space-med 0;
   width: 100%;
   @include flex(column, null, null);
 
