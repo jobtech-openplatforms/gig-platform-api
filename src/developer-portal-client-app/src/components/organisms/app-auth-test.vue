@@ -1,6 +1,7 @@
 <template lang="pug">
   .app-test
-    button(@click="buttonClick") {{buttonText}}
+    button(@click="buttonClick" :disabled="loading") {{buttonText}}
+    p.loading-text(v-if="loading") loading...
     div(v-if="response && response.message")
       p {{response.message}}
       p(v-if="!response.success") Request to the server failed.
@@ -24,7 +25,8 @@ import { ApplicationState, ProjectState } from '@/store/projects.module'
   },
   data: () => ({
     response: '',
-    error: ''
+    error: '',
+    loading: false
   }),
 })
 export default class AppAuthTest extends Vue {
@@ -33,42 +35,38 @@ export default class AppAuthTest extends Vue {
   private currentProject?: ProjectState
   response?: any
   error?: string
+  loading: boolean
 
   private buttonClick() {
     this.response = {}
     this.error = ''
-    if(this.result === 'completed')
+    this.loading = true
+    const aTest = (this.result === 'completed') ?
       applicationTestService
         .testAuthentication(this.currentProject.id)
+      :
+      applicationTestService
+        .testAuthenticationCancel(this.currentProject.id)
+
+    aTest
         .then(
         (responseObj) => {
           const data = responseObj.data
           this.response = data
+          this.loading = false
         },
         (error) => {
           console.log(error)
           this.error = error && error.message ? error.message : error
-        })
-    else
-      applicationTestService
-        .testAuthenticationCancel(this.currentProject.id)
-        .then(
-        (responseObj) => {
-          const data = responseObj.data
-          if (data.success) {
-            this.response = data.message
-          }else {
-            this.error = data.message
-          }
-        },
-        (error) => {
-          console.log(error)
-          this.error = error && error.message ? error.message : error
+          this.loading = false
         })
   }
 }
 </script>
 
-<style>
-
+<style lang="stylus" scoped>
+button
+  &[disabled]
+    color white
+    background #3e3e3e
 </style>

@@ -42,38 +42,14 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
 
         [HttpGet("{projectType}/{id}/auth/")]
         public async Task<IActionResult> Auth([FromRoute]string projectType, [FromRoute]string id)
-        {
-            var projectId = $"{projectType}/{id}";
-            try
-            {
-                using var session = _documentStore.OpenAsyncSession();
-                var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
-                var testMode = TestProjectId.IsValidIdentity(projectId) && !ProjectId.IsValidIdentity(projectId);
-                var project = testMode ? await _projectManager.GetTest((TestProjectId)projectId, session) : await _projectManager.Get((ProjectId)projectId, session);
-
-                var result = await _applicationTestHttpClient.SendAuthResponse(project.Applications.First(), Guid.NewGuid(), "1234567890", "completed", Guid.NewGuid().ToString() );
-                return Ok(result);
-            }
-            catch (ApiException ex)
-            {
-                _logger.LogError(ex, "Unable to test application. {@request}", projectId);
-                // return error message if there was an exception
-
-                return Ok(GenericResponse.Failed(ex.Message, (System.Net.HttpStatusCode)ex.StatusCode));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unable to test application. {@request}", projectId);
-                // return error message if there was an exception
-
-                return Ok(GenericResponse.Failed(ex.Message, System.Net.HttpStatusCode.BadRequest));
-            }
-        }
+                => await AuthTest($"{projectType}/{id}", "completed");
 
         [HttpGet("{projectType}/{id}/auth/cancel")]
         public async Task<IActionResult> AuthCancel([FromRoute]string projectType, [FromRoute]string id)
+                => await AuthTest($"{projectType}/{id}", "cancelled");
+
+        private async Task<IActionResult> AuthTest(string projectId, string resultOutcome)
         {
-            var projectId = $"{projectType}/{id}";
             try
             {
                 using var session = _documentStore.OpenAsyncSession();
@@ -81,7 +57,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 var testMode = TestProjectId.IsValidIdentity(projectId) && !ProjectId.IsValidIdentity(projectId);
                 var project = testMode ? await _projectManager.GetTest((TestProjectId)projectId, session) : await _projectManager.Get((ProjectId)projectId, session);
 
-                var result = await _applicationTestHttpClient.SendAuthResponse(project.Applications.First(), Guid.NewGuid(), "1234567890", "cancelled", Guid.NewGuid().ToString());
+                var result = await _applicationTestHttpClient.SendAuthResponse(project.Applications.First(), Guid.NewGuid(), "1234567890", resultOutcome, Guid.NewGuid().ToString());
                 return Ok(result);
             }
             catch (ApiException ex)
@@ -98,6 +74,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
 
                 return Ok(GenericResponse.Failed(ex.Message, System.Net.HttpStatusCode.BadRequest));
             }
+
         }
     }
 }
