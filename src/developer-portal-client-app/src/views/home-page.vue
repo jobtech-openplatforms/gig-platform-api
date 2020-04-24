@@ -73,7 +73,7 @@ export default {
 .nologin #main {
   background:#3b3b3b;
   @include small-screen-and-up {
-    background: #3b3b3b url('../assets/img/open-platforms-symbol.svg') right center /
+    background: #3b3b3b url('../assets/img/open-platforms-logo-icon.svg') right center /
       55vmin auto no-repeat;
   }
   @include small-screen{
