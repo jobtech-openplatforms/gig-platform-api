@@ -53,8 +53,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
                     .Select(s => new Application {
                         Id =s.Id,
                         AuthCallbackUrl = s.Applications.FirstOrDefault().AuthCallbackUrl,
-                        EmailVerificationUrl = s.Applications.First().EmailVerificationUrl,
-                        GigDataNotificationUrl = s.Applications.First().GigDataNotificationUrl,
+                        //EmailVerificationUrl = s.Applications.First().EmailVerificationUrl,
+                        DataUpdateCallbackUrl = s.Applications.First().DataUpdateCallbackUrl,
                     })
                     .ToListAsync();
             }

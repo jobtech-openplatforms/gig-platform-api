@@ -29,7 +29,6 @@ const moduleState: ProjectsModuleState = {
 const actions: ActionTree<ProjectsModuleState, RootState> = {
   getAll({ state, commit, dispatch }, currentProject) {
     if (state.loading) {
-      console.log("Project module loading. Not loading projects."+(new Date().getSeconds())+'.'+(new Date().getMilliseconds()))
       return
     }
     commit('getAllRequest')
@@ -147,7 +146,6 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
   },
 
   createApplication({ state, commit }) {
-    console.log("createApplication"+(new Date().getSeconds())+'.'+(new Date().getMilliseconds()))
     if (state.current && state.current.project && state.current.project.applications && state.current.project.applications.length>0) {
       return state.current.project
     }
@@ -182,7 +180,6 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
   },
 
   initCurrentProject({ state, commit, dispatch }, thenDispatch: string) {
-    console.log("initCurrentProject "+(new Date().getSeconds())+'.'+(new Date().getMilliseconds()))
     if (state.current && state.current.project) {
       return state.current.project
     }
@@ -192,7 +189,7 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
       // tslint:disable-next-line:no-empty
       router.push('/projects').catch(err => { })
     }
-    
+
     dispatch('actionsAfterInit')
 
     return state.current ? state.current.project : null
@@ -215,7 +212,6 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
     return
   },
   actionsAfterInit({state, dispatch, commit}) {
-    console.log("actionsAfterInit "+(new Date().getSeconds())+'.'+(new Date().getMilliseconds()))
     if (state.dispatchAfterInit) {
       state.dispatchAfterInit.forEach(action => {
         dispatch(action)
@@ -324,7 +320,7 @@ const mutations: MutationTree<ProjectsModuleState> = {
       :
       // Get test project by live id
       state.all.testProjects.find(obj => obj.liveProjectId === state.current.project.id)
-      
+
       if (project) {
         // TODO: Same as changeCurrentProject above, duplicated code. How to fix in Vuex modules w/ TS?
         Vue.set(state.test, 'result', null)
@@ -341,7 +337,6 @@ const mutations: MutationTree<ProjectsModuleState> = {
     localStorage.setItem('testMode', state.testMode ? '1':'')
   },
   queueDispatchAfterInit(state, action) {
-    console.log('queueDispatchAfterInit '+(new Date().getSeconds())+'.'+(new Date().getMilliseconds()))
     state.dispatchAfterInit = state.dispatchAfterInit || []
     if(!state.dispatchAfterInit.includes(action))
       state.dispatchAfterInit.push(action)
@@ -434,8 +429,7 @@ export interface ProjectState extends ProjectUpdateRequest {
 }
 
 export interface ApplicationState {
-  emailVerificationUrl?: string
-  gigDataNotificationUrl?: string
+  dataUpdateCallbackUrl?: string
   authCallbackUrl?: string
   id: string
   secretKey: string
@@ -459,8 +453,7 @@ export interface ProjectUpdateRequest {
 
 export interface ApplicationUrlsUpdateRequest {
   authCallbackUrl: string
-  gigDataNotificationUrl: string
-  emailVerificationUrl: string
+  dataUpdateCallbackUrl: string
 }
 
 export interface AllPlatformsState extends BasicState {

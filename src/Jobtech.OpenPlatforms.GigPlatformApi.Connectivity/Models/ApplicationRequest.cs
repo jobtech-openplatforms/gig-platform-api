@@ -6,13 +6,13 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
     public abstract class ApplicationRequest
     {
         public string AuthCallbackUrl { get; set; }
-        public string GigDataNotificationUrl { get; set; }
-        public string EmailVerificationUrl { get; set; }
+        public string DataUpdateCallbackUrl { get; set; }
+        //public string EmailVerificationUrl { get; set; }
         
         public static implicit operator Application(ApplicationRequest applicationRegistrationRequest) => new Application {
             AuthCallbackUrl = applicationRegistrationRequest.AuthCallbackUrl,
-            GigDataNotificationUrl = applicationRegistrationRequest.GigDataNotificationUrl,
-            EmailVerificationUrl = applicationRegistrationRequest.EmailVerificationUrl
+            DataUpdateCallbackUrl = applicationRegistrationRequest.DataUpdateCallbackUrl,
+            //EmailVerificationUrl = applicationRegistrationRequest.EmailVerificationUrl
         };
 
         public Application CreateApplication(CreateApplicationResult createApplicationResult)
@@ -20,8 +20,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
         {
             Id = createApplicationResult.ApplicationId,
             AuthCallbackUrl = this.AuthCallbackUrl,
-            GigDataNotificationUrl = this.GigDataNotificationUrl,
-            EmailVerificationUrl = this.EmailVerificationUrl,
+            DataUpdateCallbackUrl = this.DataUpdateCallbackUrl,
+            //EmailVerificationUrl = this.EmailVerificationUrl,
             //ApplicationId = createApplicationResult.ApplicationId,
             SecretKey = createApplicationResult.SecretKey
         };

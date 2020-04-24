@@ -72,8 +72,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 {
                     Name = project.Name,
                     AuthCallbackUrl = request.AuthCallbackUrl ?? "",
-                    EmailVerificationNotificationEndpointUrl = request.EmailVerificationUrl ?? "",
-                    NotificationEndpointUrl = request.GigDataNotificationUrl ?? ""
+                    //EmailVerificationNotificationEndpointUrl = request.EmailVerificationUrl ?? "",
+                    DataUpdateCallbackUrl = request.DataUpdateCallbackUrl ?? ""
                 });
                 if (string.IsNullOrEmpty(registeredApplication.ApplicationId))
                 {
@@ -104,8 +104,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         {
             var errors = Util.UriErrors(new Dictionary<string, string> {
                 { "auth-callback-url", request.AuthCallbackUrl },
-                { "gig-data-notification-url", request.GigDataNotificationUrl },
-                { "email-verification-url", request.EmailVerificationUrl },
+                { "data-update-callback-url", request.DataUpdateCallbackUrl },
+                //{ "email-verification-url", request.EmailVerificationUrl },
             }, _logger);
             // if (errors != null && errors.Any())
             // {
@@ -151,8 +151,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                             {
                                 Name = project.Name,
                                 AuthCallbackUrl = request.AuthCallbackUrl ?? "",
-                                EmailVerificationNotificationEndpointUrl = request.EmailVerificationUrl ?? "",
-                                NotificationEndpointUrl = request.GigDataNotificationUrl ?? ""
+                                //EmailVerificationNotificationEndpointUrl = request.EmailVerificationUrl ?? "",
+                                DataUpdateCallbackUrl = request.DataUpdateCallbackUrl ?? ""
                             });
                             if (apiApplication != null)
                             {
@@ -163,8 +163,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                                     Id = apiApplication.ApplicationId,
                                     SecretKey = apiApplication.SecretKey,
                                     AuthCallbackUrl = request.AuthCallbackUrl,
-                                    EmailVerificationUrl = request.EmailVerificationUrl,
-                                    GigDataNotificationUrl = request.GigDataNotificationUrl
+                                    //EmailVerificationUrl = request.EmailVerificationUrl,
+                                    DataUpdateCallbackUrl = request.DataUpdateCallbackUrl
                                 };
                             }
                         }
@@ -181,16 +181,16 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                     if (!recreated)
                     {
 
-                        await _applicationHttpClient.PatchEmailVerificationUrl(application.Id, request.EmailVerificationUrl);
-                        await _applicationHttpClient.PatchApiEndpointAppSetNotificationUrl(application.Id, request.GigDataNotificationUrl);
+                        //await _applicationHttpClient.PatchEmailVerificationUrl(application.Id, request.EmailVerificationUrl);
+                        await _applicationHttpClient.PatchApiEndpointAppSetNotificationUrl(application.Id, request.DataUpdateCallbackUrl);
                         await _applicationHttpClient.PatchAuthCallbackUrl(application.Id, request.AuthCallbackUrl);
                         application = new Core.Entities.Application
                         {
                             Id = application.Id,
                             SecretKey = application.SecretKey,
                             AuthCallbackUrl = request.AuthCallbackUrl,
-                            EmailVerificationUrl = request.EmailVerificationUrl,
-                            GigDataNotificationUrl = request.GigDataNotificationUrl
+                            //EmailVerificationUrl = request.EmailVerificationUrl,
+                            DataUpdateCallbackUrl = request.DataUpdateCallbackUrl
                         };
                     }
                 }
