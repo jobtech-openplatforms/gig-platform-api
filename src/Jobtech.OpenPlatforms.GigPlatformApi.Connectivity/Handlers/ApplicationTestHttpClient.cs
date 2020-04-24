@@ -17,12 +17,12 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
         {
         }
 
-        public async Task<ApplicationTestResponse> SendAuthResponse(Application application, PlatformId platformId, string state, string result, string openPlatformsUserId, int permissions = 1)
+        public async Task<ApplicationTestResponse> SendAuthCallback(Application application, string requestId, string result, string openPlatformsUserId)
         {
             try
             {
 
-            Validate(application, platformId, state, result, openPlatformsUserId, permissions);
+            Validate(application, requestId, result, openPlatformsUserId);
             }
             catch (Exception ex)
             {
@@ -36,12 +36,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
                 };
             }
             var uri = new Uri(application.AuthCallbackUrl);
-            uri = uri.AddParameter("app", application.Id)
-                        .AddParameter("platform", platformId.Value.ToString())
-                        .AddParameter(nameof(state), state)
+            uri = uri.AddParameter(nameof(requestId), requestId)
                         .AddParameter(nameof(result), result)
                         .AddParameter(nameof(openPlatformsUserId), openPlatformsUserId)
-                        .AddParameter(nameof(permissions), $"{permissions}")
                         ;
             return await SendGetToApplication(uri);
         }
@@ -76,10 +73,10 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
             };
         }
 
-        private void Validate(Application application, PlatformId platformId, string state, string result, string openPlatformsUserId, int permissions)
+        private void Validate(Application application, string requestId, string result, string openPlatformsUserId)
         {
             new Uri(application.AuthCallbackUrl);
-            if (string.IsNullOrEmpty(state))
+            if (string.IsNullOrEmpty(requestId))
             {
                 throw new Exception("State cannot be null.");
             }
@@ -88,10 +85,6 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
                 throw new Exception($"Result has to be 'completed', 'cancelled' or 'failed'. (was '{result}')");
             }
             Guid.Parse(openPlatformsUserId);
-            if (permissions < 1)
-            {
-                throw new Exception("Permissions has to be a positive integer.");
-            }
         }
     }
 }

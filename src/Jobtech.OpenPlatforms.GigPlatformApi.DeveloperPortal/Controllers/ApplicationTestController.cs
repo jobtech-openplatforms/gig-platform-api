@@ -57,7 +57,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 var testMode = TestProjectId.IsValidIdentity(projectId) && !ProjectId.IsValidIdentity(projectId);
                 var project = testMode ? await _projectManager.GetTest((TestProjectId)projectId, session) : await _projectManager.Get((ProjectId)projectId, session);
 
-                var result = await _applicationTestHttpClient.SendAuthResponse(project.Applications.First(), Guid.NewGuid(), "1234567890", resultOutcome, Guid.NewGuid().ToString());
+                var result = await _applicationTestHttpClient.SendAuthCallback(project.Applications.First(), Guid.NewGuid().ToString(), resultOutcome, Guid.NewGuid().ToString());
                 return Ok(result);
             }
             catch (ApiException ex)
