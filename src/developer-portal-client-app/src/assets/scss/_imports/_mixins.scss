@@ -57,3 +57,30 @@
     #{$attr}: $sidebar-width;
   }
 }
+
+@mixin box-spacing($attr) {
+  @include tiny-screen {
+    #{$attr}: $space-med;
+  }
+
+  @include small-screen-and-up {
+    #{$attr}: $space-med $space-big;
+  }
+}
+
+@mixin page-horizontal-spacing($attrs) {
+  @include tiny-screen {
+
+    @each $i,
+    $attr in $attrs {
+      $attr: $space-med;
+    }
+  }
+
+  @include small-screen-and-up {
+    @each
+    $attr in $attrs {
+      $attr: $space-med;
+    }
+  }
+}
