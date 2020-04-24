@@ -3,12 +3,12 @@
     div(v-if="currentApplication")
       div(v-if="currentApplication.authCallbackUrl")
           h1 Test your application
-          p.flex-wrapper
-            span.
+          p.flex-wrapper.test-instructions
+            span
               To help you test the application you are developing to retrieve data from
               platforms for a user, we have created some test methods you can use to
               send test data to receive in your application.
-            button.btn.btn-right.btn-outline.btn-import.btn-small.mb-2.ml-4(@click="toggleInstructions()") {{!showInstructions ? 'Show instructions &#9660' : 'Hide instructions &#9650'}}
+            button.btn.btn-right.btn-outline.btn-import.btn-small.m-2.mr-0(@click="toggleInstructions()") {{!showInstructions ? 'Show instructions &#9660' : 'Hide instructions &#9650'}}
           AppInstructions(v-if="showInstructions")
 
           p.
@@ -87,11 +87,12 @@
             strong E-mail verification URL
             pre.imported {{emailVerificationUrl}}
 
-    modal#project-details(name="project-details" height="auto" :scrollable="true") 
-      h2 Complete project info to continue
-      p.
-        To continue and publish the application, 
-        please fill out the project details.
+    modal#project-details(name="project-details" height="auto" maxWidth="600px" width="95%" :scrollable="true") 
+      .m-2
+        h2 Complete project info to continue
+        p.
+          To continue and publish the application, 
+          please fill out the project details.
       ProjectDetails
 </template>
 
