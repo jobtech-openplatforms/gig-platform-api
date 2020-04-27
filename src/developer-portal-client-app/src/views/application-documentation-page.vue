@@ -6,15 +6,15 @@
         To implement Open Platforms in your application, 
         please read the documentation below.
       p Table of contents
-      ul
-        li #[a(href="#requeststructure") Request structure for calls to your application]
-        li #[a(href="#howitworks") How it works]
-        li #[a(href="#prerequisites") Prerequisites]
-        li #[a(href="#api") API]  
+      ul.toc
+        li #[a(@click="goto('#requeststructure')") Request structure for calls to your application]
+        li #[a(@click="goto('#howitworks')") How it works]
+        li #[a(@click="goto('#prerequisites')") Prerequisites]
+        li #[a(@click="goto('#api')") API]  
           ul
-            li #[a(href="#api-available") Get the list of available platforms]  
-            li #[a(href="#api-platform") Get info about a platform]  
-        li #[a(href="#json-schema") JSON Schema]
+            li #[a(@click="goto('#api-available')") Get the list of available platforms]  
+            li #[a(@click="goto('#api-platform')") Get info about a platform]  
+        li #[a(@click="goto('#json-schema')") JSON Schema]
     .card
       h2#requeststructure Request structure for calls to your application
       p.
@@ -108,11 +108,22 @@ import { Component, Vue } from 'vue-property-decorator'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 @Component({})
-export default class ApplicationDocumentationPage extends Vue {}
+export default class ApplicationDocumentationPage extends Vue {
+
+  
+    goto(refName) {
+    	// var element = this.$refs[refName];
+      const el = document.querySelector(refName)
+      el && el.scrollIntoView({behavior: 'smooth', block: 'center'})
+    }
+}
 </script>
 
 <style lang="stylus" scoped>
 pre
   border 1px solid grey
-  background #ccc  
+  background #ccc
+.toc
+  li
+    cursor pointer
 </style>
