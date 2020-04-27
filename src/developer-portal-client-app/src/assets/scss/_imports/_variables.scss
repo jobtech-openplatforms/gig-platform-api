@@ -3,8 +3,8 @@ $serif: 'Roboto Slab',
 serif !default;
 $sans: 'Work Sans',
 sans-serif !default;
-$font-tiny: 1rem !default;
-$font-small: 1.2rem !default;
+$font-tiny: 1.2rem !default;
+$font-small: 1.4rem !default;
 $font-med: 1.6rem !default;
 $font-big: 2rem !default;
 $font-huge: 3.2rem !default;
@@ -32,15 +32,16 @@ $space-med: 2rem !default;
 $space-small: 1rem !default;
 
 // Media Queries
-$tiny-screen-width: 767px !default;
-$small-screen-width: 990px !default;
+$tiny-screen-width: 800px !default;
+$small-screen-width: 1000px !default;
 $medium-screen-width: 1200px !default;
 $large-screen-width: 1440px !default;
 
 //Widths and heights
 $sidebar-width: 300px !default;
-$sidebar-width-small: 200px !default;
+$sidebar-width-small: 100vw !default;
 $topbar-height: 60px !default;
+$width-narrow: 560px !default;
 
 $project-menu-logo-width: 4.5rem;
 $project-menu-logo-height: $project-menu-logo-width;
