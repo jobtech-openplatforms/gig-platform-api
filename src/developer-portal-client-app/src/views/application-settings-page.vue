@@ -17,9 +17,15 @@
 
       div(v-else)
         h1 Application API
-        p This API can be used both to let your user's to share their data with your application, and to let your user's connect additional platforms to their Open Platforms account. You can read more about the API in the
-          strong
-            a.color-import(href="https://gigdata-api.openplatforms.org" target="_blank")  Application API Documentation
+        p.
+          This API can be used both to let your user's to share 
+          their data with your application, and to let your user's 
+          connect additional platforms to their Open Platforms account. 
+        p.
+          Read the #[router-link.color-import(to="/application-documentation") documentation for developers].
+        p.
+          Read more about the API in the
+          #[a.color-import(href="https://gigdata-api.openplatforms.org" target="_blank")  Application API Documentation]
 
 
       p(v-if="!currentApplication.authCallbackUrl") To use the API you'll need these API keys:

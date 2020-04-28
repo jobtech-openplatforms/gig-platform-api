@@ -6,6 +6,7 @@ import InfoPage from '@/views/info-page.vue'
 import DocumentationPage from '@/views/documentation-page.vue'
 import ApplicationSettingsPage from '@/views/application-settings-page.vue'
 import ApplicationDocumentationPage from '@/views/application-documentation-page.vue'
+import ApplicationDataCallbackPage from '@/views/application-data-callback-page.vue'
 import CreatePage from '@/views/create-page.vue'
 import ProjectPage from '@/views/project-page.vue'
 import ProjectStartPage from '@/views/project-start-page.vue'
@@ -28,6 +29,7 @@ export const router = new Router({
     { path: '/application-settings', component: ApplicationSettingsPage, beforeEnter: authGuard },
     { path: '/application-test', component: ApplicationTestPage, beforeEnter: authGuard },
     { path: '/application-documentation', component: ApplicationDocumentationPage, beforeEnter: authGuard },
+    { path: '/application-data-callback', component: ApplicationDataCallbackPage, beforeEnter: authGuard },
     { path: '/create', component: CreatePage, beforeEnter: authGuard },
     { path: '/projects', component: ProjectsPage, beforeEnter: authGuard },
     { path: '/project', component: ProjectPage, beforeEnter: authGuard },
