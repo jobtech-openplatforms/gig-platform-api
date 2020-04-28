@@ -6,20 +6,19 @@
 
       current-step(:step="nextStep")
 
-      .flex-wrapper
-        ProjectEdit
+      ProjectEdit
 
-          hr
-          .integration-status
-            strong Platform
-            span.yes.ml-1 {{currentPlatform && (currentPlatform.published === true) ? ' Active' : ''}}
-            router-link.btn.btn-export.btn-outline.btn-small(to="/platform-settings") {{currentPlatform && currentPlatform.exportDataUri ? (currentPlatform.published ? 'Edit...' : 'Test...') : 'Add...'}}
+        hr
+        .integration-status
+          strong Platform
+          span.yes.ml-1 {{currentPlatform && (currentPlatform.published === true) ? ' Active' : ''}}
+          router-link.btn.btn-export.btn-outline.btn-small(to="/platform-settings") {{currentPlatform && currentPlatform.exportDataUri ? (currentPlatform.published ? 'Edit...' : 'Test...') : 'Add...'}}
 
-          hr
-          .integration-status
-            strong Application
-            span.yes.ml-1 {{currentApplication && currentApplication.authCallbackUrl ? 'Ready' : ''}}
-            router-link.btn.btn-import.btn-outline.btn-small(to="/application-settings" ) {{currentApplication && currentApplication.authCallbackUrl ? 'Edit...' : 'Add...'}}
+        hr
+        .integration-status
+          strong Application
+          span.yes.ml-1 {{currentApplication && currentApplication.authCallbackUrl ? 'Ready' : ''}}
+          router-link.btn.btn-import.btn-outline.btn-small(to="/application-settings" ) {{currentApplication && currentApplication.authCallbackUrl ? 'Edit...' : 'Add...'}}
 
     div.home.project-page.center(v-else-if="currentProjects")
       .arrow
@@ -54,14 +53,11 @@ export default class ProjectPage extends Vue {
 </script>
 
 <style lang="scss">
+.single-project{
+  max-width:$width-narrow;
+  margin:auto;
+}
 .project-page {
-  height: 100%;
-  .flex-wrapper {
-    flex-wrap: wrap;
-    height: 100%;
-    align-items: center;
-  }
-
   .arrow {
     padding: 17px 0 5px 0; 
   }

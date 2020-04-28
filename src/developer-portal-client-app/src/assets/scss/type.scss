@@ -18,7 +18,7 @@ textarea {
 
 div,
 p {
-	font-weight: 300;
+    font-weight: 300;
 }
 
 h1,
@@ -48,7 +48,7 @@ h6 {
 
 p {
     margin-bottom: $space-med;
-    margin-top:0;
+    margin-top: 0;
 }
 
 a {
@@ -79,12 +79,41 @@ h6 {
     font-size: $font-huge*0.45;
 }
 
-p,
-a {
-    font-size: $font-med;
-}
-
 .subtitle {
     font-style: italic;
     color: darken($grey, 5%);
+}
+
+@include tiny-screen {
+    h1 {
+        font-size: $font-big;
+    }
+
+    h2 {
+        font-size: $font-big*0.85;
+    }
+
+    h3 {
+        font-size: $font-big*0.7;
+    }
+
+    h4 {
+        font-size: $font-med;
+    }
+
+    h5 {
+        font-size: $font-big*0.52;
+    }
+
+    h6 {
+        font-size: $font-big*0.45;
+    }
+
+    p,
+    a,
+    div,
+    span,
+    ul {
+        font-size: $font-small;
+    }
 }

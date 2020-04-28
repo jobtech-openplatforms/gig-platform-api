@@ -4,7 +4,7 @@
       h2 Test your API
       p.flex-wrapper.test-instructions
         span In order to test if your server works correctly, you need supply an email address for a test user on your platform with at least one gig.
-        button.btn.btn-right.btn-outline.btn-export.btn-small.mb-2.ml-4(@click="toggleInstructions()") {{!showInstructions ? 'Show instructions &#9660' : 'Hide instructions &#9650'}}
+        button.btn.btn-right.btn-outline.btn-export.btn-small.my-2.ml-4(@click="toggleInstructions()") {{!showInstructions ? 'Show instructions &#9660' : 'Hide instructions &#9650'}}
       hr.my-2
       PlatformInstructions(v-if="showInstructions")
 
@@ -13,14 +13,14 @@
         h1 Success!
           span.ml-1(v-if="currentPlatform.published" class="color-export").
             This platform is live on Open Platforms
-      .flex-wrapper(v-if="!currentPlatform.published")
+      .flex-wrapper.success-info(v-if="!currentPlatform.published")
         p.
           It looks like your implementation has succeeded! Take a look at
           the user data below. Does everything look alright? If so, you
           are ready to go live with your data openness!
-        .platform-pending
+        .platform-pending.mb-2
           GoLiveButton(v-if="currentProjectCompleted")
-          button.btn.btn-huge.btn-export.center.ml-4(v-else @click="openModal('project-details')") Continue
+          button.btn.btn-huge.btn-export.btn-continue.center.ml-4(v-else @click="openModal('project-details')") Continue
       p.mt-2(v-if="currentProjectCompleted && !currentPlatform.published").
           #[strong PLEASE NOTE]: After you press the 'Go Live' button,
           your service will be added to Open Platform's list of connected
@@ -60,7 +60,7 @@
       .form-group
         label.label-muted(for="exportDataUri" @click="enableForm()")  Project export data url
         .inline
-            .has-edit.form-group
+            .form-group
               input.editable(v-if="currentPlatform" type="text" name="exportDataUri" :value="currentPlatform.exportDataUri" @input="newUrl = $event.target.value" :disabled="editUrlDisabled" placeholder="Project export data url")
             button.btn.right.btn-export(v-if="!editUrlDisabled"  key="7890") Save
         button.btn.right.btn-outline.btn-export.btn-small(v-if="editUrlDisabled"  key="7891" type="button" @click="enableForm()") Edit...
@@ -68,7 +68,7 @@
     .token-keys(v-if="currentProject.platforms && (testStatus === 1 || testStatus === 3)")
       PlatformToken
 
-    .result-wrapper(v-if="testStatus > 1")
+    .flex-wrapper#result(v-if="testStatus > 1")
 
       .card(v-if="testStatus <= 1" key='1')
         hr
@@ -286,14 +286,22 @@ export default {
   }
 }
 
+.success-info p{
+  flex:1 1 400px;
+}
+
+#result{
+  
+}
+
 .tech-box {
-  flex: 0 1 auto;
+  flex: 1 1 300px;
   order: 2;
   margin-left: 4rem;
 }
 
 .visual-result {
-  flex: 1 0 50%;
+  flex:0 0 300px;
   order: 1;
   .card {
     padding: 1rem;
@@ -320,15 +328,13 @@ export default {
   }
 }
 
-.result-wrapper {
-  display: flex;
-  flex-direction: row;
-}
-
 #project-details{
   .project{
     @include box-spacing(margin);
     background:$light-grey;
   }
 }
+
+
+
 </style>

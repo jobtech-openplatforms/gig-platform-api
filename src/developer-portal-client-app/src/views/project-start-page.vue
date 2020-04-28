@@ -3,7 +3,7 @@
     div
       h1 Project {{currentProject.name}} created!
       p Your project comes with a live and a test environment. The only thing shared between the environments is the project name. 
-      .toggle-buttons.center
+      .toggle-buttons.text-center
         button.btn-big.toggle-button.btn-outline.btn-test(@click="switchTestMode" v-bind:class="{ activestate: testMode}") Test mode
         button.btn-big.toggle-button.btn-outline.btn-live(@click="switchTestMode" v-bind:class="{ activestate: !testMode}") Live mode
       hr.my-4

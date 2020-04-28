@@ -72,13 +72,14 @@ export default {
 <style lang="scss">
 .nologin #main {
   background:#3b3b3b;
+  max-width:none;
   @include small-screen-and-up {
     background: #3b3b3b url('../assets/img/open-platforms-logo-icon.svg') right center /
-      55vmin auto no-repeat;
+      55vw auto no-repeat;
   }
   @include small-screen{
-    background-size: 67wmin;
-    background-position:top right;
+    background-size: 40vw;
+    background-position:right 20%;
   }
   display: flex;
   padding: 0;
@@ -88,12 +89,18 @@ export default {
     width: auto;
     max-width: none;
     z-index: 1;
+    padding-left:6vw;
+    padding-right:6vw;
+
+    #home{
+      display:block;
+    }
   }
 }
 #home {
   color: #fff;
   @include flex(column, null, null);
-  height: 100%;
+  min-height: 100%;
   p {
     background-color: rgba(59, 59, 59, 0.8);
     background-color: #3b3b3b;
@@ -143,7 +150,7 @@ export default {
     width: 40%;
     min-width:320px;
 
-    @include small-screen{
+    @include tiny-screen{
     width: 100%;
     justify-content: flex-end;
     display: flex;

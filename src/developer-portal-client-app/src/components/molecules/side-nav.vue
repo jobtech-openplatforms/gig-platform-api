@@ -1,7 +1,7 @@
 <template lang="pug">
   .side-nav(v-if="currentProjects.length > 0" v-bind:class="{ testmode: testMode, livemode: !testMode, open: mobileMenuOpen}")
     #banner
-      button#mobile-menu(@click="toggleMobileMenu")
+      button#mobile-menu(@click="toggleMobileMenu()")
       
 
       #banner-content(v-if="currentProject")
@@ -101,6 +101,7 @@ export default class SideNav extends Vue {
   background:rgba(0,0,0,0.45);
   width:100vw;
   min-height:3rem;
+  z-index:2;
   @include flex(row, flex-start, center);
   
   #mobile-menu{
@@ -108,9 +109,9 @@ export default class SideNav extends Vue {
     @include tiny-screen{
       display:block;
       background:transparent url('../../assets/img/menu.svg') left center / contain no-repeat;
-      width:40px;
-      height:40px;
-      margin-left:2rem;
+      width:20px;
+      height:20px;
+      margin:1.5rem;
       border:0;
     }
   }
@@ -123,19 +124,19 @@ export default class SideNav extends Vue {
   
 
   #banner-content{
-    @include sidebar-width(margin-left);
+    @include sidebar-width(padding-left);
     margin-right:auto;
+    margin-left:auto;
     @include tiny-screen{
       margin:0;
+      padding:0;
+      line-height:normal;
     }
   }
 }
 
 #menu-head{
-  display:flex;
-  flex-direction:row;
-  justify-content:space-between;
-  align-items:center;
+  @include flex(row, flex-start, center);
   padding: 6rem 1rem 1rem;
   position:relative;
 
@@ -169,9 +170,11 @@ export default class SideNav extends Vue {
   color: $white;
   height: calc(100vh - #{$topbar-height});
   position: fixed;
-  border-right:1.5rem solid $light-grey;
   transition: all 0.2s ease;
+  border-right:1px solid;
   z-index:2;
+
+
   &:not(.open){
     @include tiny-screen{
       left:-$sidebar-width-small;
@@ -179,7 +182,7 @@ export default class SideNav extends Vue {
   }
 
   &.livemode {
-    border-color:$color-live;
+    border-right:1.5rem solid $color-live;
   }
 
   @include flex(column, null, null);
@@ -286,7 +289,7 @@ export default class SideNav extends Vue {
       .project-bar {
         @include flex(row, flex-start, center);
         cursor: pointer;
-        padding-right:1rem;
+        // padding-right:1rem;
         height:$project-menu-logo-height;
 
         .project-link{
