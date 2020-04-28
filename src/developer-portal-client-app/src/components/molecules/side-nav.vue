@@ -2,13 +2,13 @@
   .side-nav(v-if="currentProjects.length > 0" v-bind:class="{ testmode: testMode, livemode: !testMode, open: mobileMenuOpen}")
     #banner
       button#mobile-menu(@click="toggleMobileMenu()")
-      
+
 
       #banner-content(v-if="currentProject")
-        em You are in 
-        strong.test-text(v-if="testMode") TEST 
-        strong.live-text(v-else) LIVE 
-        em mode on project 
+        em You are in
+        strong.test-text(v-if="testMode") TEST
+        strong.live-text(v-else) LIVE
+        em mode on project
         strong {{currentProject.name}}
     #menu-head
       #banner-switch.toggle-buttons
@@ -22,18 +22,18 @@
             span.project-logo(v-if="project.logoUrl != null" :style="{'background-image': 'url(' + project.logoUrl + ')'}")
             span.project-logo(v-else)
 
-          .project-name {{project.name}} 
-            .small.test-text(v-if="testMode") [TEST] 
+          .project-name {{project.name}}
+            .small.test-text(v-if="testMode") [TEST]
           .connection-wrapper
             .connections(v-bind:class="{hasplconn : project.platforms && project.platforms.length >= 1 && project.platforms[0] && (project.platforms[0].published || (testMode && project.platforms[0].exportDataUri))}")
             .connections(v-bind:class="{hasappconn : project.applications && project.applications.length >= 1 && project.applications[0] && project.applications[0].authCallbackUrl}")
         .details(v-if="current && current.project && project.id === current.project.id")
           hr
           router-link.color-project( to="/project" active-class="active") Project info
-          router-link.color-export( to="/platform-settings" active-class="active" v-bind:class="{ 'active': $route.path == '/platform-test' }") 
+          router-link.color-export( to="/platform-settings" active-class="active" v-bind:class="{ 'active': $route.path == '/platform-test' }")
             span Platform API
             .connections(v-bind:class="{hasplconn : project.platforms && project.platforms.length >= 1 && project.platforms[0] && (project.platforms[0].published || (testMode && project.platforms[0].exportDataUri))}")
-          router-link.color-import( to="/application-settings" active-class="active") 
+          router-link.color-import( to="/application-settings" active-class="active")
             span Application API
             .connections(v-bind:class="{hasappconn : project.applications && project.applications.length >= 1 && project.applications[0] && project.applications[0].authCallbackUrl}")
 
@@ -56,24 +56,12 @@ import { State, Mutation, namespace } from 'vuex-class'
   data() {
     return {
       ready: false,
-      mobileMenuOpen: false,
-      toggleMobileMenu()
+      mobileMenuOpen: false
     }
   },
 
   methods: {
-    ...mapActions('projects', ['getAll', 'setCurrentProject']),
-    redirectUser() {
-      this.$store.dispatch('projects/unsetCurrentProject').then((result) => {
-        this.$router.push('/projects')
-      }) 
-    },
-    switchTestMode() {
-      this.$store.commit('projects/switchMode')
-    },
-    toggleMobileMenu(){
-      this.mobileMenuOpen = !this.mobileMenuOpen
-    }
+    ...mapActions('projects', ['getAll', 'setCurrentProject'])
   },
   async created() {
     await this.getAll()
@@ -81,6 +69,21 @@ import { State, Mutation, namespace } from 'vuex-class'
   }
 })
 export default class SideNav extends Vue {
+  private mobileMenuOpen: boolean
+
+    redirectUser() {
+      this.$store.dispatch('projects/unsetCurrentProject').then((result) => {
+        this.$router.push('/projects')
+      })
+    }
+
+    switchTestMode() {
+      this.$store.commit('projects/switchMode')
+    }
+
+    toggleMobileMenu(){
+      this.mobileMenuOpen = !this.mobileMenuOpen
+    }
 }
 </script>
 
@@ -103,7 +106,7 @@ export default class SideNav extends Vue {
   min-height:3rem;
   z-index:2;
   @include flex(row, flex-start, center);
-  
+
   #mobile-menu{
     display:none;
     @include tiny-screen{
@@ -121,7 +124,7 @@ export default class SideNav extends Vue {
         padding:0.5rem 1rem 0.75rem;
         white-space:nowrap;
       }
-  
+
 
   #banner-content{
     @include sidebar-width(padding-left);
@@ -232,7 +235,7 @@ export default class SideNav extends Vue {
       white-space:nowrap;
     }
   }
-  
+
   #projects-list {
     margin: 0;
     padding: 0;
@@ -267,7 +270,7 @@ export default class SideNav extends Vue {
         }
       }
 
-      
+
       .connections {
           border-radius: 50%;
           width: 1rem;
@@ -311,7 +314,7 @@ export default class SideNav extends Vue {
           text-overflow: ellipsis;
           min-width: 0;
           flex: 1 1 auto;
-          
+
         }
       }
       .details {
