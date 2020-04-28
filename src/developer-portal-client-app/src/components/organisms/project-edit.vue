@@ -2,7 +2,7 @@
 
       form.project.frame(@submit.prevent="handleSubmit")
         .project-settings.project-header(v-bind:class="{ flex : formDisabled}" )
-          .has-edit.form-group.project-name
+          .form-group.project-name
             label.small(for="project-name") Project name
             input.bold.editable(type="text" :value="editingProject.name" id="project-name" @input="updateName" :disabled="formDisabled || testMode" placeholder="Dont forget to give your service a name!")
             span(v-if="!formDisabled && !testMode").
@@ -10,7 +10,7 @@
               for example: 'Uber Eats'. 
             em(v-if="!formDisabled && testMode") NOTE! Project name can only be edited in LIVE mode
             hr.my-2(v-if="!formDisabled")
-          .has-edit.editable.edit-logo
+          .edit-logo
             label#file-label(for="file")
               div.project-logo(v-if="editingProject.logoUrl != null" :style="{'background-image': 'url(' + editingProject.logoUrl + ')'}")
               div.project-logo(v-else)
@@ -18,11 +18,11 @@
               span(v-if="!formDisabled") This logo will be displayed in platform listings etc. Please use a logotype/icon that looks nice on a square with white background (for example the same icon you'd use on Facebook).
         .project-settings
           hr.my-2
-          .has-edit.form-group
+          .form-group
             label.small(for="project-webpage") Webpage URL
             input.editable(type="url" id="project-webpage" :value="editingProject.webpage" @input="updateWebpage" :disabled="formDisabled" placeholder="Tell us where to find your service!")
             p(v-if="!formDisabled") The url to the web page of your platform.
-          .has-edit.form-group
+          .form-group
             label.small(for="project-description") Description
             textarea.editable(placeholder="Give us some quick info about your service!" id="project-description" :value="editingProject.description" @input="updateDescription" :disabled="formDisabled") {{editing.description}}
             p(v-if="!formDisabled") Enter a short description of your platform (max 100 characters).
@@ -163,9 +163,7 @@ export default class ProjectEdit extends Vue {
 <style lang="scss">
 
 .project {
-  max-width: 560px;
   padding-bottom:0;
-  flex-grow: 1;
 
   .edit-logo:after {
     color: #fff;
@@ -215,6 +213,13 @@ h4 {
     input{
       font-size:$font-big;
       font-family: $serif;
+      text-overflow:ellipsis;
+    }
+  }
+  @include tiny-screen{
+    display:block;
+    .project-name input{
+      font-size:$font-med;
     }
   }
 }

@@ -25,7 +25,7 @@
     display: inline-block;
     font-family: $serif;
     border: 0;
-    white-space:nowrap;
+    white-space: nowrap;
 
     &:after {
         position: absolute;
@@ -61,7 +61,7 @@
     }
 
     &.btn-huge {
-        font-size: $font-huge;
+        font-size: $font-big;
         padding: 2rem 6rem;
     }
 }
@@ -170,8 +170,13 @@
 
 .toggle-buttons {
     white-space: nowrap;
-    button {
-        margin:0;
+
+    button.toggle-button {
+        margin: 0;
+
+        &.btn-big {
+            padding: 1rem 2rem;
+        }
 
         &:not(.activestate) {
             color: $dimmed-grey !important;

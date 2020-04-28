@@ -68,19 +68,27 @@
   }
 }
 
-@mixin page-horizontal-spacing($attrs) {
-  @include tiny-screen {
+@mixin page-horizontal-spacing($attrs...) {
+  @each $attr in $attrs {
+    #{$attr}: $space-med;
+  }
 
-    @each $i,
-    $attr in $attrs {
-      $attr: $space-med;
+  @include medium-screen-and-up {
+    @each $attr in $attrs {
+      #{$attr}: 10%;
     }
   }
 
-  @include small-screen-and-up {
-    @each
-    $attr in $attrs {
-      $attr: $space-med;
-    }
-  }
+
+  // @include small-screen {
+  //   @each $attr in $attrs {
+  //     #{$attr}: $space-big;
+  //   }
+  // }
+
+  // @include medium-screen-and-up {
+  //   width: $tiny-screen-width;
+  //   margin-left: 10%;
+  //   margin-right: 10%;
+  // }
 }

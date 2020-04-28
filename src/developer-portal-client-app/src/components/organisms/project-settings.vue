@@ -101,6 +101,15 @@ export default class ProjectSettingsPage extends Vue {
 
 <style lang="scss">
  .project-settings {
+
+  input{
+    text-overflow:ellipsis;
+    @include tiny-screen{
+      font-size:1rem;
+      padding-right: 0;
+    }
+  }
+  
   .flex-wrapper{
     align-items:center;
     & > * {

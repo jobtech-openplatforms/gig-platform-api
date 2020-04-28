@@ -8,7 +8,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
 {
     public interface IApplicationTestHttpClient
     {
-        Task<ApplicationTestResponse> SendAuthResponse(Application application, PlatformId platformId, string state, string result, string openPlatformsUserId, int permissions = 1);
+        Task<ApplicationTestResponse> SendAuthCallback(Application application, string requestId, string result, string openPlatformsUserId);
         Task<ApplicationTestResponse> SendGetToApplication(Uri uri);
     }
 }

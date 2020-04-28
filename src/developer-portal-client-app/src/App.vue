@@ -84,18 +84,20 @@ export default {
   }
 
   &.noprojects{
-      padding-left:0;
+    padding-left:0;
+    .start .intro-text{
+      margin:0 10vw;
+    } 
   }
 }
 
 #page{
   overflow:auto;
   @include flex-child(1, null, null);
-  margin-left:auto;
-  margin-right:auto;
   padding-top:8rem;
   padding-bottom:2rem;
-  @include page-horizontal-spacing(margin-left margin-right);
+  @include page-horizontal-spacing('margin-left', 'margin-right');
+  // @include page-horizontal-spacing(margin-right);
 
   a{
     font-weight:bold;

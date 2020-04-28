@@ -87,6 +87,7 @@ textarea {
         background: transparent;
         color: #000;
         padding-left: 0;
+        padding-right:0;
     }
 
     &:active,
@@ -106,5 +107,8 @@ textarea {
 
     &::-webkit-input-placeholder {
         transition: all 0.2s $cubic;
+    }
+    @include tiny-screen{
+        font-size:$font-small;
     }
 }
