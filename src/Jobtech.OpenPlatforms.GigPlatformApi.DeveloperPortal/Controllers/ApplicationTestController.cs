@@ -95,7 +95,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
             var payload = new PlatformConnectionUpdateNotificationPayload
             {
                 PlatformId = Guid.NewGuid(),
-                PlatformName = "Dummy Data Test Platform",
+                PlatformName = project.Name,//"Dummy Data Test Platform",
                 PlatformConnectionState = GigDataCommon.Library.PlatformConnectionState.Connected,
                 UserId = Guid.NewGuid(),
                 Updated = DateTimeOffset.UtcNow.AddHours(-1).ToUnixTimeSeconds(),
@@ -112,7 +112,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 }
             };
 
-            _logger.LogInformation("Dummy data for {projectId} {payload}", projectId, payload);
+            _logger.LogInformation("Dummy data for {projectId} {@payload}", projectId, payload);
             return Ok(payload);
         }
     }

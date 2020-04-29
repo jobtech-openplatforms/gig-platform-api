@@ -18,9 +18,9 @@
       div(v-else)
         h1 Application API
         p.
-          This API can be used both to let your user's to share 
-          their data with your application, and to let your user's 
-          connect additional platforms to their Open Platforms account. 
+          This API can be used both to let your user's to share
+          their data with your application, and to let your user's
+          connect additional platforms to their Open Platforms account.
         p.
           Read the #[router-link.color-import(to="/application-documentation") documentation for developers].
         p.
@@ -132,11 +132,11 @@ export default class IntegrateUserDataPage extends Vue {
   private ready: boolean = false
   private authCallbackUrl: string = ''
   private dataUpdateCallbackUrl: string = ''
-  private currentApplication: any
+  private currentApplication?: ApplicationState
   private formDisabled: boolean = true
   private formEdited: boolean = false
   private showInstructions: boolean = false
-  // private currentProjectCompleted: boolean = false
+  private currentProjectCompleted: boolean = false
 
   private async mounted() {
     await this.$store.dispatch('projects/initCurrentProject')

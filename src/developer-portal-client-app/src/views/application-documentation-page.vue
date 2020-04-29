@@ -246,6 +246,9 @@
       p.
         This is an example of the data update format. It is sent
         in JSON format.
+      div(v-if="currentApplication && currentApplication.dataUpdateCallbackUrl")
+        p Data update url for this application:&nbsp;
+          code {{currentApplication.dataUpdateCallbackUrl}}
       pre
         code.
           {
@@ -270,25 +273,29 @@
             "appSecret": "7adc5899-dc3e-4c89-a51a-c02f226c47e9",
             "reason": "DataUpdate"
           }
-
-
-    .card
-      h2#json-schema JSON Schema
-      p.
-        #[strong TODO:] Describe the format for communication
-        with applications
+    //- .card
+    //-   h2#json-schema JSON Schema
+    //-   p.
+    //-     #[strong TODO:] Describe the format for communication
+    //-     with applications
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { mapState, mapActions, mapGetters } from 'vuex'
+import { ApplicationState } from '@/store/projects.module'
 
-@Component({})
+@Component({
+  computed: {
+    ...mapGetters('projects', ['currentApplication'])
+  }
+})
 export default class ApplicationDocumentationPage extends Vue {
-    goto(refName) {
-      const el = document.querySelector(refName)
-      el && el.scrollIntoView({behavior: 'smooth', block: 'center'})
-    }
+  private currentApplication?: ApplicationState
+  goto(refName) {
+    const el = document.querySelector(refName)
+    el && el.scrollIntoView({behavior: 'smooth', block: 'center'})
+  }
 }
 </script>
 
