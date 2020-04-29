@@ -1,6 +1,8 @@
 <template lang="pug">
   .instructions
 
+    p.
+      #[router-link.color-import(to="/application-documentation") See full documentation]
     h3 Authenticate user with Open Platforms
     p.
       Go to the #[router-link.color-import(to="/application-test") application test page] to test authentication methods.
