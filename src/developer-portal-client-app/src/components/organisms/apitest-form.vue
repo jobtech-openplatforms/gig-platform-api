@@ -55,7 +55,7 @@
       p You have to enter a valid URL for the #[strong Export data URL] in the settings
       router-link.btn.btn-primary(to="/project") Back to Settings
 
-    
+
     form.card.mb-4(v-bind:class="{ 'form-inactive': editUrlDisabled && currentPlatform }" @submit.prevent="saveUrl")
       .form-group
         label.label-muted(for="exportDataUri" @click="enableForm()")  Project export data url
@@ -118,11 +118,11 @@
       .card
         pre(v-if="testResult.result.interactions") {{ JSON.stringify(testResult.result, null, 2) }}
 
-    modal#project-details(name="project-details" height="auto" :scrollable="true") 
+    modal#project-details(name="project-details" height="auto" :scrollable="true")
       div
         h2 Complete project info to continue
         p.
-          To continue and publish the platform on Open Platforms, 
+          To continue and publish the platform on Open Platforms,
           please fill out the project details.
       ProjectDetails
 </template>
@@ -145,7 +145,7 @@ export default {
       'currentProjectCompleted'
     ]),
     ...mapMutations('project', ['resetTest']),
-    formDisabled: function() {
+    formDisabled() {
       return this.editUrlDisabled || this.testStatus === 2 || this.submitted
     }
   },
@@ -158,7 +158,7 @@ export default {
   components: {
     GoLiveButton,
     PlatformToken,
-    PlatformInstructions, 
+    PlatformInstructions,
     ProjectDetails
   },
   data() {
@@ -189,6 +189,7 @@ export default {
       ) {
         return []
       }
+      // tslint:disable-next-line:only-arrow-functions
       return this.testResult.result.interactions.map(function(i) {
         return {
           client: i.client,
@@ -267,7 +268,7 @@ export default {
       this.editUrlDisabled = true
     },
     enableForm() {
-        this.editUrlDisabled = false 
+        this.editUrlDisabled = false
     },
     openModal(modal) {
       this.$modal.show(modal)
@@ -291,7 +292,7 @@ export default {
 }
 
 #result{
-  
+
 }
 
 .tech-box {

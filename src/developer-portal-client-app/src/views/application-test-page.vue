@@ -28,18 +28,33 @@
 
     h2 Receive user's data from Open Platforms
     p.
-      TODO: Add a button to send updated user data to the application connection url.
+      A request with the data for a single connection
+      fo a user will be sent to the data url you have
+      specified for the project.
+    p.
+      See the #[router-link(to="/application-documentation") full documentation] for instructions
+
+    div(v-if="currentApplication && currentApplication.dataUpdateCallbackUrl")
+      p Data update url for this application:&nbsp;
+        code {{currentApplication.dataUpdateCallbackUrl}}
+    app-auth-test(buttonText="Send data to data url")
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import CurrentApplicationTokens from '../components/organisms/current-application-tokens.vue'
 import AppAuthTest from '@/components/organisms/app-auth-test.vue'
+import AppDataTest from '@/components/organisms/app-data-test.vue'
+import { mapGetters } from 'vuex'
 
 @Component({
+  computed: {
+    ...mapGetters('projects', ['currentApplication'])
+  },
   components: {
     CurrentApplicationTokens,
-    AppAuthTest
+    AppAuthTest,
+    AppDataTest
   }
 })
 export default class TestApplicationPage extends Vue {}

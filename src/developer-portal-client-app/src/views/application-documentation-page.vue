@@ -19,7 +19,7 @@
             li #[a.page-nav( @click="goto('#api-platform')") Get a single platform]
             li #[a.page-nav( @click="goto('#api-callback')") Callback url]
             li #[a.page-nav( @click="goto('#api-update')") Data update url]
-        li #[a.page-nav( @click="goto('#json-schema')") JSON Schema]
+        //- li #[a.page-nav( @click="goto('#json-schema')") JSON Schema]
     .card
       h2#implementation Implementation
       p.
@@ -249,6 +249,7 @@
       div(v-if="currentApplication && currentApplication.dataUpdateCallbackUrl")
         p Data update url for this application:&nbsp;
           code {{currentApplication.dataUpdateCallbackUrl}}
+        p #[router-link(to="/application-test") Test sending the below data to your application]
       pre
         code.
           {
@@ -294,7 +295,8 @@ export default class ApplicationDocumentationPage extends Vue {
   private currentApplication?: ApplicationState
   goto(refName) {
     const el = document.querySelector(refName)
-    el && el.scrollIntoView({behavior: 'smooth', block: 'center'})
+    if(el)
+     el.scrollIntoView({behavior: 'smooth', block: 'center'})
   }
 }
 </script>

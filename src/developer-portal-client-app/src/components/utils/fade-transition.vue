@@ -22,12 +22,12 @@ export default {
     },
     tag: {
       type: String,
-      default: "div"
+      default: 'div'
     }
   },
   computed: {
     type() {
-      return this.group ? "transition-group" : "transition"
+      return this.group ? 'transition-group' : 'transition'
     },
     hooks() {
       return {
@@ -37,7 +37,7 @@ export default {
         afterLeave: this.cleanUpDuration,
         leave: this.setAbsolutePosition,
         ...this.$listeners
-      };
+      }
     }
   },
   methods: {
@@ -49,7 +49,7 @@ export default {
     },
     setAbsolutePosition(el) {
       if (this.group) {
-        el.style.position = "absolute"
+        el.style.position = 'absolute'
       }
     }
   }

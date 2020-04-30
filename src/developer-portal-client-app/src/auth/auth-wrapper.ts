@@ -8,6 +8,7 @@ import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client'
 const DEFAULT_REDIRECT_CALLBACK = (appState: {} = null) =>
     window.history.replaceState({}, document.title, window.location.pathname)
 
+// tslint:disable-next-line:no-any
 let instance: any
 
 /** Returns the current instance of the SDK */
@@ -42,6 +43,7 @@ export const useAuth0 = ({
                     await this.auth0Client.loginWithPopup(o)
                 } catch (e) {
                     // eslint-disable-next-line
+                    // tslint:disable-next-line:no-console
                     console.error(e)
                 } finally {
                     this.popupOpen = false
@@ -124,6 +126,7 @@ export const useAuth0 = ({
 
 // Create a simple Vue plugin to expose the wrapper object throughout the application
 export const Auth0Plugin = {
+    // tslint:disable-next-line:no-any
     install(vue: any, options) {
         vue.prototype.$auth = useAuth0(options)
     }
@@ -132,6 +135,7 @@ export const Auth0Plugin = {
 declare module 'vue/types/vue' {
     // 3. Declare augmentation for Vue
     interface Vue {
+      // tslint:disable-next-line:no-any
       $auth: any
     }
   }

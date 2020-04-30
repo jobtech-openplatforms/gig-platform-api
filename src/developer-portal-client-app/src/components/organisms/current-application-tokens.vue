@@ -1,4 +1,4 @@
-<template lang="pug">  
+<template lang="pug">
 div(v-if="currentApplication")
   .token-keys
     .token-key
@@ -13,6 +13,7 @@ div(v-if="currentApplication")
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { mapGetters } from 'vuex'
+import { ApplicationState } from '@/store/projects.module'
 
 @Component({
   computed: {
@@ -20,7 +21,7 @@ import { mapGetters } from 'vuex'
   }
 })
 export default class CurrentApplicationTokens extends Vue {
-  private currentApplication: any
+  private currentApplication?: ApplicationState
 
 }
 </script>

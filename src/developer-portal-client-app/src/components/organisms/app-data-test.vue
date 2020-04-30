@@ -28,8 +28,7 @@ import { ApplicationState, ProjectState } from '@/store/projects.module'
     loading: false
   }),
 })
-export default class AppAuthTest extends Vue {
-  @Prop({ default: 'completed' }) readonly result!: string
+export default class AppDataTest extends Vue {
   @Prop({ default: 'Submit' }) readonly buttonText!: string
   private currentProject?: ProjectState
   // tslint:disable-next-line:no-any
@@ -41,14 +40,8 @@ export default class AppAuthTest extends Vue {
     this.response = {}
     this.error = ''
     this.loading = true
-    const aTest = (this.result === 'completed') ?
-      applicationTestService
-        .testAuthentication(this.currentProject.id)
-      :
-      applicationTestService
-        .testAuthenticationCancel(this.currentProject.id)
-
-    aTest
+    applicationTestService
+      .testData(this.currentProject.id)
         .then(
         (responseObj) => {
           const data = responseObj.data

@@ -65,11 +65,11 @@ export default class ProjectSettingsPage extends Vue {
   }
 
   private previewImage(event) {
-    var input = event.target
+    const input = event.target
     if (input.files && input.files[0]) {
-      var reader = new FileReader()
+      const reader = new FileReader()
       reader.onload = (e) => {
-        this.imageData = reader.result //e.target.result;
+        this.imageData = reader.result // e.target.result;
         this.logoUrl = this.imageData as string
       }
       reader.readAsDataURL(input.files[0])
@@ -109,7 +109,7 @@ export default class ProjectSettingsPage extends Vue {
       padding-right: 0;
     }
   }
-  
+
   .flex-wrapper{
     align-items:center;
     & > * {

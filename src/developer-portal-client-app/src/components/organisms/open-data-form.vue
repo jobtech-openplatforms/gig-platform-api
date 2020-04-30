@@ -28,6 +28,7 @@ export default class OpenDataForm extends Vue {
   private submitted: boolean = false
   private ready: boolean = false
   private exportDataUri: string = ''
+  // tslint:disable-next-line:no-any
   private currentPlatform: any
 
   private mounted() {
