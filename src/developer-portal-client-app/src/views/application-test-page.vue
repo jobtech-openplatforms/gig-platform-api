@@ -19,10 +19,17 @@
           strong Receive user's data from Open Platforms
     h2 Authenticate user with Open Platforms
     p.
-      TODO: Write instructions for connecting with a user account through Auth0 to Open Platforms
-      and approve the connection.
-    app-auth-test(result="completed" buttonText="Send completed auth response")
-    app-auth-test(result="cancelled" buttonText="Send cancelled auth response")
+      When a user connection through Open Platforms is
+      successful, your server will receive a callback
+      with #[code result=completed], the #[code requestid]
+      you sent when initiating the connection,
+      and the #[code openPlatformsUserId] of the connected user.
+    p.
+      Test your application response with #[code result=completed]
+    app-auth-test(result="completed" buttonText="Try it")
+    p.
+      Test your application response with #[code result=failed]
+    app-auth-test(result="failed" buttonText="Try it")
 
     hr
 
@@ -32,12 +39,13 @@
       fo a user will be sent to the data url you have
       specified for the project.
     p.
-      See the #[router-link(to="/application-documentation") full documentation] for instructions
+      See the #[router-link(to="/application-documentation") full documentation]
+      for detailed instructions.
 
     div(v-if="currentApplication && currentApplication.dataUpdateCallbackUrl")
       p Data update url for this application:&nbsp;
         code {{currentApplication.dataUpdateCallbackUrl}}
-    app-auth-test(buttonText="Send data to data url")
+    app-auth-test(buttonText="Try it")
 </template>
 
 <script lang="ts">
