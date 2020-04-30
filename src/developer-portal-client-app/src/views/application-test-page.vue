@@ -17,35 +17,45 @@
           strong Authenticate user with Open Platforms
         li
           strong Receive user's data from Open Platforms
-    h2 Authenticate user with Open Platforms
-    p.
-      When a user connection through Open Platforms is
-      successful, your server will receive a callback
-      with #[code result=completed], the #[code requestid]
-      you sent when initiating the connection,
-      and the #[code openPlatformsUserId] of the connected user.
-    p.
-      Test your application response with #[code result=completed]
-    app-auth-test(result="completed" buttonText="Try it")
-    p.
-      Test your application response with #[code result=failed]
-    app-auth-test(result="failed" buttonText="Try it")
+    .card
+      h2 Authenticate user with Open Platforms
+      p.
+        When a user connection through Open Platforms is
+        successful, your server will receive a callback
+        with #[code result=completed], the #[code requestid]
+        you sent when initiating the connection,
+        and the #[code openPlatformsUserId] of the connected user.
+      div(v-if="currentApplication && currentApplication.authCallbackUrl")
+        p Connection callback url for this application:&nbsp;
+          code {{currentApplication.authCallbackUrl}}
+    .card
+      p.
+        Test your application response with #[code result=completed]
+      app-auth-test(result="completed" buttonText="Try it")
+    .card
+      p.
+        Test your application response with #[code result=failed]
+      app-auth-test(result="failed" buttonText="Try it")
 
     hr
 
-    h2 Receive user's data from Open Platforms
-    p.
-      A request with the data for a single connection
-      fo a user will be sent to the data url you have
-      specified for the project.
-    p.
-      See the #[router-link(to="/application-documentation") full documentation]
-      for detailed instructions.
-
-    div(v-if="currentApplication && currentApplication.dataUpdateCallbackUrl")
-      p Data update url for this application:&nbsp;
-        code {{currentApplication.dataUpdateCallbackUrl}}
-    app-auth-test(buttonText="Try it")
+    .card
+      h2 Receive user's data from Open Platforms
+      p.
+        A request with the data for a single connection
+        for a user will be sent to the data url you have
+        specified for the project.
+      p.
+        See the #[router-link(to="/application-documentation") full documentation]
+        for detailed instructions.
+      div(v-if="currentApplication && currentApplication.dataUpdateCallbackUrl")
+        p Data update url for this application:&nbsp;
+          code {{currentApplication.dataUpdateCallbackUrl}}
+    .card
+      p.
+        Test your application response to dummy data sent to
+        the data url.
+      app-auth-test(buttonText="Try it")
 </template>
 
 <script lang="ts">
@@ -54,6 +64,7 @@ import CurrentApplicationTokens from '../components/organisms/current-applicatio
 import AppAuthTest from '@/components/organisms/app-auth-test.vue'
 import AppDataTest from '@/components/organisms/app-data-test.vue'
 import { mapGetters } from 'vuex'
+import { ApplicationState } from '@/store/projects.module'
 
 @Component({
   computed: {
@@ -65,6 +76,8 @@ import { mapGetters } from 'vuex'
     AppDataTest
   }
 })
-export default class TestApplicationPage extends Vue {}
+export default class TestApplicationPage extends Vue {
+  private currentApplication?: ApplicationState
+}
 </script>
 
