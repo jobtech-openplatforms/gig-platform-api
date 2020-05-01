@@ -8,7 +8,6 @@
       p Table of contents
       ul.toc
         li #[a.page-nav(@click="goto('#implementation')") Implementation]
-        li #[a.page-nav(@click="goto('#requeststructure')") Request structure for calls to your application]
         li #[a.page-nav(@click="goto('#howitworks')") How it works]
           ul
             li #[a.page-nav(@click="goto('#your-implementation')") Your implementation]
@@ -42,12 +41,6 @@
           smaller updates are sent to your server rather than
           larger data-intensive ones.
 
-    .card
-      h2#requeststructure Request structure for calls to your application
-      p.
-        This documentation describes how to implement
-        the integration with Open Platforms in your
-        application.
     .card
       h2#howitworks How it works
       p.

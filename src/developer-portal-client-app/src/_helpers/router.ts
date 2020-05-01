@@ -42,6 +42,9 @@ export const router = new Router({
     // otherwise redirect to home
     { path: '*', redirect: '/' }
   ],
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  },
   linkActiveClass: 'active', // active class for non-exact links.
   linkExactActiveClass: 'active' // active class for *exact* links.
 })
