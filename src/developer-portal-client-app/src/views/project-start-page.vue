@@ -2,7 +2,21 @@
   div.home.project-start-page.center(v-if="currentProject")
     div
       h1 Project {{currentProject.name}}
-      p Your project comes with a live and a test environment. The only thing shared between the environments is the project name.
+      p.
+        You can switch settings between live and a test mode.
+        In test mode, there are no updates published through
+        Open Platforms and is safe for development.
+      p.
+        Open Platforms provides testing functionality to send
+        data to your platform or application so you can check
+        that your server responds as expected.
+      p.
+        We recommend that you use Test mode for local development
+        with the Open Platforms API.
+      p  #[router-link(to="/documentation") Read more in the full documentation]
+      p(v-if="!testMode") You are currently in #[strong LIVE mode]. Try switching modes for local development.
+      p(v-if="testMode") You are currently in #[strong TEST mode]
+
       .toggle-buttons.text-center
         button.btn-big.toggle-button.btn-outline.btn-test(@click="switchTestMode" v-bind:class="{ activestate: testMode}") Test mode
         button.btn-big.toggle-button.btn-outline.btn-live(@click="switchTestMode" v-bind:class="{ activestate: !testMode}") Live mode
