@@ -20,7 +20,7 @@ body {
 }
 
 .flex-wrapper {
-    @include flex(row, center, flex-start);
+    @include flex(row, flex-end, flex-start);
     flex-wrap: wrap;
 }
 
