@@ -6,10 +6,10 @@
 
       #banner-content(v-if="currentProject")
         em You are in
-        strong.test-text(v-if="testMode") TEST
-        strong.live-text(v-else) LIVE
+        strong.test-text.mx-1(v-if="testMode") TEST
+        strong.live-text.mx-1(v-else) LIVE
         em mode on project
-        strong {{currentProject.name}}
+        strong.ml-1 {{currentProject.name}}
     #menu-head
       #banner-switch.toggle-buttons
         button.btn-tiny.toggle-button.btn-outline-reverse.btn-test(@click="switchTestMode" v-bind:class="{ activestate: testMode}") Test
@@ -251,7 +251,7 @@ export default class SideNav extends Vue {
       display: block;
       padding: 1rem;
       transition: all 0.3s ease-in-out;
-      height: 65px;
+      height: 62px;
       overflow: hidden;
       &:not(:last-child) {
         margin-bottom: 1rem;
@@ -323,7 +323,7 @@ export default class SideNav extends Vue {
 
         a {
           @include flex(row, space-between, center);
-          padding: 0.25rem 1rem 0.25rem 0;
+          padding: 0.25rem 0 0.25rem 0;
           white-space: nowrap;
 
           &.active {
