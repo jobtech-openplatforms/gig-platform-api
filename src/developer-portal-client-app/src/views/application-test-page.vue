@@ -17,18 +17,20 @@
           strong Authenticate user with Open Platforms
         li
           strong Receive user's data from Open Platforms
-    h2 Authenticate user with Open Platforms
-    p.
-      TODO: Write instructions for connecting with a user account through Auth0 to Open Platforms
-      and approve the connection.
-    app-auth-test(result="completed" buttonText="Send completed auth response")
-    app-auth-test(result="cancelled" buttonText="Send cancelled auth response")
-
+    .mt-2
+      h2 Authenticate user with Open Platforms
+      p.mb-2.
+        TODO: Write instructions for connecting with a user account through Auth0 to Open Platforms
+        and approve the connection.
+      h3 Send auth response
+      .auth-responses
+        app-auth-test(result="completed" buttonText="Completed")
+        app-auth-test(result="cancelled" buttonText="Cancelled")
     hr
-
-    h2 Receive user's data from Open Platforms
-    p.
-      TODO: Add a button to send updated user data to the application connection url.
+    .mt-2
+      h2 Receive user's data from Open Platforms
+      p.
+        TODO: Add a button to send updated user data to the application connection url.
 </template>
 
 <script lang="ts">
@@ -45,3 +47,6 @@ import AppAuthTest from '@/components/organisms/app-auth-test.vue'
 export default class TestApplicationPage extends Vue {}
 </script>
 
+<style lang="scss">
+
+</style>
