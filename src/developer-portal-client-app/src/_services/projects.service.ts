@@ -47,10 +47,11 @@ async function getAll() {
     headers: { ...header, 'Content-Type': 'application/json' }
   }
 
-  const response = await fetch(
-    `${process.env.VUE_APP_ROOT_API}/projects`,
-    requestOptions
-  )
+  const response = await
+          fetch(
+            `${process.env.VUE_APP_ROOT_API}/projects`,
+            requestOptions
+          )
   return handleResponse(response)
 }
 
@@ -128,19 +129,36 @@ async function setApplicationUrls(projectId: string, urls: ApplicationUrlsUpdate
 async function testApi(testData: TestRequest) {
   const header = await authHeader()
 
+  const controller = new AbortController()
+  const signal = controller.signal
   const requestOptions = {
+    ...signal,
     method: 'POST',
     headers: { ...header, 'Content-Type': 'application/json' },
     body: JSON.stringify(testData)
   }
 
-  const response = await fetch(
-    `${
-    process.env.VUE_APP_ROOT_API
-    }/platform/test/${removeIdNamespace(testData.id)}`,
-    requestOptions
-  )
-  return handleResponse(response)
+  const fetchPromise = fetch(
+      `${
+      process.env.VUE_APP_ROOT_API
+      }/platform/test/${removeIdNamespace(testData.id)}`,
+      requestOptions
+    )
+  // 15 seconds timeout
+  const timeoutId = setTimeout(() => controller.abort(), 15 * 1000)
+
+  fetchPromise.then(response => {
+    clearTimeout(timeoutId)
+    return handleResponse(response)
+  })
+  .catch(err => {
+      return Promise.reject(err)
+    // if (err.name === 'AbortError') {
+    //   console.error('Fetch aborted / timed out')
+    // } else {
+    //   console.error('Another error', err)
+    // }
+  })
 }
 
 async function goLive(projectId: string) {
