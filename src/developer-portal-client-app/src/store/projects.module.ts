@@ -66,7 +66,10 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
       .then(
         (testResult) => commit('testSuccess', testResult),
         (error) => commit('testFailure', error)
-      )
+    )
+      .catch(err => {
+        return err
+      })
   },
 
   goLive({ commit, dispatch }, projectId: string) {
@@ -145,21 +148,21 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
             )
   },
 
-  createApplication({ state, commit }) {
-    if (state.current && state.current.project && state.current.project.applications && state.current.project.applications.length>0) {
-      return state.current.project
-    }
-    commit('getRequest', state.current.project.id)
-    projectsService
-      .createApplication(state.current.project.id)
-      .then(
-        (currentProject) => {
-          commit('getSuccess', currentProject)
-          return currentProject
-        },
-        (error) => commit('getFailure', error)
-      )
-  },
+  // createApplication({ state, commit }) {
+  //   if (state.current && state.current.project && state.current.project.applications && state.current.project.applications.length>0) {
+  //     return state.current.project
+  //   }
+  //   commit('getRequest', state.current.project.id)
+  //   projectsService
+  //     .createApplication(state.current.project.id)
+  //     .then(
+  //       (currentProject) => {
+  //         commit('getSuccess', currentProject)
+  //         return currentProject
+  //       },
+  //       (error) => commit('getFailure', error)
+  //     )
+  // },
 
   setApplicationUrls({ state, commit }, urls: ApplicationUrlsUpdateRequest) {
     commit('getRequest', state.current.project.id)

@@ -15,7 +15,7 @@ export const projectsService = {
   update,
   updateContact,
   setPlatformUrl,
-  createApplication,
+  // createApplication,
   setApplicationUrls
 }
 
@@ -90,23 +90,23 @@ async function setPlatformUrl(projectId: string, url: string, testMode: boolean)
   return handleResponse(response)
 }
 
-async function createApplication(projectId: string) {
-  const header = await authHeader()
+// async function createApplication(projectId: string) {
+//   const header = await authHeader()
 
-  const requestOptions = {
-    method: 'POST',
-    headers: { ...header, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ projectId })
-  }
+//   const requestOptions = {
+//     method: 'POST',
+//     headers: { ...header, 'Content-Type': 'application/json' },
+//     body: JSON.stringify({ projectId })
+//   }
 
-  const response = await fetch(
-    `${
-    process.env.VUE_APP_ROOT_API
-    }/application/create`,
-    requestOptions
-  )
-  return handleResponse(response)
-}
+//   const response = await fetch(
+//     `${
+//     process.env.VUE_APP_ROOT_API
+//     }/application/create`,
+//     requestOptions
+//   )
+//   return handleResponse(response)
+// }
 
 async function setApplicationUrls(projectId: string, urls: ApplicationUrlsUpdateRequest) {
   const header = await authHeader()
@@ -147,7 +147,7 @@ async function testApi(testData: TestRequest) {
   // 15 seconds timeout
   const timeoutId = setTimeout(() => controller.abort(), 15 * 1000)
 
-  fetchPromise.then(response => {
+  return fetchPromise.then(response => {
     clearTimeout(timeoutId)
     return handleResponse(response)
   })

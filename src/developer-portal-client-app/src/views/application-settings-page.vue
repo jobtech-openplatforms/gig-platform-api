@@ -79,7 +79,7 @@
             strong Data update callback URL
             pre.imported {{dataUpdateCallbackUrl}}
 
-    modal#project-details(name="project-details" height="auto" maxWidth="600px" width="95%" :scrollable="true")
+    modal#project-details(name="project-details" height="auto" :maxWidth="600" width="95%" :scrollable="true")
       .m-2
         h2 Complete project info to continue
         p.
@@ -109,15 +109,15 @@ import ProjectDetails from '../components/organisms/project-edit.vue'
       showInstructions: false
     }
   },
-  beforeUpdate() {
-    if (!this.currentApplication) {
-      this.$store.dispatch('projects/createApplication')
-    }
-  },
+  // beforeUpdate() {
+  //   if (!this.currentApplication) {
+  //     this.$store.dispatch('projects/createApplication')
+  //   }
+  // },
   created() {
-    if (!this.currentApplication) {
-      this.$store.dispatch('projects/createApplication')
-    }
+    // if (!this.currentApplication) {
+    //   this.$store.dispatch('projects/createApplication')
+    // }
     this.$store.dispatch('projects/initCurrentProject')
     this.ready = true
   },
@@ -140,9 +140,9 @@ export default class IntegrateUserDataPage extends Vue {
 
   private async mounted() {
     await this.$store.dispatch('projects/initCurrentProject')
-    if (!this.currentApplication) {
-      this.$store.commit('projects/queueDispatchAfterInit', 'createApplication')
-    }
+    // if (!this.currentApplication) {
+    //   this.$store.commit('projects/queueDispatchAfterInit', 'createApplication')
+    // }
     this.authCallbackUrl = this.currentApplication
       ? this.currentApplication.authCallbackUrl
       : ''
@@ -150,8 +150,8 @@ export default class IntegrateUserDataPage extends Vue {
       ? this.currentApplication.dataUpdateCallbackUrl
       : ''
     this.formDisabled = this.currentApplication !== null && this.currentApplication.authCallbackUrl != null
-    if(!this.currentApplication)
-      this.$store.commit('projects/queueDispatchAfterInit', 'createApplication')
+    // if(!this.currentApplication)
+    //   this.$store.commit('projects/queueDispatchAfterInit', 'createApplication')
   }
 
   private isFormEdited() {
