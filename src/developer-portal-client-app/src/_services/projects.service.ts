@@ -153,11 +153,6 @@ async function testApi(testData: TestRequest) {
   })
   .catch(err => {
       return Promise.reject(err)
-    // if (err.name === 'AbortError') {
-    //   console.error('Fetch aborted / timed out')
-    // } else {
-    //   console.error('Another error', err)
-    // }
   })
 }
 
