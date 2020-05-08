@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Rebus.Config;
+using Rebus.Persistence.InMem;
 using Rebus.Retry.Simple;
 using Rebus.Routing.TypeBased;
 using Rebus.Serialization.Json;
@@ -22,14 +23,15 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.EventDispatcher.IoC
 
             collection.AddTransient<IPlatformDispatchManager, PlatformDispatchManager>();
 
-            var serviceBusConnectionString = configuration.GetConnectionString("ServiceBus");
+            var rabbitMqConnectionString = configuration.GetConnectionString("RabbitMq");
 
             collection.AddRebus(c =>
                     c
                         .Transport(t =>
-                            t.UseAzureServiceBus(
-                                serviceBusConnectionString,
+                            t.UseRabbitMq(
+                                rabbitMqConnectionString,
                                 "gigplatformapi.input"))
+                        .Timeouts(t => t.StoreInMemory()) //we don't do retries here yet. When we do, we need to configure a persistent store.
                         .Options(o =>
                         {
                             o.SimpleRetryStrategy(errorQueueAddress: "gigplatformapi.error",

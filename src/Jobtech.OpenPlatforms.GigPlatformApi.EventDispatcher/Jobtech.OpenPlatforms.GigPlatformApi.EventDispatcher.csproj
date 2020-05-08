@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Rebus.AzureServiceBus" Version="7.1.0" />
+    <PackageReference Include="Rebus.RabbitMq" Version="7.0.0" />
     <PackageReference Include="Rebus.Serilog" Version="6.0.0" />
     <PackageReference Include="Rebus.ServiceProvider" Version="5.0.3" />
   </ItemGroup>
