@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Jobtech.OpenPlatforms.GigDataCommon.Library.Models;
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
@@ -12,82 +14,64 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
     public class PlatformHttpClient : IPlatformHttpClient
     {
         private readonly HttpClient _client;
+        private readonly ILogger<PlatformHttpClient> _logger;
 
-        public PlatformHttpClient(HttpClient client)
+        public PlatformHttpClient(HttpClient client, ILogger<PlatformHttpClient> logger)
         {
             _client = client;
-        }
-
-        public async Task<PlatformUserAccessTokenResponse> GetUserAccessTokenAsync(PlatformWebhookRequest request, string exportDataUri)
-        {
-            _client.BaseAddress = new Uri(exportDataUri);
-
-            var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-            var result = await _client.PostAsync(exportDataUri, content);
-
-            result.EnsureSuccessStatusCode();
-            var stringResult = await result.Content.ReadAsStringAsync();
-
-            var accessModelResponse = JsonConvert.DeserializeObject<PlatformUserAccessTokenResponse>(stringResult);
-
-            return accessModelResponse;
-        }
-
-        public async Task<PlatformUserAccessTokenResponse> GetUserAccessTokenAsync(UserUpdateRequest request, string exportDataUri)
-        {
-            _client.BaseAddress = new Uri(exportDataUri);
-
-            var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-            var result = await _client.PostAsync(exportDataUri, content);
-
-            result.EnsureSuccessStatusCode();
-            var stringResult = await result.Content.ReadAsStringAsync();
-
-            var accessModelResponse = JsonConvert.DeserializeObject<PlatformUserAccessTokenResponse>(stringResult);
-
-            return accessModelResponse;
+            _logger = logger;
         }
 
         public async Task<PlatformDataUserUpdateResult> GetUserDataFromPlatformAsync(UserDataRequest request, string exportDataUri)
         {
-            _client.BaseAddress = new Uri(exportDataUri);
+            var response = await GetUserDataFromPlatformResponseAsync(request, exportDataUri);
 
-            // For GETting the user data from the external platform
-            //_client.DefaultRequestHeaders.Add("myGigDataToken", request.MyGigDataToken);
-            //_client.DefaultRequestHeaders.Add("username", request.Username);
-            //_client.DefaultRequestHeaders.Add("requestId", request.RequestId);
-            //var response = await _client.GetAsync("");
+            if (!response.IsSuccessStatusCode)
+            {
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.NotFound:
+                        throw new UserNotFoundForPlatformException(request.Username, "Platform reported non existant user");
+                    default:
+                        throw new PlatformCommunicationException($"Got unhandled http status code {response.StatusCode} from platform");
+                }
+            }
 
-            var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync(exportDataUri, content);
-
-            response.EnsureSuccessStatusCode();
             var stringResult = await response.Content.ReadAsStringAsync();
 
-            var result =  JsonConvert.DeserializeObject<PlatformDataUserUpdateResult>(stringResult);
-            result.RawData = stringResult;
+            PlatformDataUserUpdateResult result;
+            try 
+            {
+                result = JsonConvert.DeserializeObject<PlatformDataUserUpdateResult>(stringResult);
+                result.RawData = stringResult;
+            } 
+            catch (Exception e)
+            {
+                _logger.LogError("Could not parse data provided by the platform.");
+                throw new MalformedPlatformDataException(stringResult, "Could not parse data");
+            }
+            
             return result;
         }
 
         public async Task<PlatformDataUserTestResult> TestUserDataFromPlatformAsync(UserDataRequest request, string exportDataUri)
         {
-            _client.BaseAddress = new Uri(exportDataUri);
+            var response = await GetUserDataFromPlatformResponseAsync(request, exportDataUri);
 
-
-            // For GETting the user data from the external platform
-            //_client.DefaultRequestHeaders.Add("myGigDataToken", request.MyGigDataToken);
-            //_client.DefaultRequestHeaders.Add("username", request.Username);
-            //_client.DefaultRequestHeaders.Add("requestId", request.RequestId);
-            //var response = await _client.GetAsync("");
-
-            var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync(exportDataUri, content);
-
-            
             var stringResult = await response.Content.ReadAsStringAsync();
-            response.EnsureSuccessStatusCode();
 
-            var result =  JsonConvert.DeserializeObject<PlatformDataUserUpdateResult>(stringResult);
+            PlatformDataUserUpdateResult result = null;
+            if (response.IsSuccessStatusCode)
+            {
+                try
+                {
+                    result = JsonConvert.DeserializeObject<PlatformDataUserUpdateResult>(stringResult);
+                } catch (Exception)
+                {
+                    _logger.LogInformation("Could not deserialize repsonse from platform.");
+                } 
+            }
+
             return new PlatformDataUserTestResult(result,
                 new TestRequest(null, request
                     )
@@ -98,33 +82,56 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
                 ));
         }
 
-        public async Task<PlatformDataUserUpdateResult> RequestUserDataFromPlatformAsync(UserDataRequest request, string exportDataUri)
+        private async Task<HttpResponseMessage> GetUserDataFromPlatformResponseAsync(UserDataRequest request, string exportDataUri)
         {
             _client.BaseAddress = new Uri(exportDataUri);
 
-            // For POST requesting the user data from the external platform
-            var stringContent = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+            // For GETting the user data from the external platform
+            //_client.DefaultRequestHeaders.Add("myGigDataToken", request.MyGigDataToken);
+            //_client.DefaultRequestHeaders.Add("username", request.Username);
+            //_client.DefaultRequestHeaders.Add("requestId", request.RequestId);
+            //var response = await _client.GetAsync("");
 
-            var response = await _client.PostAsync("", stringContent);
-            response.EnsureSuccessStatusCode();
-            var stringResult = await response.Content.ReadAsStringAsync();
+            var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+            HttpResponseMessage response;
+            try
+            {
+                response = await _client.PostAsync(exportDataUri, content);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Could not communicate with the platform. Will throw.");
+                throw new PlatformCommunicationException("Could not communicate with platform.");
+            }
 
-            return JsonConvert.DeserializeObject<PlatformDataUserUpdateResult>(stringResult);
+            return response;
+        }
+    }
+
+    public class UserNotFoundForPlatformException : Exception
+    {
+        public UserNotFoundForPlatformException(string username, string message = null) : base(message)
+        {
+            Username = username;
+        }
+        public string Username { get; }
+    }
+
+    public class PlatformCommunicationException : Exception
+    {
+        public PlatformCommunicationException(string message = null) : base(message)
+        {
+
+        }
+    }
+
+    public class MalformedPlatformDataException: Exception
+    {
+        public MalformedPlatformDataException(string rawData, string message = null): base(message)
+        {
+            RawData = rawData;
         }
 
-        //public async Task<GenericResponse> CallPlatformForUserDataAsync(Platform platform)
-        //{
-        //    _client.BaseAddress = new Uri(platform.ExportDataUri);
-
-        //    // For GETting the user data from the external platform
-        //    _client.DefaultRequestHeaders.Add("myGigDataToken", platform.MyGigDataToken);
-        //    _client.DefaultRequestHeaders.Add("username", request.Username);
-        //    _client.DefaultRequestHeaders.Add("requestId", request.Username);
-        //    var response = await _client.GetAsync("");
-        //    response.EnsureSuccessStatusCode();
-        //    var stringResult = await response.Content.ReadAsStringAsync();
-
-        //    return JsonConvert.DeserializeObject<GenericResponse>(stringResult);
-        //}
+        public string RawData { get; }
     }
 }

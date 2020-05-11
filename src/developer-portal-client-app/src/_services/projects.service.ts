@@ -15,7 +15,7 @@ export const projectsService = {
   update,
   updateContact,
   setPlatformUrl,
-  createApplication,
+  // createApplication,
   setApplicationUrls
 }
 
@@ -47,10 +47,11 @@ async function getAll() {
     headers: { ...header, 'Content-Type': 'application/json' }
   }
 
-  const response = await fetch(
-    `${process.env.VUE_APP_ROOT_API}/projects`,
-    requestOptions
-  )
+  const response = await
+          fetch(
+            `${process.env.VUE_APP_ROOT_API}/projects`,
+            requestOptions
+          )
   return handleResponse(response)
 }
 
@@ -89,23 +90,23 @@ async function setPlatformUrl(projectId: string, url: string, testMode: boolean)
   return handleResponse(response)
 }
 
-async function createApplication(projectId: string) {
-  const header = await authHeader()
+// async function createApplication(projectId: string) {
+//   const header = await authHeader()
 
-  const requestOptions = {
-    method: 'POST',
-    headers: { ...header, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ projectId })
-  }
+//   const requestOptions = {
+//     method: 'POST',
+//     headers: { ...header, 'Content-Type': 'application/json' },
+//     body: JSON.stringify({ projectId })
+//   }
 
-  const response = await fetch(
-    `${
-    process.env.VUE_APP_ROOT_API
-    }/application/create`,
-    requestOptions
-  )
-  return handleResponse(response)
-}
+//   const response = await fetch(
+//     `${
+//     process.env.VUE_APP_ROOT_API
+//     }/application/create`,
+//     requestOptions
+//   )
+//   return handleResponse(response)
+// }
 
 async function setApplicationUrls(projectId: string, urls: ApplicationUrlsUpdateRequest) {
   const header = await authHeader()
@@ -128,19 +129,31 @@ async function setApplicationUrls(projectId: string, urls: ApplicationUrlsUpdate
 async function testApi(testData: TestRequest) {
   const header = await authHeader()
 
+  const controller = new AbortController()
+  const signal = controller.signal
   const requestOptions = {
+    ...signal,
     method: 'POST',
     headers: { ...header, 'Content-Type': 'application/json' },
     body: JSON.stringify(testData)
   }
 
-  const response = await fetch(
-    `${
-    process.env.VUE_APP_ROOT_API
-    }/platform/test/${removeIdNamespace(testData.id)}`,
-    requestOptions
-  )
-  return handleResponse(response)
+  const fetchPromise = fetch(
+      `${
+      process.env.VUE_APP_ROOT_API
+      }/platform/test/${removeIdNamespace(testData.id)}`,
+      requestOptions
+    )
+  // 15 seconds timeout
+  const timeoutId = setTimeout(() => controller.abort(), 15 * 1000)
+
+  return fetchPromise.then(response => {
+    clearTimeout(timeoutId)
+    return handleResponse(response)
+  })
+  .catch(err => {
+      return Promise.reject(err)
+  })
 }
 
 async function goLive(projectId: string) {

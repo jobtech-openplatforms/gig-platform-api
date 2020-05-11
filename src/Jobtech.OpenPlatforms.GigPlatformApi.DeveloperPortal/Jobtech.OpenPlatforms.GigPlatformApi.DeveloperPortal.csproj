@@ -15,36 +15,34 @@
     <DocumentationFile>obj\Debug\netcoreapp3.1\Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="9.0.0"/>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0"/>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.2"/>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.2"/>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.2"/>
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.2"/>
-    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.2"/>
-    <PackageReference Include="Microsoft.OpenApi" Version="1.1.4"/>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1"/>
-    <PackageReference Include="Rebus.AzureServiceBus" Version="7.1.0"/>
-    <PackageReference Include="Rebus.ServiceProvider" Version="5.0.3"/>
-    <PackageReference Include="Serilog" Version="2.9.0"/>
-    <PackageReference Include="Serilog.AspNetCore" Version="3.2.0"/>
-    <PackageReference Include="Serilog.Extensions.Hosting" Version="3.0.0"/>
-    <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1"/>
-    <PackageReference Include="Serilog.Formatting.Elasticsearch" Version="8.0.1"/>
-    <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0"/>
-    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1"/>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.1.0"/>
-    <PackageReference Include="Serilog.Sinks.ColoredConsole" Version="3.0.1"/>
-    <PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0"/>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.2" />
+    <PackageReference Include="Microsoft.OpenApi" Version="1.1.4" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+    <PackageReference Include="Serilog" Version="2.9.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="3.0.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
+    <PackageReference Include="Serilog.Formatting.Elasticsearch" Version="8.0.1" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.1.0" />
+    <PackageReference Include="Serilog.Sinks.ColoredConsole" Version="3.0.1" />
+    <PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\dependencies\gig-data-common\src\Jobtech.OpenPlatforms.GigDataCommon.Library\Jobtech.OpenPlatforms.GigDataCommon.Library.csproj"/>
-    <ProjectReference Include="..\Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine\Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine.csproj"/>
-    <ProjectReference Include="..\Jobtech.OpenPlatforms.GigPlatformApi.Connectivity\Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.csproj"/>
-    <ProjectReference Include="..\Jobtech.OpenPlatforms.GigPlatformApi.Core\Jobtech.OpenPlatforms.GigPlatformApi.Core.csproj"/>
-    <ProjectReference Include="..\Jobtech.OpenPlatforms.GigPlatformApi.EventDispatcher\Jobtech.OpenPlatforms.GigPlatformApi.EventDispatcher.csproj"/>
-    <ProjectReference Include="..\Jobtech.OpenPlatforms.GigPlatformApi.FileStore\Jobtech.OpenPlatforms.GigPlatformApi.FileStore.csproj"/>
-    <ProjectReference Include="..\Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine\Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.csproj"/>
-    <ProjectReference Include="..\Jobtech.OpenPlatforms.GigPlatformApi.Store\Jobtech.OpenPlatforms.GigPlatformApi.Store.csproj"/>
+    <ProjectReference Include="..\..\dependencies\gig-data-common\src\Jobtech.OpenPlatforms.GigDataCommon.Library\Jobtech.OpenPlatforms.GigDataCommon.Library.csproj" />
+    <ProjectReference Include="..\Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine\Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine.csproj" />
+    <ProjectReference Include="..\Jobtech.OpenPlatforms.GigPlatformApi.Connectivity\Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.csproj" />
+    <ProjectReference Include="..\Jobtech.OpenPlatforms.GigPlatformApi.Core\Jobtech.OpenPlatforms.GigPlatformApi.Core.csproj" />
+    <ProjectReference Include="..\Jobtech.OpenPlatforms.GigPlatformApi.EventDispatcher\Jobtech.OpenPlatforms.GigPlatformApi.EventDispatcher.csproj" />
+    <ProjectReference Include="..\Jobtech.OpenPlatforms.GigPlatformApi.FileStore\Jobtech.OpenPlatforms.GigPlatformApi.FileStore.csproj" />
+    <ProjectReference Include="..\Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine\Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.csproj" />
+    <ProjectReference Include="..\Jobtech.OpenPlatforms.GigPlatformApi.Store\Jobtech.OpenPlatforms.GigPlatformApi.Store.csproj" />
   </ItemGroup>
 </Project>

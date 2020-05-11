@@ -45,9 +45,9 @@ import CurrentStep from '../components/organisms/current-step.vue'
   }
 })
 export default class ProjectPage extends Vue {
-  private async createApplication() {
-    await this.$store.dispatch('projects/createApplication')
-  }
+  // private async createApplication() {
+  //   await this.$store.dispatch('projects/createApplication')
+  // }
 
 }
 </script>

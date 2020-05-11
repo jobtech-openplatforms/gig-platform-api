@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import { CurrentPlatformState } from '../../store/projects.module'
 import ImageTools from '../utils/image-tool'
@@ -48,7 +48,7 @@ import { mediaService } from '../../_services'
   data() {
     return {
       ready: false,
-      formDisabled: true,
+      // formDisabled: true,
       imageData: null,
       name: '',
       webpage: '',
@@ -64,7 +64,7 @@ import { mediaService } from '../../_services'
 export default class ProjectEdit extends Vue {
   private submitted: boolean = false
   private ready: boolean = true
-  private formDisabled: boolean = true
+  @Prop({ default: true }) private formDisabled: boolean
   private name: string
   private webpage: string
   private description: string

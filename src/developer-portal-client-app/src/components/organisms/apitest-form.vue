@@ -124,7 +124,7 @@
         p.
           To continue and publish the platform on Open Platforms,
           please fill out the project details.
-      ProjectDetails
+      ProjectDetails(:formDisabled="false")
 </template>
 
 <script lang="ts">
@@ -151,9 +151,9 @@ export default {
   },
   mounted() {
     this.$store.commit('projects/resetTest')
-    if (!this.currentPlatform || !this.currentPlatform.exportDataUri) {
-        this.$router.push('/platform-settings')
-    }
+    // if (!this.currentPlatform || !this.currentPlatform.exportDataUri) {
+    //     this.$router.push('/platform-settings')
+    // }
   },
   components: {
     GoLiveButton,
