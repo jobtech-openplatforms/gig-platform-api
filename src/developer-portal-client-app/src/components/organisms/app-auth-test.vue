@@ -1,14 +1,13 @@
 <template lang="pug">
   .app-test
-    button.btn-import.btn-small.ml-2(@click="buttonClick" :disabled="loading") {{buttonText}}
+    button.btn-import.btn-small.mt-2(@click="buttonClick" :disabled="loading") {{buttonText}}
     p.loading-text(v-if="loading") loading...
-    div(v-if="response && response.message")
-      p {{response.message}}
-      p(v-if="!response.success") Request to the server failed.
-      p Tested URL:
+    .card.my-2(v-if="response && response.message")
+      h4 {{response.message}}
+      div(v-if="!response.success") Request to the server failed.
+      div Tested URL:
         br
         code {{response.testedUrl}}
-      hr
     div {{error}}
 </template>
 
