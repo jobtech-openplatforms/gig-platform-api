@@ -195,14 +195,6 @@ export default class ProjectEdit extends Vue {
   }
 }
 
-.delimiter {
-  margin: 4rem 0;
-}
-
-h4 {
-  margin-left: 2rem;
-}
-
 .project-settings.project-header.flex{
   @include flex(row-reverse, flex-start, center);
   .edit-logo{
