@@ -34,8 +34,6 @@
           app-auth-test(result="completed" buttonText="Completed")
           app-auth-test(result="cancelled" buttonText="Cancelled")
 
-    hr
-
     .mt-2
       h2 Receive user's data from Open Platforms
       p.
@@ -48,7 +46,7 @@
       div(v-if="currentApplication && currentApplication.dataUpdateCallbackUrl")
         p Data update url for this application:&nbsp;
           code {{currentApplication.dataUpdateCallbackUrl}}
-    .card
+    .frame
       p.
         Test your application response to dummy data sent to
         the data url.
