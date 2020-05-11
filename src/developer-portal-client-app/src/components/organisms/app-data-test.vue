@@ -1,6 +1,6 @@
 <template lang="pug">
   .app-test
-    button.btn-import.btn-small.ml-2(@click="buttonClick" :disabled="loading") {{buttonText}}
+    button(@click="buttonClick" :disabled="loading") {{buttonText}}
     p.loading-text(v-if="loading") loading...
     div(v-if="response && response.message")
       p {{response.message}}
@@ -28,8 +28,7 @@ import { ApplicationState, ProjectState } from '@/store/projects.module'
     loading: false
   }),
 })
-export default class AppAuthTest extends Vue {
-  @Prop({ default: 'completed' }) readonly result!: string
+export default class AppDataTest extends Vue {
   @Prop({ default: 'Submit' }) readonly buttonText!: string
   private currentProject?: ProjectState
   // tslint:disable-next-line:no-any
@@ -41,14 +40,8 @@ export default class AppAuthTest extends Vue {
     this.response = {}
     this.error = ''
     this.loading = true
-    const aTest = (this.result === 'completed') ?
-      applicationTestService
-        .testAuthentication(this.currentProject.id)
-      :
-      applicationTestService
-        .testAuthenticationCancel(this.currentProject.id)
-
-    aTest
+    applicationTestService
+      .testData(this.currentProject.id)
         .then(
         (responseObj) => {
           const data = responseObj.data
@@ -64,3 +57,9 @@ export default class AppAuthTest extends Vue {
 }
 </script>
 
+<style lang="stylus" scoped>
+button
+  &[disabled]
+    color white
+    background #3e3e3e
+</style>

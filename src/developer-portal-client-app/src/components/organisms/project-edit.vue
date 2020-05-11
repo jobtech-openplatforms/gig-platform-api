@@ -6,8 +6,8 @@
             label.small(for="project-name") Project name
             input.bold.editable(type="text" :value="editingProject.name" id="project-name" @input="updateName" :disabled="formDisabled || testMode" placeholder="Dont forget to give your service a name!")
             span(v-if="!formDisabled && !testMode").
-              This is the name of your platform that will be displayed in platform listings, 
-              for example: 'Uber Eats'. 
+              This is the name of your platform that will be displayed in platform listings,
+              for example: 'Uber Eats'.
             em(v-if="!formDisabled && testMode") NOTE! Project name can only be edited in LIVE mode
             hr.my-2(v-if="!formDisabled")
           .edit-logo
@@ -75,9 +75,9 @@ export default class ProjectEdit extends Vue {
   private imageSize: number = 1200
   private imageName: string
 
-  public uploadStatus: '' | 'Resizing' | 'Uploading' | 'Completed' = '';
-  public uploadPercent;
-  public downloadURL;
+  public uploadStatus: '' | 'Resizing' | 'Uploading' | 'Completed' = ''
+  public uploadPercent
+  public downloadURL
 
   $refs: {
     file: HTMLFormElement
@@ -107,7 +107,7 @@ export default class ProjectEdit extends Vue {
       if (didItResize) {
         this.uploadStatus = 'Uploading'
 
-        let formData = new FormData()
+        const formData = new FormData()
         formData.append('file', blob, Date.now().toString())
 
         mediaService.saveFile(formData, this.$store.state.projects.current.project.id)
@@ -116,7 +116,7 @@ export default class ProjectEdit extends Vue {
                       self.$store.commit('projects/localEdit', { value: data.data as string, name: 'logoUrl'})
                     })
       }
-    });
+    })
   }
 
   private updateName(e) {

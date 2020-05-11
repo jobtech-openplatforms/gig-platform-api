@@ -4,12 +4,8 @@
       button#mobile-menu(@click="toggleMobileMenu()")
 
 
-      #banner-content(v-if="currentProject")
-        em You are in
-        strong.test-text.mx-1(v-if="testMode") TEST
-        strong.live-text.mx-1(v-else) LIVE
-        em mode on project
-        strong.ml-1 {{currentProject.name}}
+      #banner-content(v-if="currentProject").
+        #[em You are in] #[strong.test-text(v-if="testMode") TEST] #[strong.live-text(v-else) LIVE] #[em mode on project] {{currentProject.name}}
     #menu-head
       #banner-switch.toggle-buttons
         button.btn-tiny.toggle-button.btn-outline-reverse.btn-test(@click="switchTestMode" v-bind:class="{ activestate: testMode}") Test

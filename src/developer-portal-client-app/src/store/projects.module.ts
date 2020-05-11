@@ -51,9 +51,9 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
               (error) => commit('getAllFailure', error)
             )
             .then(
-              (currentProject) => {
+              (thisProject) => {
                 dispatch('actionsAfterInit')
-                return currentProject
+                return thisProject
               },
               (error) => error
             )
@@ -215,7 +215,7 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
     if (state.dispatchAfterInit) {
       state.dispatchAfterInit.forEach(action => {
         dispatch(action)
-      });
+      })
       commit('clearDispatchAfterInit')
     }
   },
@@ -313,13 +313,12 @@ const mutations: MutationTree<ProjectsModuleState> = {
   switchMode(state, remain) {
     if (state.current.project) {
       // Get same project from other mode
-      var project =
-      (state.testMode) ?
-      // Get live project id
-      state.all.projects.find(obj => obj.id == state.current.project.liveProjectId)
-      :
-      // Get test project by live id
-      state.all.testProjects.find(obj => obj.liveProjectId === state.current.project.id)
+      const project = (state.testMode) ?
+        // Get live project id
+        state.all.projects.find(obj => obj.id === state.current.project.liveProjectId)
+        :
+        // Get test project by live id
+        state.all.testProjects.find(obj => obj.liveProjectId === state.current.project.id)
 
       if (project) {
         // TODO: Same as changeCurrentProject above, duplicated code. How to fix in Vuex modules w/ TS?
@@ -330,6 +329,7 @@ const mutations: MutationTree<ProjectsModuleState> = {
         Vue.set(state.current, 'project', project)
         Vue.set(state.editing, 'project', project)
         if(!remain)
+          // tslint:disable-next-line:no-empty
           router.push('/project').catch(err => { })
       }
     }

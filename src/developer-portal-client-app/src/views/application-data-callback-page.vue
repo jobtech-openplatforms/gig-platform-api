@@ -11,7 +11,8 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 export default class ApplicationDataCallbackPage extends Vue {
     goto(refName) {
       const el = document.querySelector(refName)
-      el && el.scrollIntoView({behavior: 'smooth', block: 'center'})
+      if(el)
+      el.scrollIntoView({behavior: 'smooth', block: 'center'})
     }
 }
 </script>

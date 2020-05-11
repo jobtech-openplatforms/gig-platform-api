@@ -5,7 +5,8 @@ const baseUrl = `${process.env.VUE_APP_ROOT_API}/test/app/`
 
 export const applicationTestService = {
   testAuthentication,
-  testAuthenticationCancel
+  testAuthenticationCancel,
+  testData
 }
 
 async function testAuthentication(projectId: string) {
@@ -14,6 +15,10 @@ async function testAuthentication(projectId: string) {
 
 async function testAuthenticationCancel (projectId: string) {
   return await get(`${baseUrl}${projectId}/auth/cancel`)
+}
+
+async function testData (projectId: string) {
+  return await get(`${baseUrl}${projectId}/data`)
 }
 
 async function post (formData: FormData, url: string) {

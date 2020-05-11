@@ -127,6 +127,7 @@ export default class ImageTools {
         { type: mimeString }
       )
     } else {
+      // tslint:disable-next-line:no-any
       const bb = new (window as any).BlobBuilder()
       bb.append(arrayBuffer)
       blob = bb.getBlob(mimeString)
@@ -138,6 +139,7 @@ export default class ImageTools {
   public static _loadImage(image, file, callback = null) {
     if (typeof (URL) === 'undefined') {
       const reader = new FileReader()
+      // tslint:disable-next-line:only-arrow-functions
       reader.onload = function(evt) {
         image.src = evt.target.result
         if (callback) { callback() }

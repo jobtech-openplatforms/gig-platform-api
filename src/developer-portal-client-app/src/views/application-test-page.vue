@@ -20,31 +20,62 @@
     .mt-2
       h2 Authenticate user with Open Platforms
       p.mb-2.
-        TODO: Write instructions for connecting with a user account through Auth0 to Open Platforms
-        and approve the connection.
-      h3 Send auth response
-      .auth-responses
-        app-auth-test(result="completed" buttonText="Completed")
-        app-auth-test(result="cancelled" buttonText="Cancelled")
+        When a user connection through Open Platforms is
+        successful, your server will receive a callback
+        with #[code result=completed], the #[code requestid]
+        you sent when initiating the connection,
+        and the #[code openPlatformsUserId] of the connected user.
+      div(v-if="currentApplication && currentApplication.authCallbackUrl")
+        p Connection callback url for this application:&nbsp;
+          code {{currentApplication.authCallbackUrl}}
+      .frame
+        h3 Send auth responses
+        .auth-responses
+          app-auth-test(result="completed" buttonText="Completed")
+          app-auth-test(result="cancelled" buttonText="Cancelled")
+
     hr
+
     .mt-2
       h2 Receive user's data from Open Platforms
       p.
-        TODO: Add a button to send updated user data to the application connection url.
+        A request with the data for a single connection
+        for a user will be sent to the data url you have
+        specified for the project.
+      p.
+        See the #[router-link(to="/application-documentation") full documentation]
+        for detailed instructions.
+      div(v-if="currentApplication && currentApplication.dataUpdateCallbackUrl")
+        p Data update url for this application:&nbsp;
+          code {{currentApplication.dataUpdateCallbackUrl}}
+    .card
+      p.
+        Test your application response to dummy data sent to
+        the data url.
+      app-auth-test(buttonText="Try it")
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import CurrentApplicationTokens from '../components/organisms/current-application-tokens.vue'
 import AppAuthTest from '@/components/organisms/app-auth-test.vue'
+import AppDataTest from '@/components/organisms/app-data-test.vue'
+import { mapGetters } from 'vuex'
+import { ApplicationState } from '@/store/projects.module'
 
 @Component({
+  computed: {
+    ...mapGetters('projects', ['currentApplication'])
+  },
   components: {
     CurrentApplicationTokens,
-    AppAuthTest
+    AppAuthTest,
+    AppDataTest
   }
 })
-export default class TestApplicationPage extends Vue {}
+export default class TestApplicationPage extends Vue {
+  private currentApplication?: ApplicationState
+}
 </script>
 
 <style lang="scss">

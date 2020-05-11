@@ -24,7 +24,7 @@ import { mapState, mapActions } from 'vuex'
   methods: {
     // Log the user in
     login() {
-      console.log('login click!')
+      // console.log('login click!')
       this.$auth.loginWithRedirect()
     },
     // Log the user out

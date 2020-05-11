@@ -1,5 +1,6 @@
 <template lang="pug">
   .instructions
+    p #[router-link.color-export(to="/platform-documentation") See full documentation]
     h4 What's needed?
     ol
       li

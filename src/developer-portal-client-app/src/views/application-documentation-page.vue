@@ -8,7 +8,6 @@
       p Table of contents
       ul.toc
         li #[a.page-nav(@click="goto('#implementation')") Implementation]
-        li #[a.page-nav(@click="goto('#requeststructure')") Request structure for calls to your application]
         li #[a.page-nav(@click="goto('#howitworks')") How it works]
           ul
             li #[a.page-nav(@click="goto('#your-implementation')") Your implementation]
@@ -19,7 +18,7 @@
             li #[a.page-nav( @click="goto('#api-platform')") Get a single platform]
             li #[a.page-nav( @click="goto('#api-callback')") Callback url]
             li #[a.page-nav( @click="goto('#api-update')") Data update url]
-        li #[a.page-nav( @click="goto('#json-schema')") JSON Schema]
+        //- li #[a.page-nav( @click="goto('#json-schema')") JSON Schema]
     .card
       h2#implementation Implementation
       p.
@@ -42,12 +41,6 @@
           smaller updates are sent to your server rather than
           larger data-intensive ones.
 
-    .card
-      h2#requeststructure Request structure for calls to your application
-      p.
-        This documentation describes how to implement
-        the integration with Open Platforms in your
-        application.
     .card
       h2#howitworks How it works
       p.
@@ -249,6 +242,7 @@
       div(v-if="currentApplication && currentApplication.dataUpdateCallbackUrl")
         p Data update url for this application:&nbsp;
           code {{currentApplication.dataUpdateCallbackUrl}}
+        p #[router-link(to="/application-test") Test sending the below data to your application]
       pre
         code.
           {
@@ -294,7 +288,8 @@ export default class ApplicationDocumentationPage extends Vue {
   private currentApplication?: ApplicationState
   goto(refName) {
     const el = document.querySelector(refName)
-    el && el.scrollIntoView({behavior: 'smooth', block: 'center'})
+    if(el)
+     el.scrollIntoView({behavior: 'smooth', block: 'center'})
   }
 }
 </script>

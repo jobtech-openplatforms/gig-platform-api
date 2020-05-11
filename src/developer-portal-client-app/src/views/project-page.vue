@@ -42,7 +42,7 @@ import CurrentStep from '../components/organisms/current-step.vue'
   components: {
     ProjectEdit,
     CurrentStep
-  }   
+  }
 })
 export default class ProjectPage extends Vue {
   private async createApplication() {
@@ -59,9 +59,9 @@ export default class ProjectPage extends Vue {
 }
 .project-page {
   .arrow {
-    padding: 17px 0 5px 0; 
+    padding: 17px 0 5px 0;
   }
-  .arrow-image { 
+  .arrow-image {
     display: block;
     float: left;
     left: 300px;
