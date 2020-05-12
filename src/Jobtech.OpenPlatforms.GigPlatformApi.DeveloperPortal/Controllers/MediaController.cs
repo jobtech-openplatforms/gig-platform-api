@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine.Managers;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.Exceptions;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
 using Jobtech.OpenPlatforms.GigPlatformApi.FileStore.Managers;
 using Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers;
-using Jobtech.OpenPlatforms.GigPlatformApi.Store;
-using Jobtech.OpenPlatforms.GigPlatformApi.Store.Config;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,8 +35,19 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
 
         [HttpPost]
         [Route("[action]/{projectNamespace:alpha}/{projectId}")]
-        public async Task<IActionResult> Save([FromForm]IFormFile file, [FromRoute] string projectNamespace, [FromRoute] string projectId)
+        public async Task<IActionResult> Save(IFormFile file, [FromRoute] string projectNamespace, [FromRoute] string projectId, 
+            CancellationToken cancellationToken)
         {
+            if (!string.Equals(file.ContentType, "image/jpg", StringComparison.OrdinalIgnoreCase) &&
+                !string.Equals(file.ContentType, "image/jpeg", StringComparison.OrdinalIgnoreCase) &&
+                !string.Equals(file.ContentType, "image/pjpeg", StringComparison.OrdinalIgnoreCase) &&
+                !string.Equals(file.ContentType, "image/gif", StringComparison.OrdinalIgnoreCase) &&
+                !string.Equals(file.ContentType, "image/x-png", StringComparison.OrdinalIgnoreCase) &&
+                !string.Equals(file.ContentType, "image/png", StringComparison.OrdinalIgnoreCase))
+            {
+                throw new Exception("Incorrect file type");
+            }
+
             // Who's logged in?
             using var session = _documentStore.OpenAsyncSession();
             var user = await _platformAdminUserManager.GetByUniqueIdentifierAsync(User.Identity.Name, session);
@@ -47,7 +57,32 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
             var testMode = TestProjectId.IsValidIdentity(projectId) && !ProjectId.IsValidIdentity(projectId);
 
             // Which project are we working on?
-            var project = testMode ? await _projectManager.GetTest((TestProjectId)projectId, session) : await _projectManager.Get((ProjectId)projectId, session);
+            var project = testMode ? 
+                await _projectManager.GetTest((TestProjectId)projectId, session) : 
+                await _projectManager.Get((ProjectId)projectId, session);
+
+            string fileExtension;
+
+            switch (file.ContentType)
+            {
+                case "image/jpg":
+                case "image/jpeg":
+                case "image/pjpeg":
+                    fileExtension = ".jpg";
+                    break;
+                case "image/x-png":
+                case "image/png":
+                    fileExtension = ".png";
+                    break;
+                case "image/gif":
+                    fileExtension = ".gif";
+                    break;
+                default:
+                    throw new Exception("Incorrect file type");
+            }
+
+            var fileName = $"{Guid.NewGuid()}{fileExtension}";
+
             // Does the user have access to the project?
             if (!project.AdminIds.Contains(user.Id) && project.OwnerAdminId != user.Id)
             {
@@ -55,12 +90,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
             }
             try
             {
-
-                var files = Request.Form.Files;
-
-                return Ok(await _fileManager.SaveAsync(file));
+                return Ok(await _fileManager.UploadFileAsync(file, fileName, $"devprojects/assets"));
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
                 return StatusCode(StatusCodes.Status500InternalServerError);

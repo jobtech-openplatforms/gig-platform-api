@@ -1,76 +1,56 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
-using Jobtech.OpenPlatforms.GigPlatformApi.FileStore.Services;
+using Amazon;
+using Amazon.S3;
+using Jobtech.OpenPlatforms.GigPlatformApi.FileStore.Config;
 using Microsoft.AspNetCore.Http;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.Extensions.Options;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.FileStore.Managers
 {
     public class FileManager : IFileManager
     {
 
-        private readonly IFileStorageConfigService _configuration;
+        private readonly FileStoreConfig _configuration;
 
-        public FileManager(IFileStorageConfigService configuration)
+        public FileManager(IOptions<FileStoreConfig> configuration)
         {
-            _configuration = configuration;
+            _configuration = configuration.Value;
         }
 
-        public async Task<Uri> SaveAsync(IFormFile file)
+        /// <summary>
+        /// Uploads a file to storage.
+        /// </summary>
+        /// <param name="file">The file to upload</param>
+        /// <param name="name">The file name</param>
+        /// <param name="path">The prefix to the file name (i.e subdirectories).</param>
+        /// <returns></returns>
+        public async Task<Uri> UploadFileAsync(IFormFile file, string name, string path, CancellationToken cancellationToken = default)
         {
-
-            if (CloudStorageAccount.TryParse(_configuration.ConnectionString, out CloudStorageAccount storageAccount))
+            var config = new AmazonS3Config
             {
-                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                RegionEndpoint = RegionEndpoint.USEast1, // MUST set this before setting ServiceURL and it should match the `MINIO_REGION` environment variable.
+                ServiceURL = _configuration.StorageEndpoint,
+                ForcePathStyle = true // MUST be true to work correctly with MinIO server
+            };
+            var amazonS3Client = new AmazonS3Client(_configuration.AccessKey, _configuration.SecretKey, config);
 
-                CloudBlobContainer container = blobClient.GetContainerReference("logo-storage");
-                BlobContainerPermissions permissions = await container.GetPermissionsAsync();
-                permissions.PublicAccess = BlobContainerPublicAccessType.Container;
-                await container.SetPermissionsAsync(permissions);
+            var key = $"{path}/{name}";
 
-                await container.CreateIfNotExistsAsync();
+            using var stream = file.OpenReadStream();
+            stream.Position = 0;
 
-                if (!string.Equals(file.ContentType, "image/jpg", StringComparison.OrdinalIgnoreCase) &&
-                     !string.Equals(file.ContentType, "image/jpeg", StringComparison.OrdinalIgnoreCase) &&
-                     !string.Equals(file.ContentType, "image/pjpeg", StringComparison.OrdinalIgnoreCase) &&
-                     !string.Equals(file.ContentType, "image/gif", StringComparison.OrdinalIgnoreCase) &&
-                     !string.Equals(file.ContentType, "image/x-png", StringComparison.OrdinalIgnoreCase) &&
-                     !string.Equals(file.ContentType, "image/png", StringComparison.OrdinalIgnoreCase))
-                {
-                    throw new Exception("Incorrect file type");
-                }
+            var result = await amazonS3Client.PutObjectAsync(new Amazon.S3.Model.PutObjectRequest { 
+                BucketName = _configuration.BucketName, 
+                Key = key, 
+                InputStream = stream,
+                ContentType = file.ContentType
+            }, cancellationToken);
 
-                var fileExtension = "";
+            var url = $"{_configuration.StorageEndpoint}/{_configuration.BucketName}/{key}";
 
-                switch (file.ContentType)
-                {
-                    case "image/jpg":
-                    case "image/jpeg":
-                    case "image/pjpeg":
-                        fileExtension = ".jpg";
-                        break;
-                    case "image/x-png":
-                    case "image/png":
-                        fileExtension = ".png";
-                        break;
-                    case "image/gif":
-                        fileExtension = ".gif";
-                        break;
-                    default:
-                        throw new Exception("Incorrect file type");
-                }
-
-                // Don't rely on or trust the FileName property without validation. The FileName property should only be used for display purposes.
-                var picBlob = container.GetBlockBlobReference(Guid.NewGuid().ToString() + fileExtension);
-                picBlob.Properties.ContentType = file.ContentType;
-
-                await picBlob.UploadFromStreamAsync(file.OpenReadStream());
-
-                return picBlob.Uri;
-            }
-
-            throw new Exception("Unable to save the file");
+            return new Uri(url);
         }
     }
 }
