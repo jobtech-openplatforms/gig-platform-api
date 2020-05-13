@@ -28,6 +28,11 @@ hr {
     border-color: $border-grey;
     border-width: 0 0 1px;
     width: 100%;
+    margin:2rem 0;
+
+    &.spacious{
+        margin:4rem 0;
+    }
 
     &.dark {
         border-color: rgba(0, 0, 0, 0.2);
@@ -47,6 +52,10 @@ pre {
     }
 }
 
+li{
+    margin-bottom:1rem;
+}
+
 .narrow {
     max-width: 500px;
     margin-left: auto;
@@ -54,7 +63,6 @@ pre {
 }
 
 .feedback {
-    height: $font-med;
     font-size: $font-small;
 
     &>* {
