@@ -4,13 +4,13 @@
         .project-settings.project-header(v-bind:class="{ flex : formDisabled}" )
           .form-group.project-name
             label.small(for="project-name") Project name
-            input.bold.editable(type="text" :value="editingProject.name" id="project-name" @input="updateName" :disabled="formDisabled || testMode" placeholder="Dont forget to give your service a name!")
+            input.bold(type="text" :value="editingProject.name" id="project-name" @input="updateName" :disabled="formDisabled || testMode" placeholder="Dont forget to give your service a name!" maxlength="20")
             span(v-if="!formDisabled && !testMode").
               This is the name of your platform that will be displayed in platform listings,
               for example: 'Uber Eats'.
             em(v-if="!formDisabled && testMode") NOTE! Project name can only be edited in LIVE mode
             hr.my-2(v-if="!formDisabled")
-          .edit-logo
+          .edit-logo(v-bind:class="{ editable : !formDisabled}")
             label#file-label(for="file")
               div.project-logo(v-if="editingProject.logoUrl != null" :style="{'background-image': 'url(' + editingProject.logoUrl + ')'}")
               div.project-logo(v-else)
@@ -20,11 +20,11 @@
           hr.my-2
           .form-group
             label.small(for="project-webpage") Webpage URL
-            input.editable(type="url" id="project-webpage" :value="editingProject.webpage" @input="updateWebpage" :disabled="formDisabled" placeholder="Tell us where to find your service!")
+            input(type="url" id="project-webpage" :value="editingProject.webpage" @input="updateWebpage" :disabled="formDisabled" placeholder="Tell us where to find your service!")
             p(v-if="!formDisabled") The url to the web page of your platform.
           .form-group
             label.small(for="project-description") Description
-            textarea.editable(placeholder="Give us some quick info about your service!" id="project-description" :value="editingProject.description" @input="updateDescription" :disabled="formDisabled") {{editing.description}}
+            textarea(placeholder="Give us some quick info about your service!" id="project-description" rows="3" :value="editingProject.description" @input="updateDescription" :disabled="formDisabled" maxlength="100") {{editing.description}}
             p(v-if="!formDisabled") Enter a short description of your platform (max 100 characters).
           .buttons.mb-2
             button.btn.right.btn-project(v-if="!formDisabled" :disabled="status === 2" type="submit") Save
@@ -165,21 +165,27 @@ export default class ProjectEdit extends Vue {
 .project {
   padding-bottom:0;
 
-  .edit-logo:after {
-    color: #fff;
-    bottom: 0;
-    top: unset;
+  .edit-logo{
+    &.editable{
+      cursor:pointer;
+    }
+    &:after {
+      color: #fff;
+      bottom: 0;
+      top: unset;
+    }
   }
-
+  
+ 
   .project-settings .project-logo {
     width: 78px;
     height: 78px;
     flex: 0 0 78px;
     display: block;
-    cursor:pointer;
     background-color:#fff;
     margin-right:2rem;
   }
+
 
   .integration-status {
     @include flex(row, null, center);
