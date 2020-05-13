@@ -154,9 +154,7 @@ export default {
     flex-direction: column;
     }
 
-
     a {
-      background-color: #3b3b3b;
       font-weight: bold;
       margin: 0 2px;
       white-space: nowrap;
