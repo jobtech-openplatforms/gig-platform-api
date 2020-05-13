@@ -1,21 +1,21 @@
 <template lang="pug">
   .instructions
-    .card
+    div
       h1 Open Platforms request structure
       p.
         This documentation describes how to implement
         the integration with Open Platforms in your
         service.
-      p Table of contents
+    .frame.m-4
+      h2 Table of contents
       ul.toc
-        li #[a.page-nav(@click="goto('#implementation')") Implementation]
-        li #[a.page-nav(@click="goto('#howitworks')") How it works]
+        li #[a.color-export.page-nav(@click="goto('#implementation')") Implementation]
+        li #[a.color-export.page-nav(@click="goto('#howitworks')") How it works]
           ul
-            li #[a.page-nav(@click="goto('#your-implementation')") Your implementation]
-        li #[a.page-nav( @click="goto('#prerequisites')") Prerequisites]
-        li #[a.page-nav( @click="goto('#api')") API]
-
-    .card
+            li #[a.color-export.page-nav(@click="goto('#your-implementation')") Your implementation]
+        li #[a.color-export.page-nav( @click="goto('#prerequisites')") Prerequisites]
+        li #[a.color-export.page-nav( @click="goto('#api')") API]
+    div
       h2#implementation Implementation
       p.
         These are the requirements for integrating
@@ -39,13 +39,14 @@
           address, Open Platforms will have verified the user's
           ownership of that e-mail address before making
           requests for updates to your platform.
+    hr.spacious
 
-    .card
+    div
       h2#howitworks How it works
       p.
         Briefly described, this is how the Open Platforms
         connection is established with your service.
-      ol
+      ol.card
         li.
           Create an endpoint (URL) that is publicly
           accessible for calls from Open Platforms to
@@ -73,16 +74,17 @@
         li.
           Open Platforms periodically retrieves updates
           from your platform for each connected user.
+    hr.spacious
 
 
-    .card
+    div
       h2#prerequisites Prerequisites
       p.
         The following prerequisites are required for
         implementing the connection with Open Platforms
         and allowing your users to connect their data
         from your service.
-      ul
+      ul.card
         li.
           Your platform or service is accessible from the
           web and you are able to add a custom url to be
@@ -95,9 +97,10 @@
           Your platform has unique e-mail addresses for
           users so that there is no conflict between which
           account to retrieve user data from.
+    
+    hr.spacious
 
-
-    .card
+    div
       h2#api API
       p.
         Please see the #[router-link.color-export(to="/json-schema") JSON Schema]
