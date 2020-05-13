@@ -5,7 +5,7 @@
       p.flex-wrapper.test-instructions
         span In order to test if your server works correctly, you need supply an email address for a test user on your platform with at least one gig.
         button.btn.btn-right.btn-outline.btn-export.btn-small.my-2.ml-4(@click="toggleInstructions()") {{!showInstructions ? 'Show instructions &#9660' : 'Hide instructions &#9650'}}
-      hr.my-2
+      hr.spacious
       PlatformInstructions(v-if="showInstructions")
 
     div(v-if="testStatus == 4")
@@ -61,7 +61,7 @@
         label.label-muted(for="exportDataUri" @click="enableForm()")  Project export data url
         .inline
             .form-group
-              input.editable(v-if="currentPlatform" type="text" name="exportDataUri" :value="currentPlatform.exportDataUri" @input="newUrl = $event.target.value" :disabled="editUrlDisabled" placeholder="Project export data url")
+              input(v-if="currentPlatform" type="text" name="exportDataUri" :value="currentPlatform.exportDataUri" @input="newUrl = $event.target.value" :disabled="editUrlDisabled" placeholder="Project export data url")
             button.btn.right.btn-export(v-if="!editUrlDisabled"  key="7890") Save
         button.btn.right.btn-outline.btn-export.btn-small(v-if="editUrlDisabled"  key="7891" type="button" @click="enableForm()") Edit...
 
@@ -119,7 +119,7 @@
         pre(v-if="testResult.result.interactions") {{ JSON.stringify(testResult.result, null, 2) }}
 
     modal#project-details(name="project-details" height="auto" :scrollable="true")
-      div
+      div.mt-2.mx-4
         h2 Complete project info to continue
         p.
           To continue and publish the platform on Open Platforms,
