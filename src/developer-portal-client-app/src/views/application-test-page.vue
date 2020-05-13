@@ -9,7 +9,7 @@
     p.
       #[strong Tip!] #[em To test while developing on localhost, consider using a service like] #[a(href="https://ngrok.com/" target="_blank") ngrok] #[em to receive data from Open Platforms to your development machine.]
     current-application-tokens
-    hr
+    hr.spacious
     .card
       h2 Available test functions
       ol
