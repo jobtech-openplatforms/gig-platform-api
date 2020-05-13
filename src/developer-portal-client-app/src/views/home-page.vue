@@ -101,10 +101,7 @@ export default {
   color: #fff;
   @include flex(column, null, null);
   min-height: 100%;
-  p {
-    background-color: rgba(59, 59, 59, 0.8);
-    background-color: #3b3b3b;
-  }
+
   #start-upper {
     @include flex(row, space-between, flex-start);
     flex: 1 0 auto;
