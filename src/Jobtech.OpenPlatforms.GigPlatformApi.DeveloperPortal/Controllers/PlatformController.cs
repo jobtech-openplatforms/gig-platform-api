@@ -56,6 +56,12 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
 
             var response = await _platformHttpClient.TestUserDataFromPlatformAsync(userDataRequest, platform.ExportDataUri);
 
+            if(response.Response.Status == "NotFound")
+            {
+                throw new ApiException(message: "The server responded with NotFound.", errors: new List<string> { "Response: " + response.Response.Body });
+                
+            }
+
             return Ok(response);
         }
 

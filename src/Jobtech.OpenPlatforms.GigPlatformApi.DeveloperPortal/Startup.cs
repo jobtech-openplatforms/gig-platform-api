@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -8,11 +9,7 @@ using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.IoC;
 using Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Exceptions;
 using Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.HttpClients;
 using Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.IoC;
-using Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Managers;
 using Jobtech.OpenPlatforms.GigPlatformApi.EventDispatcher.IoC;
-using Jobtech.OpenPlatforms.GigPlatformApi.FileStore.Config;
-using Jobtech.OpenPlatforms.GigPlatformApi.FileStore.Managers;
-using Jobtech.OpenPlatforms.GigPlatformApi.FileStore.Services;
 using Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.IoC;
 using Jobtech.OpenPlatforms.GigPlatformApi.Store.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -142,6 +139,31 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
                         Name = "Calle Hunefalk"
                     }
                 });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n " +
+                  $"Enter your token in the text input below.\r\n\r\n" +
+                  $"Example: \"12345abcdef\"",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Id = "Bearer",
+                                Type = ReferenceType.SecurityScheme
+                            }
+                        },
+                        new List<string>()
+                    }
+                });
+
                 c.DescribeAllParametersInCamelCase();
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

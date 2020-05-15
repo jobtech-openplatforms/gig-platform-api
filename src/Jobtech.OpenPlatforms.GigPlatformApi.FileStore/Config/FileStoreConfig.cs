@@ -2,6 +2,9 @@
 {
     public class FileStoreConfig
     {
-        public string AzureBlobStorageConnection { get; set; }
+        public string AccessKey { get; set; }
+        public string SecretKey { get; set; }
+        public string StorageEndpoint { get; set; }
+        public string BucketName { get; set; }
     }
 }

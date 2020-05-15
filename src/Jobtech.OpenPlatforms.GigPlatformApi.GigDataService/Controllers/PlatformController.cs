@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Jobtech.OpenPlatforms.GigDataCommon.Library.Messages;
+using Jobtech.OpenPlatforms.GigDataCommon.Library.Models;
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers;
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models;
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models.PlatformModels;
@@ -81,31 +82,35 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService.Controllers
             try
             {
                 var response = await _platformHttpClient.GetUserDataFromPlatformAsync(userDataRequest, platform.ExportDataUri);
+                message = new PlatformUserUpdateDataMessage(requestId, request.Username, Guid.Parse(request.PlatformId), response);
+            }
+            catch (UserNotFoundForPlatformException ex)
+            {
+                _logger.LogInformation("Platform with id {platformId} reported that it could not find user with username {username}.",
+                    platform.Id, ex.Username);
+                message = new PlatformUserUpdateDataMessage(requestId, request.Username, Guid.Parse(request.PlatformId), null, PlatformDataUpdateResultType.UserNotFound);
+            }
+            catch (MalformedPlatformDataException ex)
+            {
+                _logger.LogInformation(ex, "Data from platform could not be understood");
+                message = new PlatformUserUpdateDataMessage(requestId, request.Username, Guid.Parse(request.PlatformId), null, PlatformDataUpdateResultType.MalformedDataResponse);
+            }
+            catch (PlatformCommunicationException ex)
+            {
+                _logger.LogError(ex, "Could not communicate with the platform.");
+                message = new PlatformUserUpdateDataMessage(requestId, request.Username, Guid.Parse(request.PlatformId), null, PlatformDataUpdateResultType.PlatformCommunicationError);
+            }
 
-                try
-                {
-                    message = new PlatformUserUpdateDataMessage(requestId, request.Username, Guid.Parse(request.PlatformId), response);
-                    await _platformDispatchManager.SendUserDataMessage(message);
-                    return Ok(PlatformUserDataResponse.Ok(requestId, $"Request for update received and dispatched to service bus."));
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogCritical(ex, "Unhandled exception in messaging");
-                    throw new ApiException(message: ex.Message, errors: new List<string> { ex.StackTrace });
-                    //return BadRequest(PlatformUserDataResponse.Fail(requestId, ex.Message));
-                }
+            try
+            {
+                await _platformDispatchManager.SendUserDataMessage(message);
+                return Ok(PlatformUserDataResponse.Ok(requestId, $"Request for update received and dispatched to service bus."));
             }
             catch (Exception ex)
             {
-                _logger.LogCritical(ex, "Unhandled exception in platform retrieval");
-                throw new ApiException(message: "Unable to retrieve platform from database", errors: new List<string> { platform.ExportDataUri, ex.Message, ex.StackTrace, ex.InnerException?.Message ?? "", JsonConvert.SerializeObject(userDataRequest), JsonConvert.SerializeObject(message) });
+                _logger.LogCritical(ex, "Unhandled exception in messaging");
+                throw new ApiException(message: ex.Message, errors: new List<string> { ex.StackTrace });
             }
-            //var response = await _platformHttpClient.RequestUserDataFromPlatformAsync(userDataRequest, platform.ExportDataUri);
-            //if (response.Success == false)
-            //{
-            //    // TODO: Log this
-            //    return BadRequest(PlatformUserDataResponse.Fail(requestId, response));
-            //}
         }
     }
 }

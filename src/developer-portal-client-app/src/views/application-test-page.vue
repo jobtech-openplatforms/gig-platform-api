@@ -9,7 +9,7 @@
     p.
       #[strong Tip!] #[em To test while developing on localhost, consider using a service like] #[a(href="https://ngrok.com/" target="_blank") ngrok] #[em to receive data from Open Platforms to your development machine.]
     current-application-tokens
-    hr
+    hr.spacious
     .card
       h2 Available test functions
       ol
@@ -17,9 +17,9 @@
           strong Authenticate user with Open Platforms
         li
           strong Receive user's data from Open Platforms
-    .card
+    .mt-2
       h2 Authenticate user with Open Platforms
-      p.
+      p.mb-2.
         When a user connection through Open Platforms is
         successful, your server will receive a callback
         with #[code result=completed], the #[code requestid]
@@ -28,18 +28,13 @@
       div(v-if="currentApplication && currentApplication.authCallbackUrl")
         p Connection callback url for this application:&nbsp;
           code {{currentApplication.authCallbackUrl}}
-    .card
-      p.
-        Test your application response with #[code result=completed]
-      app-auth-test(result="completed" buttonText="Try it")
-    .card
-      p.
-        Test your application response with #[code result=failed]
-      app-auth-test(result="failed" buttonText="Try it")
+      .frame
+        h3 Send auth responses
+        .auth-responses
+          app-auth-test(result="completed" buttonText="Completed")
+          app-auth-test(result="cancelled" buttonText="Cancelled")
 
-    hr
-
-    .card
+    .mt-2
       h2 Receive user's data from Open Platforms
       p.
         A request with the data for a single connection
@@ -51,7 +46,7 @@
       div(v-if="currentApplication && currentApplication.dataUpdateCallbackUrl")
         p Data update url for this application:&nbsp;
           code {{currentApplication.dataUpdateCallbackUrl}}
-    .card
+    .frame
       p.
         Test your application response to dummy data sent to
         the data url.
@@ -81,3 +76,6 @@ export default class TestApplicationPage extends Vue {
 }
 </script>
 
+<style lang="scss">
+
+</style>

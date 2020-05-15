@@ -1,11 +1,12 @@
 <template lang="pug">
   div
-    .card
+    div
       h1 Open Platforms request structure
       p.
         To implement Open Platforms in your application,
         please read the documentation below.
-      p Table of contents
+    .frame.m-4
+      h2 Table of contents
       ul.toc
         li #[a.page-nav(@click="goto('#implementation')") Implementation]
         li #[a.page-nav(@click="goto('#howitworks')") How it works]
@@ -19,7 +20,7 @@
             li #[a.page-nav( @click="goto('#api-callback')") Callback url]
             li #[a.page-nav( @click="goto('#api-update')") Data update url]
         //- li #[a.page-nav( @click="goto('#json-schema')") JSON Schema]
-    .card
+    div
       h2#implementation Implementation
       p.
         These are the requirements for implementing
@@ -40,13 +41,13 @@
           between a user and a platform, which means that multiple
           smaller updates are sent to your server rather than
           larger data-intensive ones.
-
-    .card
+    hr.spacious
+    div
       h2#howitworks How it works
       p.
         Briefly described, this is how the Open Platforms
         connection is established with your service.
-      ol
+      ol.card
         li.
           To retrieve a
           #[a.page-nav( @click="goto('#api-available')") list of available platforms]
@@ -72,7 +73,7 @@
           #[br]
           Example:
           #[br]
-          #[pre https://example-application.app/open-platforms-callback?result=completed&openplatformsuserid=123zyx&requestid=your-reference]
+          #[pre.p-2 https://example-application.app/open-platforms-callback?result=completed&openplatformsuserid=123zyx&requestid=your-reference]
 
         li.
           Fill out the callback url (without GET variables) in the
@@ -97,7 +98,7 @@
           between your application and the platform.
 
         li The end user is returned to your application in one of two ways:
-          ul
+          ul.my-2
             li.
               If the approval screen was opened in a popup window, the popup
               window is closed.
@@ -105,8 +106,8 @@
               If the approval screen was not opened in a popup window, the
               user is redirected to the callback url.
 
-      h3#your-implementation Your implementation
-      ul
+      h3#your-implementation.mt-4 Your implementation
+      ul.card
         li.
           Create two endpoints (URLs) that are publicly
           accessible for calls from Open Platforms to
@@ -126,14 +127,16 @@
         li.
           Open Platforms periodically sends updates
           to your application for each connected user.
-    .card
+    hr.spacious
+
+    div
       h2#prerequisites Prerequisites
       p.
         The following prerequisites are required for
         implementing the connection with Open Platforms
         and allowing your users to connect their data
         from your service.
-      ul
+      ul.card
         li.
           Your application or service is accessible from the
           web and you are able to add custom urls to be
@@ -142,7 +145,10 @@
         li.
           You are able to verify a header with authentication
           in the endpoint.
-    .card
+
+    hr.spacious
+
+    div
       h2#api API
       p.
         The base url for API calls for applications is
@@ -184,21 +190,21 @@
           https://openplatforms-user-test.jobtechdev.se/initiate-connection?requestid={requestid}&app={applicationid}&platform={platformid}&permissions=1
       p The #[code /initiate-connection] url requires these parameters:
       p
-        code requestid
+        code requestid 
         span.
           the identifier for the request. Could be the userId or a generated
           request identifier if you need to refer to additional details
           in your system about the request.
       p
-        code app
+        code app 
         span.
           your Open Platforms Application Id.
       p
-        code platform
+        code platform 
         span.
           the Platform Id for the platform to connect the user to.
       p
-        code permissions
+        code permissions 
         span.
           1 for aggregated data, 2 for detailed data.
       p
@@ -213,20 +219,20 @@
           instead redirects to the callback url.
       p In both cases above, the following parameters are included.
       pre
-        code https://your-callback-url/?requestid={requestid}&openplatformsuserid={openplatformsuserid}&result={completed|failed}
+        code https://your-callback-url/?requestid={requestid}&openplatformsuserid={openplatformsuserid}&result={completed|failed} 
       p.
         Parameters included in the callback url call:
 
       p
-        code requestid
+        code requestid 
         span.
           the request identifier you sent as a reference in the initial call.
       p
-        code openplatformsuserid
+        code openplatformsuserid 
         span.
           the Open platforms user identifier. Save this for reference.
       p
-        code result
+        code result 
         span.
           the result of the connection can be either #[code completed] or #[code failed].
 
@@ -294,10 +300,26 @@ export default class ApplicationDocumentationPage extends Vue {
 }
 </script>
 
-<style lang="stylus" scoped>
-pre
-  border 1px solid grey
-  background #ccc
-.page-nav
-  cursor pointer
+<style lang="scss" scoped>
+
+@import "../assets/scss/cards_tiles.scss";
+
+pre{
+  @extend .frame;
+  word-break:break-all;
+  white-space:break-spaces;
+  line-height:1;
+  background-color:rgba(0,0,0,0.1);
+}
+.page-nav{
+  cursor: pointer;
+}
+
+h3{
+  margin-top:4rem;
+}
+
+#page a{
+  color:$color-import;
+}
 </style>

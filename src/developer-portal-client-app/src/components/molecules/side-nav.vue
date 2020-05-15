@@ -123,7 +123,6 @@ export default class SideNav extends Vue {
 
 
   #banner-content{
-    @include sidebar-width(padding-left);
     margin-right:auto;
     margin-left:auto;
     @include tiny-screen{
@@ -247,7 +246,7 @@ export default class SideNav extends Vue {
       display: block;
       padding: 1rem;
       transition: all 0.3s ease-in-out;
-      height: 65px;
+      height: 62px;
       overflow: hidden;
       &:not(:last-child) {
         margin-bottom: 1rem;
@@ -319,7 +318,7 @@ export default class SideNav extends Vue {
 
         a {
           @include flex(row, space-between, center);
-          padding: 0.25rem 1rem 0.25rem 0;
+          padding: 0.25rem 0 0.25rem 0;
           white-space: nowrap;
 
           &.active {
@@ -335,7 +334,7 @@ export default class SideNav extends Vue {
           border-width: 0 0 1px;
           border-color: #3b3b3b;
           height: 1px;
-          margin-bottom: 1rem;
+          margin: 1rem 0;
         }
       }
       .color-export {

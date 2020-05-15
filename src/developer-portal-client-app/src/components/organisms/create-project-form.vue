@@ -4,7 +4,7 @@
       label(for="project-info-name")
         .label-text Name
         validation-provider(rules="required" v-slot="{ errors }")
-          input(type="text" id="project-info-name" required v-model="name" placeholder="Project name" name="Name")
+          input(type="text" id="project-info-name" required v-model="name" placeholder="Project name" name="Name" maxlength="20")
           .feedback
            .invalid-feedback {{ errors[0] }}
       button.btn.btn-project Create

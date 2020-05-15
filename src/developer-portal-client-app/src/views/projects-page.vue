@@ -57,9 +57,9 @@ export default class ProjectsPage extends Vue {}
 
   .intro-text{
     position:relative;
-    top:30%;
+    top:20%;
     padding-top:8rem;
-    transform:translateY(-30%);
+    transform:translateY(-20%);
     @include page-horizontal-spacing('padding-left', 'padding-right');
   
   }

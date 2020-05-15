@@ -4,7 +4,7 @@
     form(@submit.prevent="handleSubmit")
       .flex-wrapper.mb-2
         label Name
-          input(type="text" v-model="name" placeholder="Project name" :disabled="status === 2")
+          input(type="text" v-model="name" placeholder="Project name" :disabled="status === 2" maxlength="20")
 
         label Web page
           input(type="text" v-model="webpage" placeholder="www.domain.com" :disabled="status === 2")

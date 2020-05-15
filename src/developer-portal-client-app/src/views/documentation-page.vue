@@ -1,9 +1,8 @@
 <template lang="pug">
   div.info-page
-    .card
+    div
       h1 Open Platforms Technical Documentation
-      p Technical documentation for integrating with Open Platforms.
-      p For a more general overview, see #[router-link(to="/info") info].
+      p This is the technical documentation for integrating with Open Platforms. For a more general overview, see #[router-link(to="/info") info].
       h2 Overview
       p.
         Open Platforms has two types of integrations - #[em.color-export Platform]
@@ -21,7 +20,8 @@
         to integrate their experience, reputation and earnings data from one
         or more platforms into their account with the service.
 
-    .card
+    hr.spacious
+    div
       h2 TEST mode and LIVE mode
       p.
         The Open Platforms development portal includes two modes for access - #[strong TEST mode]
@@ -30,9 +30,10 @@
       p.
         We recommend that you use Test mode for local development
         with the Open Platforms API.
-      p(v-if="!testMode") You are currently working in #[strong LIVE mode].
-      p(v-if="testMode") You are currently working in #[strong TEST mode].
+      p(v-if="!testMode") You are currently working in #[strong.live-text LIVE mode].
+      p(v-if="testMode") You are currently working in #[strong.test-text TEST mode].
 
+    .card.mb-4
       h3 Differences between LIVE and TEST
       ul
         li.
@@ -47,14 +48,13 @@
           Test functions for platform and application with in both
           LIVE and TEST mode.
 
-      h3 Recommendations
-      ul
-        li.
-          For local development, we recommend using #[a(href="https://ngrok.com/" target="_blank") ngrok]
-          to forward requests to your local development machine.
+    h3 Recommendations
 
+    p. 
+      For local development, we recommend using #[a(href="https://ngrok.com/" target="_blank") ngrok] to forward requests to your local development machine.
 
-    .card
+    hr.spacious
+    div
       h2 Platform integration
       p.
         The #[em.color-export Platform] integration is for you if your service
@@ -65,14 +65,15 @@
         To integrate with Open Platforms, you will have to create an SSL secured URL endpoint
         that is publicly accessible for the Open Platforms system to retrieve data
         for the individual gig worker from.
-      p #[router-link(to="/platform-documentation") Full platform documentation]
+      p #[router-link.color-export(to="/platform-documentation") Full platform documentation]
 
-    .card
+    hr.spacious
+    div
       h2 Application integration
       p.
         The #[em.color-import Application] integration is for services who want to import
         gig data (performed gigs, earnings, reputation, etc.) from one or more platforms.
-      p #[router-link(to="/application-documentation") Full application documentation]
+      p #[router-link.color-import(to="/application-documentation") Full application documentation]
 
 </template>
 
