@@ -16,12 +16,12 @@
       .flex-wrapper.success-info(v-if="!currentPlatform.published")
         p.
           It looks like your implementation has succeeded! Take a look at
-          the user data below. Does everything look alright? If so, you
-          are ready to go live with your data openness!
-        .platform-pending.mb-2
+          the user data below. Does everything look alright?
+          #[span(v-if="!testMode") If so, you are ready to go live with your data openness!]
+        .platform-pending.mb-2(v-if="!testMode")
           GoLiveButton(v-if="currentProjectCompleted")
           button.btn.btn-huge.btn-export.btn-continue.center.ml-4(v-else @click="openModal('project-details')") Continue
-      p.mt-2(v-if="currentProjectCompleted && !currentPlatform.published").
+      p.mt-2(v-if="currentProjectCompleted && !currentPlatform.published && !testMode").
           #[strong PLEASE NOTE]: After you press the 'Go Live' button,
           your service will be added to Open Platform's list of connected
           platforms, and your users will be able to make data requests.
@@ -134,7 +134,7 @@ import ProjectDetails from '../organisms/project-edit.vue'
 
 export default {
   computed: {
-    ...mapState('projects', ['current', 'status', 'testStatus']),
+    ...mapState('projects', ['current', 'status', 'testStatus', 'testMode']),
     ...mapGetters('projects', [
       'currentProject',
       'currentPlatform',
