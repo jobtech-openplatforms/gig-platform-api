@@ -31,14 +31,14 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models
                     Name = createProjectRequest.Name
                 };
 
-        public static Project ToEntity(this CreateProjectModel createProjectModel, Platform platform) 
+        public static Project ToEntity(this CreateProjectModel createProjectModel, Platform platform, Application application) 
             => new Project
                 {
                     Name = createProjectModel.Name,
                     OwnerAdminId = createProjectModel.OwnerAdminId,
                     AdminIds = createProjectModel.AdminIds,
                     Platforms = new List<Platform> { platform },
-                    Applications = new List<Application> () // TODO: Create application elsewhere and ensure the entity is updated  
+                    Applications = new List<Application> { application }
                 };
 
         public static TestProject ToTestEntity(this Project project) 

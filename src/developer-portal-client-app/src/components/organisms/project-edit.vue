@@ -140,15 +140,16 @@ export default class ProjectEdit extends Vue {
 
   private handleSubmit(e) {
     this.submitted = true
+    this.disableForm()
     const self = this
     this.$store.dispatch('projects/updateProject', self.$store.state.projects.editing.project)
     .then((result) => {
-      self.$modal.hide('project-details')
       self.submitted = false
-      self.disableForm()
-      self.$store.dispatch('projects/getAll')
+      // self.disableForm()
+      self.$store.dispatch('projects/getAll', self.$store.state.projects.editing.project)
 
     })
+    this.$modal.hide('project-details')
   }
 
   private bufferToBase64(buffer) {

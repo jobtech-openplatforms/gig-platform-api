@@ -23,5 +23,5 @@ import { Component, Vue } from 'vue-property-decorator'
     ApitestForm
   }
 })
-export default class ApiTestPage extends Vue {}
+export default class PlatformTestPage extends Vue {}
 </script>

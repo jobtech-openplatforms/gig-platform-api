@@ -28,20 +28,23 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         private readonly IProjectManager _projectManager;
         private readonly IProjectUpdateManager _projectUpdateManager;
         private readonly IPlatformAdminHttpClient _platformAdminHttpClient;
+        private readonly IApplicationHttpClient _applicationHttpClient;
         private readonly IPlatformAdminUserManager _platformAdminUserManager;
         private readonly IDocumentStore _documentStore;
         private readonly ILogger<ProjectsController> _logger;
 
         public ProjectsController(IProjectManager projectManager,
             IProjectUpdateManager projectUpdateManager,
-            IPlatformAdminHttpClient gigDataHttpClient,
+            IPlatformAdminHttpClient platformAdminHttpClient,
+            IApplicationHttpClient applicationHttpClient,
             IPlatformAdminUserManager platformAdminUserManager,
             IDocumentStore documentStoreHolder,
             ILogger<ProjectsController> logger)
         {
             _projectManager = projectManager;
             _projectUpdateManager = projectUpdateManager;
-            _platformAdminHttpClient = gigDataHttpClient;
+            _platformAdminHttpClient = platformAdminHttpClient;
+            _applicationHttpClient = applicationHttpClient;
             _platformAdminUserManager = platformAdminUserManager;
             _documentStore = documentStoreHolder;
             _logger = logger;
@@ -71,7 +74,15 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                     RatingSuccessLimit = 3
                 });
 
-                var entityToCreate = request.WithOwner(user.Id).ToEntity(Core.Entities.Platform.Create(platform.PlatformId));
+                var application = await _applicationHttpClient.CreateApplication(new CreateApplicationModel { Name = requestName });
+
+                var entityToCreate = request.WithOwner(user.Id).ToEntity(
+                            Core.Entities.Platform.Create(platform.PlatformId), 
+                            new Core.Entities.Application { 
+                                Id = application.ApplicationId, 
+                                SecretKey = application.SecretKey
+                            }
+                            );
 
                 var project = await _projectManager.Create(entityToCreate);
                 try
