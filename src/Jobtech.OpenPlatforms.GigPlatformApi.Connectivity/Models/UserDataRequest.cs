@@ -5,14 +5,14 @@
     ///</summary>
     public class UserDataRequest
     {
-        public UserDataRequest(string myGigDataToken, string username, string requestId)
+        public UserDataRequest(string platformToken, string username, string requestId)
         {
-            MyGigDataToken = myGigDataToken;
+            PlatformToken = platformToken;
             Username = username;
             RequestId = requestId;
         }
 
-        public string MyGigDataToken { get; }
+        public string PlatformToken { get; }
         public string Username { get; }
         public string RequestId { get; }
     }

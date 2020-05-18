@@ -7,7 +7,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Models.App.Respon
     public class EditPlatformResponse
     {
         public Guid Id { get; set; }
-        public string MyGigDataToken { get; set; }
+        public string PlatformToken { get; set; }
         public string ExportDataUri { get; set; }
     }
 
@@ -17,7 +17,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Models.App.Respon
             => new EditPlatformResponse
             {
                 Id = ((PlatformId)platform.Id),
-                MyGigDataToken = platform.PlatformToken,
+                PlatformToken = platform.PlatformToken,
                 ExportDataUri = platform.ExportDataUri
             };
 

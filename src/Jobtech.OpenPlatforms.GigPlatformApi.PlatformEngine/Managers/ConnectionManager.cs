@@ -81,7 +81,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
     //    public async Task<UserDataRequest> GetRequestTokenAsync(Connection connection)
     //    {
     //        var platform = await _platformManager.GetPlatformAsync(connection.PlatformId);
-    //        return new UserDataRequest ( platform.MyGigDataToken, connection.UserAccessToken, "");
+    //        return new UserDataRequest ( platform.PlatformToken, connection.UserAccessToken, "");
     //    }
 
     //    public async Task RemoveConnectionAsync(ConnectionId id)
@@ -103,7 +103,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
 
     //        try
     //        {
-    //            var requestObject = new PlatformWebhookRequest { MyGigDataToken = platform.MyGigDataToken, Email = user.Email };
+    //            var requestObject = new PlatformWebhookRequest { PlatformToken = platform.PlatformToken, Email = user.Email };
     //            var accessModelResponse = await _httpClient.GetUserAccessTokenAsync(requestObject, platform.ExportDataUri);
 
     //            // Save connection

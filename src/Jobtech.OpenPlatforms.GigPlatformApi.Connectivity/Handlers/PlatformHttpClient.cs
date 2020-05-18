@@ -88,7 +88,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
       _client.BaseAddress = new Uri(exportDataUri);
 
       // For GETting the user data from the external platform
-      //_client.DefaultRequestHeaders.Add("myGigDataToken", request.MyGigDataToken);
+      //_client.DefaultRequestHeaders.Add("platformToken", request.PlatformToken);
       //_client.DefaultRequestHeaders.Add("username", request.Username);
       //_client.DefaultRequestHeaders.Add("requestId", request.RequestId);
       //var response = await _client.GetAsync("");

@@ -92,7 +92,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 //{
                 //    Description = "",
                 //    ExportDataUri = "",
-                //    MyGigDataToken = Guid.NewGuid().ToString(),
+                //    PlatformToken = Guid.NewGuid().ToString(),
                 //    PlatformToken = Guid.NewGuid().ToString(),
                 //    Name = "",
                 //    PushNotificationUri = ""

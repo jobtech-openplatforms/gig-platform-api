@@ -5,7 +5,7 @@
     ///</summary>
     public class PlatformWebhookRequest
     {
-        public string MyGigDataToken { get; set; }
+        public string PlatformToken { get; set; }
         public string Email { get; set; }
     }
 }
