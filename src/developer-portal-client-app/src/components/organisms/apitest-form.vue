@@ -289,10 +289,6 @@ export default {
   flex:1 1 400px;
 }
 
-#result{
-
-}
-
 .tech-box {
   flex: 1 1 300px;
   order: 2;
