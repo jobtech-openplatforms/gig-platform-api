@@ -87,7 +87,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService.Controllers
             catch (UserNotFoundForPlatformException ex)
             {
                 _logger.LogInformation("Platform with id {platformId} reported that it could not find user with username {username}.",
-                    platform.Id, ex.Username);
+                    platform.Id, ex.UserEmail);
                 message = new PlatformUserUpdateDataMessage(requestId, request.Username, Guid.Parse(request.PlatformId), null, PlatformDataUpdateResultType.UserNotFound);
             }
             catch (MalformedPlatformDataException ex)

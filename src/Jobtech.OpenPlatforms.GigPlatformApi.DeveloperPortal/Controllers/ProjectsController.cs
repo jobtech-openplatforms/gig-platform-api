@@ -142,13 +142,13 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> PlatformUrl([FromBody] UpdatePlatformUrlRequest request)
         {
-            var errors = Util.UriErrors(new Dictionary<string, string>
-            { { "platform-url", request.Url },
-            }, _logger);
-            if (errors != null && errors.Any())
-            {
-                return BadRequest(new { message = "All urls have to be valid.", errors = errors });
-            }
+            //var errors = Util.UriErrors(new Dictionary<string, string>
+            //{ { "platform-url", request.Url },
+            //}, _logger);
+            //if (errors != null && errors.Any())
+            //{
+            //    return BadRequest(new { message = "All urls have to be valid.", errors = errors });
+            //}
             try
             {
                 // Who's logged in?

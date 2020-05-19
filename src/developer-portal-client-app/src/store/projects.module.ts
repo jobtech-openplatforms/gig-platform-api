@@ -479,7 +479,7 @@ export interface CreateRequest {
 
 export interface TestRequest {
   id: string
-  username: string
+  userEmail: string
 }
 
 export interface TestState extends BasicState {

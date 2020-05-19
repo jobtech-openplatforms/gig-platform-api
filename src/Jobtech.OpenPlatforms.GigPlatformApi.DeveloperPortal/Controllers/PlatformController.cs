@@ -11,6 +11,7 @@ using Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Models;
 using Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
 {
@@ -26,17 +27,23 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         private readonly IPlatformHttpClient _platformHttpClient;
         private readonly IPlatformManager _platformManager;
         private IMapper _mapper;
+        private readonly ILogger<PlatformController> _logger;
 
-        public PlatformController(IPlatformHttpClient platformHttpClient, IPlatformManager platformManager, IMapper mapper)
+        public PlatformController(IPlatformHttpClient platformHttpClient, IPlatformManager platformManager, IMapper mapper,
+            ILogger<PlatformController> logger)
         {
             _platformHttpClient = platformHttpClient;
             _platformManager = platformManager;
             _mapper = mapper;
+            _logger = logger;
         }
 
         [HttpPost("test/{id}")]
         public async Task<IActionResult> TestApi([FromRoute] string id, [FromBody] UserDataTestApiModel request)
         {
+            _logger.LogInformation("Testing platform {id}: {@request}", id, request);
+
+
             // Get platform
             var platform = await _platformManager.GetPlatformAsync(id);
 
@@ -52,7 +59,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 throw new ApiException(message: "The platform setup is incomplete.", errors: new List<string> { "Missing ExportDataUri." });
             }
 
-            UserDataRequest userDataRequest = new UserDataRequest(platform.PlatformToken, request.Username, Guid.NewGuid().ToString());
+            UserDataRequest userDataRequest = new UserDataRequest(platform.PlatformToken, request.UserEmail, Guid.NewGuid().ToString());
 
             var response = await _platformHttpClient.TestUserDataFromPlatformAsync(userDataRequest, platform.ExportDataUri);
 

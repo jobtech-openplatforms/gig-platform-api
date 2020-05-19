@@ -2,6 +2,6 @@
 {
     public class UserDataTestApiModel
     {
-        public string Username { get; set; }
+        public string UserEmail { get; set; }
     }
 }

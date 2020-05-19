@@ -5,15 +5,15 @@
     ///</summary>
     public class UserDataRequest
     {
-        public UserDataRequest(string platformToken, string username, string requestId)
+        public UserDataRequest(string platformToken, string userEmail, string requestId)
         {
             PlatformToken = platformToken;
-            Username = username;
+            UserEmail = userEmail;
             RequestId = requestId;
         }
 
         public string PlatformToken { get; }
-        public string Username { get; }
+        public string UserEmail { get; }
         public string RequestId { get; }
     }
 }

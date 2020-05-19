@@ -31,7 +31,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
         switch (response.StatusCode)
         {
           case HttpStatusCode.NotFound:
-            throw new UserNotFoundForPlatformException(request.Username, "Platform reported non existant user");
+            throw new UserNotFoundForPlatformException(request.UserEmail, "Platform reported non existant user");
           default:
             throw new PlatformCommunicationException($"Got unhandled http status code {response.StatusCode} from platform");
         }
@@ -69,7 +69,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
         }
         catch (Exception)
         {
-          _logger.LogInformation("Could not deserialize repsonse from platform.");
+          _logger.LogInformation("Could not deserialize response from platform.");
         }
       }
 
@@ -111,11 +111,11 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers
 
   public class UserNotFoundForPlatformException : Exception
   {
-    public UserNotFoundForPlatformException(string username, string message = null) : base(message)
+    public UserNotFoundForPlatformException(string userEmail, string message = null) : base(message)
     {
-      Username = username;
+      UserEmail = userEmail;
     }
-    public string Username { get; }
+    public string UserEmail { get; }
   }
 
   public class PlatformCommunicationException : Exception

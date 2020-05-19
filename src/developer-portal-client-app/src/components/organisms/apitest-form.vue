@@ -219,7 +219,7 @@ export default {
       // 3. Call API
       this.testPlatform({
         id: this.currentPlatform.id,
-        username: this.test.email
+        userEmail: this.test.email
       })
         .then((response) => {
           this.showform = true

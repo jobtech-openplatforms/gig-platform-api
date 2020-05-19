@@ -201,8 +201,6 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal
 
             app.UseHttpsRedirection();
     
-            app.UseSerilogRequestLogging();
-
             app.UseAuthentication();
             app.UseAuthorization();
 
