@@ -27,7 +27,7 @@
           (gig workers). If your platform already has an
           API for users to connect with and rertieve their
           data on experience, earnings and reputation,
-          please get in touch with us about setting updates
+          please get in touch with us about setting up
           the integration.
         li.
           You will need to build a custom endpoint (URL)
@@ -97,7 +97,7 @@
           Your platform has unique e-mail addresses for
           users so that there is no conflict between which
           account to retrieve user data from.
-    
+
     hr.spacious
 
     div

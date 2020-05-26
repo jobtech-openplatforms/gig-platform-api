@@ -23,7 +23,12 @@
       hr.my-4
 
       h2 Connections
-      p You will need to have your platform connection live before you can use an application connection for retrieving real data, however you can absolutely start developing for it and test your work with the test data provided.
+      p.
+        There are two types of integrations with Open Platforms.
+        A Platform provides user data on experience, reputation
+        and income for connected users.
+        An Application allows users to retrieve their data from
+        platforms to use with the application.
 
       docs-intro
 

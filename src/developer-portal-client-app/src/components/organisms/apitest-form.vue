@@ -18,6 +18,9 @@
           It looks like your implementation has succeeded! Take a look at
           the user data below. Does everything look alright?
           #[span(v-if="!testMode") If so, you are ready to go live with your data openness!]
+        p(v-if="testMode").
+          If the results look ok, it's probably time to switch to LIVE mode
+          and enter the public platform url for your platform to go live.
         .platform-pending.mb-2(v-if="!testMode")
           GoLiveButton(v-if="currentProjectCompleted")
           button.btn.btn-huge.btn-export.btn-continue.center.ml-4(v-else @click="openModal('project-details')") Continue

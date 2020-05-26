@@ -20,7 +20,7 @@
           hr.my-2
           .form-group
             label.small(for="project-webpage") Webpage URL
-            input(type="url" id="project-webpage" :value="editingProject.webpage" @input="updateWebpage" :disabled="formDisabled" placeholder="Tell us where to find your service!")
+            input(type="url" id="project-webpage" :value="editingProject.webpage" @input="updateWebpage" :disabled="formDisabled" placeholder="https://your-domain.tld/...")
             p(v-if="!formDisabled") The url to the web page of your platform.
           .form-group
             label.small(for="project-description") Description
@@ -176,8 +176,8 @@ export default class ProjectEdit extends Vue {
       top: unset;
     }
   }
-  
- 
+
+
   .project-settings .project-logo {
     width: 78px;
     height: 78px;
