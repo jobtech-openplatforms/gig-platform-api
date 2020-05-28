@@ -45,6 +45,7 @@
           code(v-for="(err, index) in testErrors" :key="index") {{ err }}
 
       p Make some changes accordingly, and run the test again!
+      p Need help? Check out the #[router-link.color-export(to="/platform-documentation") documentation]
 
     .card.my-4(v-if="currentPlatform && currentPlatform.exportDataUri && (testStatus === 1 || testStatus === 3)")
       form.inline( @submit.prevent="handleSubmit")

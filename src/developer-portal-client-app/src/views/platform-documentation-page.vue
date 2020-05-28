@@ -103,6 +103,18 @@
     div
       h2#api API
       p.
+        Here is how you can expect a request body posted
+        to your platform from Open Platforms to look like:
+      .card
+        pre
+          code.
+            {
+              "PlatformToken": "0b0e2bda-e42b-431e-80b4-b2240e401990",
+              "RequestId": "3b6ad503-eae9-4699-b5cc-a8b671c9e7e3",
+              "UserEmail": "your-test-account@your-platform.tld"
+            }
+      p Of course the values will be different according to your platform and settings.
+      p.
         Please see the #[router-link.color-export(to="/json-schema") JSON Schema]
         for how to format the response to requests from
         Open Platforms.
