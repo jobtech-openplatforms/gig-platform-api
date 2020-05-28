@@ -1,6 +1,6 @@
 <template lang="pug">
-.json-schema
-  pre.
+pre.json-schema
+  ssh-pre( language="js" label="JSON").
     {
       "definitions": {},
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -516,9 +516,11 @@
     }
 </template>
 <script lang="ts">
+import SshPre from 'simple-syntax-highlighter'
+import 'simple-syntax-highlighter/dist/sshpre.css'
 import Vue from 'vue'
 export default Vue.extend({
-
+  components: { SshPre },
 })
 </script>
 <style scoped>
