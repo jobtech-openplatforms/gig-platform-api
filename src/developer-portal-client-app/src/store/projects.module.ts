@@ -272,6 +272,18 @@ const mutations: MutationTree<ProjectsModuleState> = {
     Vue.set(state, 'loading', false)
     state.test.result = testData
     if (testData.response && testData.response.status && testData.response.status === 'OK') {
+      try {
+        const jsonData = JSON.parse(testData.response.body)
+        if (!jsonData.interactions) {
+          state.test.error = { message: 'Missing object member \'interactions\' in the response', errors: [testData.response.body || 'Response body was empty.'] }
+          state.testStatus = ModuleStatus.error
+          return testData
+        }
+      } catch (e) {
+        state.test.error = { message: 'Invalid JSON data in the response', errors: [testData.response.body || 'Response body was empty.'] }
+        state.testStatus = ModuleStatus.error
+        return testData
+      }
       state.test.error = {}
       state.testStatus = ModuleStatus.success
     }
