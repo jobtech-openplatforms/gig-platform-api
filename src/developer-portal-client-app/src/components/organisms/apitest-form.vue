@@ -118,8 +118,8 @@
             em.small {{i.description}}
             //- p {{i}}
 
-    div.mt-4(v-if="testResult.result")
-      h3 JSON result
+    div.mt-4(v-if="testResult.result && testResult.result.interactions")
+      h3 Response
       .card
         pre(v-if="testResult.result.interactions") {{ JSON.stringify(testResult.result, null, 2) }}
 
