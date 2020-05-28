@@ -31,8 +31,10 @@
       hr.mb-2
 
       h2 Test result
-      p Result with user&nbsp;
-        em {{test.email}}
+      p
+        em Result with user {{ test.email }}
+      div(class="pull-right")
+        router-link.color-export(to="/platform-settings" ) Reset test
 
     div(v-if="testStatus == 3")
       h2 Oh no!
