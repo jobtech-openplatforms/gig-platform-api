@@ -271,8 +271,14 @@ const mutations: MutationTree<ProjectsModuleState> = {
   testSuccess(state, testData) {
     Vue.set(state, 'loading', false)
     state.test.result = testData
-    state.test.error = {}
-    state.testStatus = ModuleStatus.success
+    if (testData.response && testData.response.status && testData.response.status === 'OK') {
+      state.test.error = {}
+      state.testStatus = ModuleStatus.success
+    }
+    else {
+      state.test.error = { message: testData.response.status }
+      state.testStatus = ModuleStatus.error
+    }
     return testData
   },
   testFailure(state, error) {
