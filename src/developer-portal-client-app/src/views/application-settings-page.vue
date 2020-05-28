@@ -179,9 +179,9 @@ export default class IntegrateUserDataPage extends Vue {
   private handleSubmit(e) {
     this.submitted = true
 
-    if (!this.currentProjectCompleted) {
-      this.$modal.show('project-details')
-    }
+    // if (!this.currentProjectCompleted) {
+    //   this.$modal.show('project-details')
+    // }
     this.$store
       .dispatch('projects/setApplicationUrls', {
         authCallbackUrl: this.authCallbackUrl,

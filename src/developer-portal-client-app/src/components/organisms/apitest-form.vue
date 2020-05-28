@@ -39,6 +39,8 @@
       p Something went wrong. Here is some more information on what happened:
       .frame.my-4
         pre {{ testError }}
+        pre(v-if="testErrors")
+          code(v-for="(err, index) in testErrors" :key="index") {{ err }}
 
       p Make some changes accordingly, and run the test again!
 
@@ -137,12 +139,13 @@ import ProjectDetails from '../organisms/project-edit.vue'
 
 export default {
   computed: {
-    ...mapState('projects', ['current', 'status', 'testStatus', 'testMode']),
+    ...mapState('projects', ['current', 'status', 'testStatus', 'test', 'testMode']),
     ...mapGetters('projects', [
       'currentProject',
       'currentPlatform',
       'testResult',
       'testError',
+      'testErrors',
       'currentProjectCompleted'
     ]),
     ...mapMutations('project', ['resetTest']),

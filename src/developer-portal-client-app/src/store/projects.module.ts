@@ -402,6 +402,9 @@ const getters: GetterTree<ProjectsModuleState, RootState> = {
   testError(state) {
     return state.test.error && state.test.error.message ? state.test.error.message : state.test.error
   },
+  testErrors (state) {
+    return state.test.error?.errors
+  },
   testStatus(state) {
     return state.status.toString()
   },
