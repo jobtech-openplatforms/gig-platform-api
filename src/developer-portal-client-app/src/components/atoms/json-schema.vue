@@ -1,6 +1,6 @@
 <template lang="pug">
-pre.json-schema
-  ssh-pre( language="js" label="JSON").
+pre
+  ssh-pre(language="json" label="JSON schema").
     {
       "definitions": {},
       "$schema": "http://json-schema.org/draft-07/schema#",

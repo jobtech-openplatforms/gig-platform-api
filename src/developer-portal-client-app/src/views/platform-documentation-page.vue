@@ -105,9 +105,8 @@
       p.
         Here is how you can expect a request body posted
         to your platform from Open Platforms to look like:
-      .card
-        pre
-          code.
+      pre
+        ssh-pre(language="json" label="POST").
             {
               "PlatformToken": "0b0e2bda-e42b-431e-80b4-b2240e401990",
               "RequestId": "3b6ad503-eae9-4699-b5cc-a8b671c9e7e3",
@@ -124,8 +123,12 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { mapState, mapActions, mapGetters } from 'vuex'
+import SshPre from 'simple-syntax-highlighter'
+import 'simple-syntax-highlighter/dist/sshpre.css'
 
-@Component({})
+@Component({
+  components: { SshPre },
+})
 export default class PlatformDocumentationPage extends Vue {
   goto(refName) {
     const el = document.querySelector(refName)
