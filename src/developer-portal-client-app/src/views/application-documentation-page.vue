@@ -19,6 +19,7 @@
             li #[a.page-nav( @click="goto('#api-platform')") Get a single platform]
             li #[a.page-nav( @click="goto('#api-callback')") Callback url]
             li #[a.page-nav( @click="goto('#api-update')") Data update url]
+            li #[a.page-nav( @click="goto('#api-responses')") Response (from your application)]
         //- li #[a.page-nav( @click="goto('#json-schema')") JSON Schema]
     div
       h2#implementation Implementation
@@ -190,21 +191,21 @@
           https://openplatforms-user-test.jobtechdev.se/initiate-connection?requestid={requestid}&app={applicationid}&platform={platformid}&permissions=1
       p The #[code /initiate-connection] url requires these parameters:
       p
-        code requestid 
+        code requestid
         span.
           the identifier for the request. Could be the userId or a generated
           request identifier if you need to refer to additional details
           in your system about the request.
       p
-        code app 
+        code app
         span.
           your Open Platforms Application Id.
       p
-        code platform 
+        code platform
         span.
           the Platform Id for the platform to connect the user to.
       p
-        code permissions 
+        code permissions
         span.
           1 for aggregated data, 2 for detailed data.
       p
@@ -219,20 +220,20 @@
           instead redirects to the callback url.
       p In both cases above, the following parameters are included.
       pre
-        code https://your-callback-url/?requestid={requestid}&openplatformsuserid={openplatformsuserid}&result={completed|failed} 
+        code https://your-callback-url/?requestid={requestid}&openplatformsuserid={openplatformsuserid}&result={completed|failed}
       p.
         Parameters included in the callback url call:
 
       p
-        code requestid 
+        code requestid
         span.
           the request identifier you sent as a reference in the initial call.
       p
-        code openplatformsuserid 
+        code openplatformsuserid
         span.
           the Open platforms user identifier. Save this for reference.
       p
-        code result 
+        code result
         span.
           the result of the connection can be either #[code completed] or #[code failed].
 
@@ -273,11 +274,27 @@
             "appSecret": "7adc5899-dc3e-4c89-a51a-c02f226c47e9",
             "reason": "DataUpdate"
           }
-    //- .card
-    //-   h2#json-schema JSON Schema
-    //-   p.
-    //-     #[strong TODO:] Describe the format for communication
-    //-     with applications
+    .card
+      h2#api-responses Response (from your application)
+      p.
+        You can control the connection for a user to Open Platforms
+        by how your server responds to an update.
+      ul
+        li.
+          #[strong HTTP 410]
+          If your application endpoint responds with an #[strong HTTP 410]
+          status code, Open Platforms will interpret that as your application
+          does not want any more updates for that specific connection, for that user.
+        li.
+          #[strong HTTP 400-409]
+          If your application endpoint responds with an #[strong HTTP 40x]
+          status code, Open Platforms will #[em not retry] the request. The
+          application will be notified at the next update.currentApplication
+        li.
+          #[HTTP 500+]
+          If your application endpoint responds with any other non-success HTTP
+          status code (#[strong HTTP 500+]), Open Platforms sees that as a
+          temporary error and the request will be retried with a gradual backoff.
 </template>
 
 <script lang="ts">
