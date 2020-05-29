@@ -1,5 +1,6 @@
 <template lang="pug">
   .instructions
+    p #[router-link(to="/documentation") Documentation] #[strong &gt;] #[router-link(to="/platform-documentation") Platform documentation]
     div
       h1 Open Platforms request structure
       p.

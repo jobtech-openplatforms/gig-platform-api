@@ -67,11 +67,12 @@
     form.inline.card.mb-4(v-bind:class="{ 'form-inactive': editUrlDisabled && currentPlatform }" @submit.prevent="saveUrl")
       .form-group
         label.label-muted(for="exportDataUri" @click="enableForm()")  Project export data url
-        input(v-if="currentPlatform" type="url" name="exportDataUri" :value="currentPlatform.exportDataUri" @input="newUrl = $event.target.value" :disabled="editUrlDisabled" placeholder="Project export data url")
-      button.btn.right.btn-export(v-if="!editUrlDisabled"  key="7890") Save
+        input(v-if="currentPlatform" type="url" name="exportDataUri" :value="newUrl" @input="newUrl = $event.target.value" :disabled="editUrlDisabled" placeholder="Project export data url")
+      button.btn.right.btn-export(v-if="!editUrlDisabled && '' !== newUrl && currentPlatform.exportDataUri !== newUrl"  key="7889") Save
+      button.btn.right.btn-outline.btn-export(v-if="!editUrlDisabled && ('' === newUrl || currentPlatform.exportDataUri === newUrl)"  key="7890" @click="cancelEdit()") Cancel
       button.btn.right.btn-outline.btn-export.btn-small(v-if="editUrlDisabled"  key="7891" type="button" @click="enableForm()") Edit...
 
-    .token-keys(v-if="currentProject.platforms && (testStatus === 1 || testStatus === 3)")
+    .token-keys(v-if="currentProject && currentProject.platforms && (testStatus === 1 || testStatus === 3)")
       PlatformToken
 
     .flex-wrapper#result(v-if="testStatus > 1")
@@ -142,7 +143,7 @@ import ProjectDetails from '../organisms/project-edit.vue'
 
 export default {
   computed: {
-    ...mapState('projects', ['current', 'status', 'testStatus', 'test', 'testMode']),
+    ...mapState('projects', ['current', 'status', 'testStatus', 'testMode']),
     ...mapGetters('projects', [
       'currentProject',
       'currentPlatform',
@@ -158,15 +159,21 @@ export default {
   },
   mounted() {
     this.$store.commit('projects/resetTest')
-    // if (!this.currentPlatform || !this.currentPlatform.exportDataUri) {
-    //     this.$router.push('/platform-settings')
-    // }
+    if (this.currentPlatform && this.currentPlatform.exportDataUri) {
+        this.newUrl = this.currentPlatform.exportDataUri
+    }
   },
   components: {
     GoLiveButton,
     PlatformToken,
     PlatformInstructions,
     ProjectDetails
+  },
+  props: {
+    newUrl: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {
@@ -178,7 +185,7 @@ export default {
       completed: false,
       editUrlDisabled: true,
       showInstructions: false,
-      newUrl: '',
+      // newUrl: '',
       error: '',
       result: {}
     }

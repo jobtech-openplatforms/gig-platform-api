@@ -1,5 +1,6 @@
 <template lang="pug">
   div
+    p #[router-link(to="/documentation") Documentation] #[strong &gt;] #[router-link(to="/application-documentation") Application documentation]
     div
       h1 Open Platforms request structure
       p.
@@ -165,7 +166,7 @@
         available on Open Platforms or just the platforms that
         are relevant to you.
       pre
-        code curl -X GET "https://openplatforms-gigdata-api-test.jobtechdev.se/api/Platform/available" -H "accept: application/json"
+        ssh-pre(language="html" label="cURL") curl -X GET "https://openplatforms-gigdata-api-test.jobtechdev.se/api/Platform/available" -H "accept: application/json"
       h3#api-platform Get a single platform
       p API endpoint: #[code /api/Platform/{platformId}]
       p.
@@ -174,7 +175,7 @@
         endpoint.
       p CURL example:
       pre
-        code curl -X GET "https://openplatforms-gigdata-api-test.jobtechdev.se/api/Platform/4365712f-68de-4888-bf81-b9e19dce1725" -H "accept: application/json"
+        ssh-pre(language="html" label="cURL") curl -X GET "https://openplatforms-gigdata-api-test.jobtechdev.se/api/Platform/4365712f-68de-4888-bf81-b9e19dce1725" -H "accept: application/json"
       h3#api-callback Callback url
       p.
         The callback url is entered in the
@@ -187,7 +188,7 @@
         generate a unique request ID for the connection and redirect the user
         to this Open Platforms url:
       pre
-        code.
+        ssh-pre(language="html" label="URL: Initiate connection").
           https://openplatforms-user-test.jobtechdev.se/initiate-connection?requestid={requestid}&app={applicationid}&platform={platformid}&permissions=1
       p The #[code /initiate-connection] url requires these parameters:
       p
@@ -220,7 +221,7 @@
           instead redirects to the callback url.
       p In both cases above, the following parameters are included.
       pre
-        code https://your-callback-url/?requestid={requestid}&openplatformsuserid={openplatformsuserid}&result={completed|failed}
+        ssh-pre(language="html" label="Callback URL format") https://your-callback-url/?requestid={requestid}&openplatformsuserid={openplatformsuserid}&result={completed|failed}
       p.
         Parameters included in the callback url call:
 
@@ -251,7 +252,7 @@
           code {{currentApplication.dataUpdateCallbackUrl}}
         p #[router-link(to="/application-test") Test sending the below data to your application]
       pre
-        code.
+        ssh-pre(language="json" label="Test request JSON").
           {
             "platformId": "f760c425-c1b1-4ea7-9f66-83e12b635256",
             "platformName": "Dummy Data Test Platform",
@@ -281,17 +282,17 @@
         by how your server responds to an update.
       ul
         li.
-          #[strong HTTP 410]
+          #[strong HTTP 410] #[br]
           If your application endpoint responds with an #[strong HTTP 410]
           status code, Open Platforms will interpret that as your application
           does not want any more updates for that specific connection, for that user.
         li.
-          #[strong HTTP 400-409]
+          #[strong HTTP 400-409]#[br]
           If your application endpoint responds with an #[strong HTTP 40x]
           status code, Open Platforms will #[em not retry] the request. The
           application will be notified at the next update.currentApplication
         li.
-          #[HTTP 500+]
+          #[strong HTTP 500+]#[br]
           If your application endpoint responds with any other non-success HTTP
           status code (#[strong HTTP 500+]), Open Platforms sees that as a
           temporary error and the request will be retried with a gradual backoff.
@@ -301,8 +302,11 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import { ApplicationState } from '@/store/projects.module'
+import SshPre from 'simple-syntax-highlighter'
+import 'simple-syntax-highlighter/dist/sshpre.css'
 
 @Component({
+  components: { SshPre },
   computed: {
     ...mapGetters('projects', ['currentApplication'])
   }
@@ -321,13 +325,13 @@ export default class ApplicationDocumentationPage extends Vue {
 
 @import "../assets/scss/cards_tiles.scss";
 
-pre{
-  @extend .frame;
-  word-break:break-all;
-  white-space:break-spaces;
-  line-height:1;
-  background-color:rgba(0,0,0,0.1);
-}
+// pre{
+//   @extend .frame;
+//   word-break:break-all;
+//   white-space:break-spaces;
+//   line-height:1;
+//   background-color:rgba(0,0,0,0.1);
+// }
 .page-nav{
   cursor: pointer;
 }
