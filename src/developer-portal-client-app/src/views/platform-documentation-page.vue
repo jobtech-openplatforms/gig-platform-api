@@ -16,6 +16,7 @@
             li #[a.color-export.page-nav(@click="goto('#your-implementation')") Your implementation]
         li #[a.color-export.page-nav( @click="goto('#prerequisites')") Prerequisites]
         li #[a.color-export.page-nav( @click="goto('#api')") API]
+        li #[a.page-nav( @click="goto('#examples')") Examples]
     div
       h2#implementation Implementation
       p.
@@ -119,6 +120,27 @@
         for how to format the response to requests from
         Open Platforms.
 
+    h2#examples Examples
+    h3 Javascript
+    pre
+      ssh-pre(language="js" label="Javascript").
+        export function exportOpenPlatformsData(req: express.Request, res: express.Response) {
+          const platform: string = req.body.PlatformToken;
+          // replace with the PlatformToken for your Open Platforms integration
+          if (platform === "OPEN-PLATFORMS-TOKEN") {
+            const userEmail: string = req.body.UserEmail;
+            // replace with your function that returns the user's interactions
+            getUserInteractions(userEmail)
+            .then((data) => {
+              const dataString = JSON.stringify(data);
+              res.send(dataString);
+            })
+            .catch((e) => {
+              res.status(405).send("couldn't find interactions for user: " + userEmail); });
+          } else {
+            res.status(405).send("invalid platform token: " + platform);
+          }
+        }
 </template>
 
 <script lang="ts">
