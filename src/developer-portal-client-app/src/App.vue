@@ -96,7 +96,10 @@ export default {
   @include flex-child(1, null, null);
   padding-top:8rem;
   padding-bottom:2rem;
-  @include page-horizontal-spacing('margin-left', 'margin-right');
+  @include page-horizontal-spacing('padding-left', 'padding-right');
+  margin-left:auto;
+  margin-right:auto;
+  max-width:$small-screen-width;
   // @include page-horizontal-spacing(margin-right);
 
   a{
