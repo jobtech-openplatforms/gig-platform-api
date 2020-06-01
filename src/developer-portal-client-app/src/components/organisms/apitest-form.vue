@@ -310,9 +310,14 @@ export default {
   order: 2;
   margin-left: 4rem;
 }
+#result{
+  justify-content:flex-start;
+}
 
 .visual-result {
-  flex:0 0 300px;
+  @media (min-width:$small-screen-width){
+    flex:0 0 310px;
+  }
   order: 1;
   .card {
     padding: 1rem;
