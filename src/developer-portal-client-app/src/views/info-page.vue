@@ -22,15 +22,12 @@
     ul
       li.
         Gig workers can import their experience from other platforms
-        #[br][image: Gig worker reputation > signup > import > land new gigs]
       li.
         Platforms can include external experience as part of the reputation 
         for a gig worker, reducing the hurdle to get new gigs.
-        #[br][image: Gig worker reputation > signup > import > land new gigs]
 
       li.
         Applications can use gig data to show a CV/resumé for a gig worker.
-        #[br][image: Import from all platforms > include verified on CV]
 
     hr.spacious
 
