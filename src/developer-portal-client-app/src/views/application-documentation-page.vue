@@ -114,7 +114,7 @@
           Create two endpoints (URLs) that are publicly
           accessible for calls from Open Platforms to
           update data for a specified user.
-          For testing we recommend using #[strong Test mode].
+          For testing we recommend using #[strong DEV mode].
           #[router-link(to="/application-settings") Enter your endpoint url]
           for the application.
         li.

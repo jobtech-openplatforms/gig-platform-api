@@ -72,13 +72,13 @@ async function getProject(id: string) {
   return handleResponse(response)
 }
 
-async function setPlatformUrl(projectId: string, url: string, testMode: boolean) {
+async function setPlatformUrl(projectId: string, url: string, devMode: boolean) {
   const header = await authHeader()
 
   const requestOptions = {
     method: 'POST',
     headers: { ...header, 'Content-Type': 'application/json' },
-    body: JSON.stringify({projectId, url, testMode})
+    body: JSON.stringify({projectId, url, devMode})
   }
 
   const response = await fetch(

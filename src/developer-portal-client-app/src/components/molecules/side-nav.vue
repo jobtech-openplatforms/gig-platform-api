@@ -1,15 +1,15 @@
 <template lang="pug">
-  .side-nav(v-if="currentProjects.length > 0" v-bind:class="{ testmode: testMode, livemode: !testMode, open: mobileMenuOpen}")
+  .side-nav(v-if="currentProjects.length > 0" v-bind:class="{ testmode: devMode, livemode: !devMode, open: mobileMenuOpen}")
     #banner
       button#mobile-menu(@click="toggleMobileMenu()")
 
 
       #banner-content(v-if="currentProject").
-        #[em You are in] #[strong.test-text(v-if="testMode") TEST] #[strong.live-text(v-else) LIVE] #[em mode on project] {{currentProject.name}}
+        #[em You are in] #[strong.dev-text(v-if="devMode") DEV] #[strong.live-text(v-else) LIVE] #[em mode on project] {{currentProject.name}}
     #menu-head
       #banner-switch.toggle-buttons
-        button.btn-tiny.toggle-button.btn-outline-reverse.btn-test(@click="switchTestMode" v-bind:class="{ activestate: testMode}") Test
-        button.btn-tiny.toggle-button.btn-outline-reverse.btn-live(@click="switchTestMode" v-bind:class="{ activestate: !testMode}") Live
+        button.btn-tiny.toggle-button.btn-outline-reverse.btn-dev(@click="switchTestMode" v-bind:class="{ activestate: devMode}") DEV
+        button.btn-tiny.toggle-button.btn-outline-reverse.btn-live(@click="switchTestMode" v-bind:class="{ activestate: !devMode}") Live
       .my-projects( @click="redirectUser") Projects
     ul#projects-list(v-if="currentProjects")
       li.project(v-for="project in currentProjects" v-bind:class="{ active: current && currentProject && project.id === currentProject.id}")
@@ -19,16 +19,16 @@
             span.project-logo(v-else)
 
           .project-name {{project.name}}
-            .small.test-text(v-if="testMode") [TEST]
+            .small.dev-text(v-if="devMode") [DEV]
           .connection-wrapper
-            .connections(v-bind:class="{hasplconn : project.platforms && project.platforms.length >= 1 && project.platforms[0] && (project.platforms[0].published || (testMode && project.platforms[0].exportDataUri))}")
+            .connections(v-bind:class="{hasplconn : project.platforms && project.platforms.length >= 1 && project.platforms[0] && (project.platforms[0].published || (devMode && project.platforms[0].exportDataUri))}")
             .connections(v-bind:class="{hasappconn : project.applications && project.applications.length >= 1 && project.applications[0] && project.applications[0].authCallbackUrl}")
         .details(v-if="current && current.project && project.id === current.project.id")
           hr
           router-link.color-project( to="/project" active-class="active") Project info
           router-link.color-export( to="/platform-settings" active-class="active" v-bind:class="{ 'active': $route.path == '/platform-test' }")
             span Platform API
-            .connections(v-bind:class="{hasplconn : project.platforms && project.platforms.length >= 1 && project.platforms[0] && (project.platforms[0].published || (testMode && project.platforms[0].exportDataUri))}")
+            .connections(v-bind:class="{hasplconn : project.platforms && project.platforms.length >= 1 && project.platforms[0] && (project.platforms[0].published || (devMode && project.platforms[0].exportDataUri))}")
           router-link.color-import( to="/application-settings" active-class="active")
             span Application API
             .connections(v-bind:class="{hasappconn : project.applications && project.applications.length >= 1 && project.applications[0] && project.applications[0].authCallbackUrl}")
@@ -45,7 +45,7 @@ import { State, Mutation, namespace } from 'vuex-class'
 
 @Component({
   computed: {
-    ...mapState('projects', ['current', 'all', 'status', 'testMode']),
+    ...mapState('projects', ['current', 'all', 'status', 'devMode']),
     ...mapGetters('projects', ['currentProject', 'currentProjects', 'currentApplication', 'currentPlatform']),
     ...mapMutations('projects', ['switchMode'])
   },
@@ -85,7 +85,7 @@ export default class SideNav extends Vue {
 
 <style lang="scss">
 
-.test-text{
+.dev-text{
   color:$color-test;
 }
 

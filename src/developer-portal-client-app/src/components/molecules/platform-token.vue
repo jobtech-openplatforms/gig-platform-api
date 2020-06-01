@@ -1,8 +1,8 @@
 <template lang="pug">
   .token-key
     .label-muted.
-      #[span(v-if="!testMode") LIVE]
-      #[span(v-if="testMode") TEST mode]
+      #[span(v-if="!devMode") LIVE]
+      #[span(v-if="devMode") DEV mode]
       Platform token
     pre.color-export.shiny {{currentPlatform.platformToken}}
 </template>
@@ -12,7 +12,7 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 import Vue from 'vue'
 export default Vue.extend({
   computed: {
-    ...mapState('projects', ['testMode']),
+    ...mapState('projects', ['devMode']),
     ...mapGetters('projects', ['currentPlatform'])
   },
 

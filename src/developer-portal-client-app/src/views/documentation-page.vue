@@ -22,19 +22,19 @@
 
     hr.spacious
     div
-      h2 TEST mode and LIVE mode
+      h2 DEV mode and LIVE mode
       p.
-        The Open Platforms development portal includes two modes for access - #[strong TEST mode]
+        The Open Platforms development portal includes two modes for access - #[strong DEV mode]
         for development and testing, and #[strong LIVE mode] for live access.
 
       p.
-        We recommend that you use Test mode for local development
+        We recommend that you use DEV mode for local development
         with the Open Platforms API.
-      p(v-if="!testMode") You are currently working in #[strong.live-text LIVE mode].
-      p(v-if="testMode") You are currently working in #[strong.test-text TEST mode].
+      p(v-if="!devMode") You are currently working in #[strong.live-text LIVE mode].
+      p(v-if="devMode") You are currently working in #[strong.dev-text DEV mode].
 
     .card.mb-4
-      h3 Differences between LIVE and TEST
+      h3 Differences between LIVE and DEV
       ul
         li.
           Switching between modes allows for different settings
@@ -43,14 +43,14 @@
         li.
           The project name can only be changed in LIVE mode.
         li.
-          Functions like #[em Go live] do not work in TEST mode.
+          Functions like #[em Go live] do not work in DEV mode.
         li.
           Test functions for platform and application with in both
-          LIVE and TEST mode.
+          LIVE and DEV mode.
 
     h3 Recommendations
 
-    p. 
+    p.
       For local development, we recommend using #[a(href="https://ngrok.com/" target="_blank") ngrok] to forward requests to your local development machine.
 
     hr.spacious
@@ -83,7 +83,7 @@ import { mapState } from 'vuex'
 
 @Component({
   computed: {
-    ...mapState('projects', ['testMode'])
+    ...mapState('projects', ['devMode'])
   },
 })
 export default class DocumentationPage extends Vue {}

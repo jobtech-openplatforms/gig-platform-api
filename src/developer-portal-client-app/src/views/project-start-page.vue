@@ -3,23 +3,23 @@
     div
       h1 Project {{currentProject.name}}
       p.
-        You can switch settings between live and a test mode.
-        In test mode, there are no updates published through
+        You can switch settings between live and a DEV mode.
+        In DEV mode, there are no updates published through
         Open Platforms and is safe for development.
       p.
         Open Platforms provides testing functionality to send
         data to your platform or application so you can check
         that your server responds as expected.
       p.
-        We recommend that you use Test mode for local development
+        We recommend that you use DEV mode for local development
         with the Open Platforms API.
       p  #[router-link(to="/documentation") Read more in the full documentation]
-      p(v-if="!testMode") You are currently in #[strong LIVE mode]. Try switching modes for local development.
-      p(v-if="testMode") You are currently in #[strong TEST mode]
+      p(v-if="!devMode") You are currently in #[strong LIVE mode]. Try switching modes for local development.
+      p(v-if="devMode") You are currently in #[strong DEV mode]
 
       .toggle-buttons.text-center
-        button.btn-big.toggle-button.btn-outline.btn-test(@click="switchTestMode" v-bind:class="{ activestate: testMode}") Test mode
-        button.btn-big.toggle-button.btn-outline.btn-live(@click="switchTestMode" v-bind:class="{ activestate: !testMode}") Live mode
+        button.btn-big.toggle-button.btn-outline.btn-dev(@click="switchTestMode" v-bind:class="{ activestate: devMode}") DEV mode
+        button.btn-big.toggle-button.btn-outline.btn-live(@click="switchTestMode" v-bind:class="{ activestate: !devMode}") Live mode
       hr.my-4
 
       h2 Connections
@@ -44,7 +44,7 @@ import DocsIntro from '@/components/organisms/docs-intro.vue'
     DocsIntro
   },
   computed: {
-    ...mapState('projects', ['testMode']),
+    ...mapState('projects', ['devMode']),
     ...mapGetters('projects', ['currentProject']),
     ...mapMutations('projects', ['switchMode'])
   },

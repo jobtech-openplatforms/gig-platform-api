@@ -23,7 +23,7 @@ const moduleState: ProjectsModuleState = {
   test: { error: {}, result: {} },
   status: ModuleStatus.init,
   testStatus: ModuleStatus.init,
-  testMode: false
+  devMode: false
 }
 
 const actions: ActionTree<ProjectsModuleState, RootState> = {
@@ -39,7 +39,7 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
                 commit('getAllSuccess', allProjects)
                 if (!currentProject) {
                   const p = localStorage.getItem('projectId')
-                  if (!state.testMode && localStorage.getItem('testMode') && p.startsWith('Test')) {
+                  if (!state.devMode && localStorage.getItem('devMode') && p.startsWith('Test')) {
                     commit('switchMode')
                   }
                   currentProject = allProjects.projects.find(obj => obj.id === p) ||
@@ -90,7 +90,7 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
     commit('getRequest', projectData)
 
     return projectsService
-      .create({...projectData, testMode: state.testMode })
+      .create({...projectData, devMode: state.devMode })
       .then(
         (currentProject) => {
           commit('getSuccess', currentProject)
@@ -141,7 +141,7 @@ const actions: ActionTree<ProjectsModuleState, RootState> = {
       commit('getFailure', {errors: ['platform-url'], message: 'Please add a new url.'})
     }
     return projectsService
-            .setPlatformUrl(state.current.project.id, url, state.testMode)
+            .setPlatformUrl(state.current.project.id, url, state.devMode)
             .then(
               (currentProject) => commit('getSuccess', currentProject),
               (error) => commit('getFailure', error)
@@ -334,7 +334,7 @@ const mutations: MutationTree<ProjectsModuleState> = {
   switchMode(state, remain) {
     if (state.current.project) {
       // Get same project from other mode
-      const project = (state.testMode) ?
+      const project = (state.devMode) ?
         // Get live project id
         state.all.projects.find(obj => obj.id === state.current.project.liveProjectId)
         :
@@ -354,8 +354,8 @@ const mutations: MutationTree<ProjectsModuleState> = {
           router.push('/project').catch(err => { })
       }
     }
-    Vue.set(state, 'testMode', !state.testMode)
-    localStorage.setItem('testMode', state.testMode ? '1':'')
+    Vue.set(state, 'devMode', !state.devMode)
+    localStorage.setItem('devMode', state.devMode ? '1':'')
   },
   queueDispatchAfterInit(state, action) {
     state.dispatchAfterInit = state.dispatchAfterInit || []
@@ -376,10 +376,10 @@ const getters: GetterTree<ProjectsModuleState, RootState> = {
     return state.current.project
   },
   currentProjects(state) {
-    return state.testMode ? state.all.testProjects : state.all.projects
+    return state.devMode ? state.all.testProjects : state.all.projects
   },
   currentProjectCompleted(state) {
-    return !state.testMode &&(state.current.project &&
+    return !state.devMode &&(state.current.project &&
       state.current.project.name &&
       state.current.project.webpage &&
       state.current.project.logoUrl &&
@@ -388,7 +388,7 @@ const getters: GetterTree<ProjectsModuleState, RootState> = {
   nextStep(state) {
     if(state.current.project && !state.current.project.platforms[0].exportDataUri)
       return 'platformDataUrlIncomplete'
-    if (state.testMode){
+    if (state.devMode){
       if(state.current.project &&
       state.current.project.name &&
       state.current.project.webpage &&
@@ -495,7 +495,7 @@ export interface AdminUserState extends BasicState {
 
 export interface CreateRequest {
   name: string
-  testMode: boolean
+  devMode: boolean
 }
 
 export interface TestRequest {
@@ -529,5 +529,5 @@ export interface ProjectsModuleState {
   test: TestState
   status: ModuleStatus
   testStatus: ModuleStatus
-  testMode: boolean
+  devMode: boolean
 }

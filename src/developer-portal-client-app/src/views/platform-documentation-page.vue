@@ -53,7 +53,7 @@
           Create an endpoint (URL) that is publicly
           accessible for calls from Open Platforms to
           request data for a specified user.
-          For testing we recommend using #[strong Test mode].
+          For testing we recommend using #[strong DEV mode].
           #[router-link.color-export(to="/platform-settings") Enter your endpoint url]
           for the platform.
         li.

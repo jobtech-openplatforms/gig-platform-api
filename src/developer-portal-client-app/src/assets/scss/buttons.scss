@@ -135,7 +135,7 @@
     @include btn($color-import);
 }
 
-.btn-test {
+.btn-dev {
     @include btn(darken($color-test, 5%));
 
 }

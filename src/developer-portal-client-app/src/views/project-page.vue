@@ -23,8 +23,8 @@
     div.home.project-page.center(v-else-if="currentProjects")
       .arrow
         img(class="arrow-image" src="../assets/img/arrow-drawn.png")
-      p(class="space-above") Use the menu to select project and switch between Live and Test mode.
-      p For local development, **Test mode**.
+      p(class="space-above") Use the menu to select project and switch between Live and DEV mode.
+      p For local development, **DEV mode**.
 
 
 </template>
