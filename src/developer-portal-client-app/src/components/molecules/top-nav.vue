@@ -6,7 +6,7 @@
     //- router-link.btn.color-export( to="/platform-settings" active-class="active") Platform API documentation//
     //- router-link.btn.color-import( to="/application-settings" active-class="active") Application API documentation//
     div(v-if="!$auth.loading")
-      router-link.btn.color-project( to="/project-start" active-class="active") Help
+      router-link.btn.color-project( to="/documentation" active-class="active") Help
 
       .btn( v-if="$auth.isAuthenticated" @click="logout") Log out
       .btn( v-if="$auth.isAuthenticated == false" @click="login") Log in
