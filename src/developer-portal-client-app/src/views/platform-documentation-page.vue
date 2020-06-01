@@ -27,7 +27,7 @@
           This implementation is primarily for platforms
           without an API or OAuth connections to users
           (gig workers). If your platform already has an
-          API for users to connect with and rertieve their
+          API for users to connect with and retrieve their
           data on experience, earnings and reputation,
           please get in touch with us about setting up
           the integration.
@@ -93,7 +93,7 @@
           called by Open Platforms with user data in the
           correct format.
         li.
-          You are able to verify a header with a sceurity
+          You are able to verify a header with a security
           token in the endpoint.
         li.
           Your platform has unique e-mail addresses for
