@@ -2,7 +2,7 @@
   .instructions
     p #[router-link(to="/documentation") Documentation] #[strong &gt;] #[router-link(to="/platform-documentation") Platform documentation]
     div
-      h1 Open Platforms request structure
+      h1 Open Platforms platform integration documentation
       p.
         This documentation describes how to implement
         the integration with Open Platforms in your
@@ -16,12 +16,12 @@
             li #[a.color-export.page-nav(@click="goto('#your-implementation')") Your implementation]
         li #[a.color-export.page-nav( @click="goto('#prerequisites')") Prerequisites]
         li #[a.color-export.page-nav( @click="goto('#api')") API]
-        li #[a.page-nav( @click="goto('#examples')") Examples]
+        li #[a.color-export.page-nav( @click="goto('#examples')") Examples]
     div
       h2#implementation Implementation
       p.
-        These are the requirements for integrating
-        data from your platform with Open Platforms.
+        Briefly described, this is how to create an integration
+        with Open Platforms for your service.
       ul
         li.
           This implementation is primarily for platforms
@@ -63,14 +63,22 @@
           Unauthorized) if the token is incorrect.
         li.
           Based on the identifier (the user's e-mail address)
-          the endpoint responds with data in the format
-          specified by Open Platforms.
+          your endpoint responds with data in the format
+          #[router-link.color-export(to="/json-schema") specified by Open Platforms].
         li.
           You test the integration with the test tool
           provided #[router-link.color-export(to="/platform-test") here]
           by Open Platforms.
         li.
-          Once the test is successful, request for the
+          You can test in both DEV mode and LIVE mode - this allows
+          you to keep a separate development or staging server
+          to test in DEV mode without having to release to
+          a production server.
+          #[br]
+          #[em Please note that the PlatformToken is different for the DEV and LIVE mode setting]
+        li.
+          Once you have tested in both DEV and LIVE mode and
+          the tests are successful, you can request for the
           platform to #[strong Go Live] to be integrated
           in apps chosen by the user.
         li.

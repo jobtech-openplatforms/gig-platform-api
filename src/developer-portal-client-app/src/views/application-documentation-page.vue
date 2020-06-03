@@ -2,14 +2,14 @@
   div
     p #[router-link(to="/documentation") Documentation] #[strong &gt;] #[router-link(to="/application-documentation") Application documentation]
     div
-      h1 Open Platforms request structure
+      h1 Open Platforms application integrations documentation
       p.
         To implement Open Platforms in your application,
         please read the documentation below.
     .frame.m-4
       h2 Table of contents
       ul.toc
-        li #[a.page-nav(@click="goto('#implementation')") Implementation]
+        li #[a.page-nav(@click="goto('#overview')") Overview]
         li #[a.page-nav(@click="goto('#howitworks')") How it works]
           ul
             li #[a.page-nav(@click="goto('#your-implementation')") Your implementation]
@@ -23,7 +23,7 @@
             li #[a.page-nav( @click="goto('#api-responses')") Response (from your application)]
         //- li #[a.page-nav( @click="goto('#json-schema')") JSON Schema]
     div
-      h2#implementation Implementation
+      h2#overview Overview
       p.
         These are the requirements for implementing
         Open Platforms with your application.
@@ -36,6 +36,9 @@
           Your application will have to have two URL endpoints
           that can be reached by Open Platforms servers. One for
           user authentication callback and one for data updates.
+        li.
+          All endpoints on your server will have to authenticate
+          with an #[code ApplicationID] and a #[code SecretKey]
         li.
           The data callback url on your server will be called by
           Open Platforms whenever there is an update in the data
@@ -73,7 +76,7 @@
           #[code result], #[code openplatformsuserid] and #[code requestid]
           passed as GET variables.
           #[br]
-          Example:
+          #[small Example:]
           #[br]
           #[pre.p-2 https://example-application.app/open-platforms-callback?result=completed&openplatformsuserid=123zyx&requestid=your-reference]
 
@@ -82,8 +85,13 @@
           #[router-link(to="/application-settings") Application settings].
 
         li.
-          Implement the data update url in your application to receives
+          #[a.page-nav(@click="goto('#api-update')") Create an endpoint URL]
+          for data updates in your application to receive
           data updates for each user in your solution.
+          #[br]
+          #[small Example:]
+          #[br]
+          #[pre.p-2 https://example-application.app/open-platforms-data-update]
 
         li.
           Test the solution by clicking to connect a platform from your
@@ -106,7 +114,7 @@
               window is closed.
             li.
               If the approval screen was not opened in a popup window, the
-              user is redirected to the callback url.
+              user is redirected to the supplied return url.
 
       h3#your-implementation.mt-4 Your implementation
       ul.card

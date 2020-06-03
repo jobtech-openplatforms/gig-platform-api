@@ -11,14 +11,15 @@
         In our terminology, a #[em.color-export Platform] is a service that
         allows gig workers (freelancers, etc.) to do work through 'gigs'
         (jobs, projects, etc.) and gain experience and reputation. Platforms
-        can integrate with Open Platforms and allow their gig workers to
-        include their experience, reputation and earnings to be shared
-        with applications for innovative use.
+        can integrate with Open Platforms and allow users to
+        access their experience and reputation data
+        in applications.
 
       p.
-        An #[em.color-import Application] is a service that allows gig workers
-        to integrate their experience, reputation and earnings data from one
-        or more platforms into their account with the service.
+        An #[em.color-import Application] is a service that allows users
+        to retrieve their gig reputation data from platforms they have experience with.
+        After user consent this data will be shared with the application for innovative
+        use - for instance better matching with gigs and customers.
 
     hr.spacious
     div
@@ -45,7 +46,7 @@
         li.
           Functions like #[em Go live] do not work in DEV mode.
         li.
-          Test functions for platform and application with in both
+          Test functions for platform and application in both
           LIVE and DEV mode.
 
     h3 Recommendations
