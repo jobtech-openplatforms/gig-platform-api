@@ -1,5 +1,5 @@
 {
-  "domain": "cvdata.eu.auth0.com",
-  "clientId": "mD7VUwrISZrkRXvxP9oajRdtzH4ThDic",
-  "audience": "https://dev.openplatforms.org"
+  "domain": "openplatforms.eu.auth0.com",
+  "clientId": "JuWh7OnXbIEWNn4MAQIvbSBxDi0fu03o",
+  "audience": "https://api.dev.openplatforms.org"
 }
