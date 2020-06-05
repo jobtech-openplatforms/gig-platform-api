@@ -46,7 +46,7 @@ export default class ProjectsPage extends Vue {}
 
 <style lang="scss">
 .start {
-  background-position: 100% 90%;
+  background-position: 75% 90%;
   background-size: 35% auto;
   background-repeat: no-repeat;
   position:absolute;
@@ -63,7 +63,8 @@ export default class ProjectsPage extends Vue {}
     @include page-horizontal-spacing('padding-left', 'padding-right');
   
   }
-  @include small-screen-and-up{
+
+  @include medium-screen-and-up{
     background-image: url('../assets/img/open-platforms-logo-icon.svg');
 
     .intro-text{
