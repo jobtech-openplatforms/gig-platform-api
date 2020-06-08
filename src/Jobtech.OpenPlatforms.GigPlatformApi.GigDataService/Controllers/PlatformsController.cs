@@ -4,6 +4,7 @@ using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
 using Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Raven.Client.Documents;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService.Controllers
 {
@@ -16,14 +17,18 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService.Controllers
     public class PlatformsController : ControllerBase
     {
         private readonly IPlatformManager _platformManager;
+        private readonly IDocumentStore _documentStore;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="platformManager"></param>
-        public PlatformsController(IPlatformManager platformManager)
+        /// <param name="documentStoreHolder"></param>
+        public PlatformsController(IPlatformManager platformManager,
+                IDocumentStore documentStoreHolder)
         {
             _platformManager = platformManager;
+            _documentStore = documentStoreHolder;
         }
 
         /// <summary>
@@ -34,7 +39,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var platforms = await _platformManager.GetPlatformsAsync();
+                using var session = _documentStore.OpenAsyncSession();
+            var platforms = await _platformManager.GetPlatformsAsync(session);
             return Ok(platforms.AsResponse());
         }
 
@@ -47,7 +53,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<PlatformResponse>> Get([FromRoute]string id)
         {
-            var platform = await _platformManager.GetPlatformAsync((PlatformId)id);
+                using var session = _documentStore.OpenAsyncSession();
+            var platform = await _platformManager.GetPlatformAsync((PlatformId)id, session);
             return Ok(platform.AsResponse());
         }
     }

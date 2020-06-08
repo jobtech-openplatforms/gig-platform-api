@@ -1,40 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models;
+﻿using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.Exceptions;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.ValueObjects;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine.Managers
 {
     public class PlatformAdminUserManager : IPlatformAdminUserManager
     {
-        private IDocumentStore _documentStore;
-
-        public PlatformAdminUserManager(IDocumentStore documentStore)
-        {
-            _documentStore = documentStore;
-        }
-
-        //public PlatformAdminUser GetUser(PlatformAdminUserId userId)
+        //public async Task<PlatformAdminUser> GetUserAsync(PlatformAdminUserId userId, IAsyncDocumentSession session)
         //{
-        //    using (IDocumentSession session = _documentStore.OpenSession())
-        //    {
-        //        return session.Load<PlatformAdminUser>(userId.Value);
-        //    }
+        //    return await session.LoadAsync<PlatformAdminUser>(userId.Value);
         //}
-
-        public async Task<PlatformAdminUser> GetUserAsync(PlatformAdminUserId userId)
-        {
-            using (IAsyncDocumentSession session = _documentStore.OpenAsyncSession())
-            {
-                return await session.LoadAsync<PlatformAdminUser>(userId.Value);
-            }
-        }
 
         public async Task<PlatformAdminUser> GetOrCreateUserAsync(string uniqueIdentifier, IAsyncDocumentSession session)
         {
@@ -59,251 +41,220 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine.Managers
             return await session.Query<PlatformAdminUser>().SingleOrDefaultAsync(u => u.UniqueIdentifier == uniqueIdentifier);
         }
 
-        public async Task<PlatformAdminUser> GetUserAsync(string email)
-        {
-            using (IAsyncDocumentSession session = _documentStore.OpenAsyncSession())
-            {
-                return await session.Query<PlatformAdminUser>().FirstOrDefaultAsync(p => p.Email == email);
-            }
-        }
+        //public async Task<PlatformAdminUser> GetUserAsync(string email, IAsyncDocumentSession session)
+        //{
+        //    return await session.Query<PlatformAdminUser>().FirstOrDefaultAsync(p => p.Email == email);
+        //}
 
-        public async Task<PlatformAdminUser> SaveUserAsync(PlatformAdminUser user)
-        {
-            using (IAsyncDocumentSession session = _documentStore.OpenAsyncSession())
-            {
-                var exists = await session
-                    .Query<PlatformAdminUser>()
-                    .Where(x => x.Email == user.Email)
-                    .AnyAsync()
-                    ;
-                if (exists)
-                {
-                    throw new ApiException("A user with that email already exists.");
-                }
-                if (string.IsNullOrWhiteSpace(user.Email))
-                {
-                    throw new ApiException("You need a valid email, friend.");
-                }
+        //public async Task<PlatformAdminUser> SaveUserAsync(PlatformAdminUser user, IAsyncDocumentSession session)
+        //{
+        //    var exists = await session
+        //        .Query<PlatformAdminUser>()
+        //        .Where(x => x.Email == user.Email)
+        //        .AnyAsync()
+        //        ;
+        //    if (exists)
+        //    {
+        //        throw new ApiException("A user with that email already exists.");
+        //    }
+        //    if (string.IsNullOrWhiteSpace(user.Email))
+        //    {
+        //        throw new ApiException("You need a valid email, friend.");
+        //    }
 
-                await session.StoreAsync(user);
-                await session.SaveChangesAsync();
+        //    await session.StoreAsync(user);
+        //    await session.SaveChangesAsync();
 
-                return user;
-            }
-        }
+        //    return user;
+        //}
 
-        public async Task<PlatformAdminUser> UpdateUserAsync(PlatformAdminUser user)
-        {
-            if (string.IsNullOrWhiteSpace(user.Email))
-            {
-                throw new ApiException("You need a valid email, friend.");
-            }
-            using (IAsyncDocumentSession session = _documentStore.OpenAsyncSession())
-            {
-                var exists = await session
-                    .Query<PlatformAdminUser>()
-                    .Where(x => x.Email == user.Email)
-                    .AnyAsync()
-                    ;
-                if (!exists)
-                {
-                    throw new ApiException("User not found.");
-                }
+        //public async Task<PlatformAdminUser> UpdateUserAsync(PlatformAdminUser user, IAsyncDocumentSession session)
+        //{
+        //    if (string.IsNullOrWhiteSpace(user.Email))
+        //    {
+        //        throw new ApiException("You need a valid email, friend.");
+        //    }
 
-                var existingUser = await session
-                    .Query<PlatformAdminUser>()
-                    .Where(x => x.Email == user.Email)
-                    .FirstOrDefaultAsync()
-                    ;
-                existingUser.Email = user.Email;
-                existingUser.Name = user.Name;
-                existingUser.PasswordHash = user.PasswordHash ?? existingUser.PasswordHash;
-                existingUser.PasswordSalt = user.PasswordSalt ?? existingUser.PasswordSalt;
+        //        var exists = await session
+        //            .Query<PlatformAdminUser>()
+        //            .Where(x => x.Email == user.Email)
+        //            .AnyAsync()
+        //            ;
+        //        if (!exists)
+        //        {
+        //            throw new ApiException("User not found.");
+        //        }
 
-                await session.StoreAsync(user);
-                await session.SaveChangesAsync();
+        //        var existingUser = await session
+        //            .Query<PlatformAdminUser>()
+        //            .Where(x => x.Email == user.Email)
+        //            .FirstOrDefaultAsync()
+        //            ;
+        //        existingUser.Email = user.Email;
+        //        existingUser.Name = user.Name;
+        //        existingUser.PasswordHash = user.PasswordHash ?? existingUser.PasswordHash;
+        //        existingUser.PasswordSalt = user.PasswordSalt ?? existingUser.PasswordSalt;
 
-                return user;
-            }
-        }
+        //        await session.StoreAsync(user);
+        //        await session.SaveChangesAsync();
 
-        public async Task<IEnumerable<PlatformAdminUser>> GetAllAsync()
-        {
-            using (IAsyncDocumentSession session = _documentStore.OpenAsyncSession())
-            {
-                if (await session
-                    .Query<PlatformAdminUser>()
-                    .AnyAsync())
-                    return await session
-                        .Query<PlatformAdminUser>()
-                        .ToListAsync()
-                        ;
+        //        return user;
+        //}
 
-                return new List<PlatformAdminUser>();
-            }
-        }
+        //public async Task<IEnumerable<PlatformAdminUser>> GetAllAsync(IAsyncDocumentSession session)
+        //{
+        //        if (await session
+        //            .Query<PlatformAdminUser>()
+        //            .AnyAsync())
+        //            return await session
+        //                .Query<PlatformAdminUser>()
+        //                .ToListAsync()
+        //                ;
 
-        public async Task<PlatformAdminUser> Authenticate(string username, string password)
-        {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-                return null;
-            using (IAsyncDocumentSession session = _documentStore.OpenAsyncSession())
-            {
-                var user = await session
-                    .Advanced.AsyncDocumentQuery<PlatformAdminUser>()
-                    .WhereEquals(x => x.Email, username).Take(1)
-                    .FirstOrDefaultAsync();
+        //        return new List<PlatformAdminUser>();
+        //}
 
-                // check if username exists
-                if (user == null)
-                    return null;
+        //public async Task<PlatformAdminUser> Authenticate(string username, string password, IAsyncDocumentSession session)
+        //{
+        //    if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+        //        return null;
 
-                // check if password is correct
-                if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
-                    return null;
+        //        var user = await session
+        //            .Advanced.AsyncDocumentQuery<PlatformAdminUser>()
+        //            .WhereEquals(x => x.Email, username).Take(1)
+        //            .FirstOrDefaultAsync();
 
-                // authentication successful
-                return user;
-            }
-        }
+        //        // check if username exists
+        //        if (user == null)
+        //            return null;
 
-        public async Task<PlatformAdminUser> CreateAsync(PlatformAdminUser user, string password)
-        {
-            // validation
-            if (user == null)
-                throw new ApiException("PlatformAdminUser account details are missing.");
+        //        // check if password is correct
+        //        if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+        //            return null;
 
-            if (string.IsNullOrWhiteSpace(password))
-                throw new ApiException("Password is required");
+        //        // authentication successful
+        //        return user;
+        //}
 
-            if (string.IsNullOrWhiteSpace(user.Email))
-                throw new ApiException("Email is required");
+        //public async Task<PlatformAdminUser> CreateAsync(PlatformAdminUser user, string password, IAsyncDocumentSession session)
+        //{
+        //    // validation
+        //    if (user == null)
+        //        throw new ApiException("PlatformAdminUser account details are missing.");
 
-            using (IAsyncDocumentSession session = _documentStore.OpenAsyncSession())
-            {
-                var existing = await session.Query<PlatformAdminUser>().Take(1).FirstOrDefaultAsync(x => x.Email == user.Email);
-                if (existing != null)
-                    throw new ApiException("Username \"" + user.Email + "\" is already taken");
-            }
+        //    if (string.IsNullOrWhiteSpace(password))
+        //        throw new ApiException("Password is required");
 
-            byte[] passwordHash, passwordSalt;
-            CreatePasswordHash(password, out passwordHash, out passwordSalt);
+        //    if (string.IsNullOrWhiteSpace(user.Email))
+        //        throw new ApiException("Email is required");
 
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
+        //        var existing = await session.Query<PlatformAdminUser>().Take(1).FirstOrDefaultAsync(x => x.Email == user.Email);
+        //        if (existing != null)
+        //            throw new ApiException("Username \"" + user.Email + "\" is already taken");
 
-            return await SaveUserAsync(user);
-        }
+        //    byte[] passwordHash, passwordSalt;
+        //    CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-        public async Task<string> PasswordResetCodeAsync(PlatformAdminUserId userId)
-        {
-            using (IAsyncDocumentSession session = _documentStore.OpenAsyncSession())
-            {
-                var user = await session.LoadAsync<PlatformAdminUser>(userId.Value);
-                if (user == null)
-                    throw new ApiException("No account found with ID \"" + userId.Value + "\".");
-                var guid = Guid.NewGuid().ToString();
-                user.PasswordReset = user.PasswordReset ?? new PasswordReset();
-                user.PasswordReset.Requested = DateTimeOffset.UtcNow;
-                user.PasswordReset.ResetCode = guid;
+        //    user.PasswordHash = passwordHash;
+        //    user.PasswordSalt = passwordSalt;
 
-                await session.SaveChangesAsync();
+        //    return await SaveUserAsync(user,session);
+        //}
 
-                return guid;
-            }
-        }
+        //public async Task<string> PasswordResetCodeAsync(PlatformAdminUserId userId, IAsyncDocumentSession session)
+        //{
+        //        var user = await session.LoadAsync<PlatformAdminUser>(userId.Value);
+        //        if (user == null)
+        //            throw new ApiException("No account found with ID \"" + userId.Value + "\".");
+        //        var guid = Guid.NewGuid().ToString();
+        //        user.PasswordReset = user.PasswordReset ?? new PasswordReset();
+        //        user.PasswordReset.Requested = DateTimeOffset.UtcNow;
+        //        user.PasswordReset.ResetCode = guid;
 
-        public async Task ResetLoginAsync(string email, string password)
-        {
-            PlatformAdminUser user = null;
+        //        await session.SaveChangesAsync();
 
-            if (string.IsNullOrWhiteSpace(password))
-                throw new ApiException("Password is required");
+        //        return guid;
+        //}
 
-            if (string.IsNullOrWhiteSpace(email))
-                throw new ApiException("Email is required");
+        //public async Task ResetLoginAsync(string email, string password, IAsyncDocumentSession session)
+        //{
+        //    PlatformAdminUser user = null;
 
-            using (IAsyncDocumentSession session = _documentStore.OpenAsyncSession())
-            {
-                user = await session.Query<PlatformAdminUser>().Take(1).FirstOrDefaultAsync(x => x.Email == email);
-                if (user == null)
-                    throw new ApiException("No account found with email \"" + email + "\".");
-            }
+        //    if (string.IsNullOrWhiteSpace(password))
+        //        throw new ApiException("Password is required");
 
-            byte[] passwordHash, passwordSalt;
-            CreatePasswordHash(password, out passwordHash, out passwordSalt);
+        //    if (string.IsNullOrWhiteSpace(email))
+        //        throw new ApiException("Email is required");
 
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
+        //        user = await session.Query<PlatformAdminUser>().Take(1).FirstOrDefaultAsync(x => x.Email == email);
+        //        if (user == null)
+        //            throw new ApiException("No account found with email \"" + email + "\".");
 
-            await UpdateAsync(user, password);
-        }
+        //    byte[] passwordHash, passwordSalt;
+        //    CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-        public async Task UpdateAsync(PlatformAdminUser userParam, string password = null)
-        {
-            using (IAsyncDocumentSession session = _documentStore.OpenAsyncSession())
-            {
-                var user = await session.LoadAsync<PlatformAdminUser>(((PlatformAdminUserId)userParam.Id).Value);
+        //    user.PasswordHash = passwordHash;
+        //    user.PasswordSalt = passwordSalt;
 
-                if (user == null)
-                    throw new ApiException("PlatformAdminUser not found");
+        //    await UpdateAsync(user, password, session);
+        //}
 
-                if (userParam.Email != user.Email)
-                {
-                    // username has changed so check if the new username is already taken
-                    if (await session.Query<PlatformAdminUser>().AnyAsync(x => x.Email == userParam.Email))
-                        throw new ApiException("Username " + userParam.Email + " is already taken");
-                }
+        //public async Task UpdateAsync(PlatformAdminUser userParam, string password = null, IAsyncDocumentSession session)
+        //{
+        //        var user = await session.LoadAsync<PlatformAdminUser>(((PlatformAdminUserId)userParam.Id).Value);
 
-                // update user properties
-                user.Name = userParam.Name;
-                user.Email = userParam.Email;
+        //        if (user == null)
+        //            throw new ApiException("PlatformAdminUser not found");
 
-                // update password if it was entered
-                if (!string.IsNullOrWhiteSpace(password))
-                {
-                    byte[] passwordHash, passwordSalt;
-                    CreatePasswordHash(password, out passwordHash, out passwordSalt);
+        //        if (userParam.Email != user.Email)
+        //        {
+        //            // username has changed so check if the new username is already taken
+        //            if (await session.Query<PlatformAdminUser>().AnyAsync(x => x.Email == userParam.Email))
+        //                throw new ApiException("Username " + userParam.Email + " is already taken");
+        //        }
 
-                    user.PasswordHash = passwordHash;
-                    user.PasswordSalt = passwordSalt;
-                }
+        //        // update user properties
+        //        user.Name = userParam.Name;
+        //        user.Email = userParam.Email;
 
-                await session.SaveChangesAsync();
-            }
-        }
+        //        // update password if it was entered
+        //        if (!string.IsNullOrWhiteSpace(password))
+        //        {
+        //            byte[] passwordHash, passwordSalt;
+        //            CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-        public async Task DeleteAsync(PlatformAdminUserId id)
-        {
-            using (IAsyncDocumentSession session = _documentStore.OpenAsyncSession())
-            {
-                var user = await session.LoadAsync<PlatformAdminUser>(id.Value);
-                if (user != null)
-                {
-                    session.Delete(user);
-                    await session.SaveChangesAsync();
-                }
-            }
-        }
+        //            user.PasswordHash = passwordHash;
+        //            user.PasswordSalt = passwordSalt;
+        //        }
 
-        public async Task<IEnumerable<Platform>> GetPlatformsAsync(PlatformAdminUserId id)
-        {
-            using (IAsyncDocumentSession session = _documentStore.OpenAsyncSession())
-            {
-                var admin = await session.LoadAsync<PlatformAdminUser>(id.Value);
-                var platforms = await session
-                    .Query<Project>()
-                    .Where(p => p.AdminIds.Any(a => a == id.Value) || p.OwnerAdminId == id)
-                    .Select(p => new Platform { ExportDataUri = p.Platforms.First().ExportDataUri, Id = p.Platforms.First().Id, PlatformToken = p.Platforms.First().PlatformToken })
-                    .ToListAsync();
-                //var platforms = await session.Query<Platform>().Where(x => x.Admins.Any(a => a.Id == id.Value)).ToListAsync();
-                return platforms;
-            }
-        }
+        //        await session.SaveChangesAsync();
+        //}
+
+        //public async Task DeleteAsync(PlatformAdminUserId id, IAsyncDocumentSession session)
+        //{
+        //        var user = await session.LoadAsync<PlatformAdminUser>(id.Value);
+        //        if (user != null)
+        //        {
+        //            session.Delete(user);
+        //            await session.SaveChangesAsync();
+        //        }
+        //}
+
+        //public async Task<IEnumerable<Platform>> GetPlatformsAsync(PlatformAdminUserId id, IAsyncDocumentSession session)
+        //{
+        //        var admin = await session.LoadAsync<PlatformAdminUser>(id.Value);
+        //        var platforms = await session
+        //            .Query<Project>()
+        //            .Where(p => p.AdminIds.Any(a => a == id.Value) || p.OwnerAdminId == id)
+        //            .Select(p => new Platform { ExportDataUri = p.Platforms.First().ExportDataUri, Id = p.Platforms.First().Id, PlatformToken = p.Platforms.First().PlatformToken })
+        //            .ToListAsync();
+        //        //var platforms = await session.Query<Platform>().Where(x => x.Admins.Any(a => a.Id == id.Value)).ToListAsync();
+        //        return platforms;
+        //}
 
         //public async Task<Platform> GetAdminPlatformAsync(PlatformAdminUserId id)
         //{
-        //    using (IAsyncDocumentSession session = _documentStore.OpenAsyncSession())
+        //
         //    {
         //        var admin = await session.LoadAsync<PlatformAdminUser>(id.Value);
         //        var platforms = await session.Query<Platform>().Where(x => x.Admins.Any(a => a.Id == id.Value)).FirstOrDefaultAsync();
@@ -311,103 +262,54 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine.Managers
         //    }
         //}
 
-        public async Task<PlatformAdminUser> UpdateContactAsync(PlatformAdminUserId id, PlatformUpdateContactRequestModel contactUpdate)
-        {
-            using (IAsyncDocumentSession session = _documentStore.OpenAsyncSession())
-            {
-                var user = await session.LoadAsync<PlatformAdminUser>(id.Value);
-                if (user == null)
-                {
-                    throw new ApiException("No such admin, friend.");
-                }
-                user.Email = contactUpdate.Email ?? user.Email;
-                user.Name = contactUpdate.Name ?? user.Name;
+        //public async Task<PlatformAdminUser> UpdateContactAsync(PlatformAdminUserId id, PlatformUpdateContactRequestModel contactUpdate, IAsyncDocumentSession session)
+        //{
+        //        var user = await session.LoadAsync<PlatformAdminUser>(id.Value);
+        //        if (user == null)
+        //        {
+        //            throw new ApiException("No such admin, friend.");
+        //        }
+        //        user.Email = contactUpdate.Email ?? user.Email;
+        //        user.Name = contactUpdate.Name ?? user.Name;
 
-                //var adminForThesePlatforms = await session.Query<Platform>().Where(x => x.Admins.Any(a => a.Id == user.Id)).ToListAsync();
 
-                // Check for corrupt data, since it's not a relational database
-                // TODO: This should actually be in a dedicated method
 
-                //foreach (var platform in adminForThesePlatforms
-                //    .Where(w => user.Platforms != null && !user.Platforms.Any(a => w.Id == a.Id) /* Where there aren't any in the PlatformAdminUser.Platforms */)
-                //    //.SelectMany(s => s.Id /* Select the Platform.Id */)
-                //    .ToList()
-                //    )
-                //{
-                //    // This platform was missing from the admin user entry - add it
-                //    user.Platforms.Add(platform);
-                //}
+        //        return user;
+        //}
 
-                ////foreach (var platform in user.Platforms)
-                ////{
-                ////    foreach (var admin in platform.Admins)
-                ////    {
-                ////        admin.Name = contactUpdate.Name;
-                ////        admin.Email = contactUpdate.Email;
-                ////    }
-                ////}
+        //#region private helper methods
 
-                //if (user.Platforms != null && user.Platforms.Any())
-                //{
-                //    string[] userPlatformIds = user.Platforms.Select(p => p.Id).ToList().ToArray();
-                //    //var platformsMissingThisAdmin = await session.Query<Platform>()
-                //    //    .Where(w => userPlatformIds.Contains(w.Id))
-                //    //    .ToListAsync();
+        //private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        //{
+        //    if (password == null) throw new ArgumentNullException("password");
+        //    if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
 
-                //    foreach (var platformId in userPlatformIds)
-                //    {
-                //        var platform = await session.LoadAsync<Platform>(platformId);
-                //        //if (!platform.Admins.Any(a => a.Id == user.Id))
-                //        //{
-                //        //    platform.Admins.Add(user as PlatformAdmin);
-                //        //} else
-                //        //{
-                //        //    var adm = platform.Admins.Where(a => a.Id == user.Id).FirstOrDefault();
-                //        //    adm.Email = contactUpdate.Email ?? adm.Email;
-                //        //    adm.Name = contactUpdate.Name ?? adm.Name;
-                //        //}
-                //    }
-                //}
+        //    using (var hmac = new System.Security.Cryptography.HMACSHA512())
+        //    {
+        //        passwordSalt = hmac.Key;
+        //        passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+        //    }
+        //}
 
-                await session.SaveChangesAsync();
+        //private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
+        //{
+        //    if (password == null) throw new ArgumentNullException("password");
+        //    if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+        //    if (storedHash.Length != 64) throw new ArgumentException("Invalid length of password hash (64 bytes expected).", "passwordHash");
+        //    if (storedSalt.Length != 128) throw new ArgumentException("Invalid length of password salt (128 bytes expected).", "passwordHash");
 
-                return user;
-            }
-        }
+        //    using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
+        //    {
+        //        var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+        //        for (int i = 0; i < computedHash.Length; i++)
+        //        {
+        //            if (computedHash[i] != storedHash[i]) return false;
+        //        }
+        //    }
 
-        #region private helper methods
+        //    return true;
+        //}
 
-        private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            if (password == null) throw new ArgumentNullException("password");
-            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
-
-            using (var hmac = new System.Security.Cryptography.HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
-        }
-
-        private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
-        {
-            if (password == null) throw new ArgumentNullException("password");
-            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
-            if (storedHash.Length != 64) throw new ArgumentException("Invalid length of password hash (64 bytes expected).", "passwordHash");
-            if (storedSalt.Length != 128) throw new ArgumentException("Invalid length of password salt (128 bytes expected).", "passwordHash");
-
-            using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
-            {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                for (int i = 0; i < computedHash.Length; i++)
-                {
-                    if (computedHash[i] != storedHash[i]) return false;
-                }
-            }
-
-            return true;
-        }
-
-        #endregion private helper methods
+        //#endregion private helper methods
     }
 }

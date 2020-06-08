@@ -123,25 +123,25 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         }
 
         public static PlatformConnectionUpdateNotificationPayload DummyPayload(string projectName, string appSecret)
-        => new PlatformConnectionUpdateNotificationPayload
-        {
-            PlatformId = Guid.NewGuid(),
-            PlatformName = projectName,//"Dummy Data Test Platform",
-            PlatformConnectionState = GigDataCommon.Library.PlatformConnectionState.Connected,
-            UserId = Guid.NewGuid(),
-            Updated = DateTimeOffset.UtcNow.AddHours(-1).ToUnixTimeSeconds(),
-            AppSecret = appSecret,
-            Reason = GigDataCommon.Library.NotificationReason.DataUpdate,
-            PlatformData = new PlatformDataPayload
+            => new PlatformConnectionUpdateNotificationPayload
             {
-                AverageRating = new PlatformRatingPayload(new PlatformRating(Guid.NewGuid(), 5, 1, 5, 3)),
-                NumberOfRatings = 3,
-                NumberOfRatingsThatAreDeemedSuccessful = 3,
-                NumberOfGigs = 3,
-                PeriodStart = DateTime.UtcNow.AddYears(-1),
-                PeriodEnd = DateTime.UtcNow
-            }
-        };
+                PlatformId = Guid.NewGuid(),
+                PlatformName = projectName,//"Dummy Data Test Platform",
+                PlatformConnectionState = GigDataCommon.Library.PlatformConnectionState.Connected,
+                UserId = Guid.NewGuid(),
+                Updated = DateTimeOffset.UtcNow.AddHours(-1).ToUnixTimeSeconds(),
+                AppSecret = appSecret,
+                Reason = GigDataCommon.Library.NotificationReason.DataUpdate,
+                PlatformData = new PlatformDataPayload
+                {
+                    AverageRating = new PlatformRatingPayload(new PlatformRating(Guid.NewGuid(), 5, 1, 5, 3)),
+                    NumberOfRatings = 3,
+                    NumberOfRatingsThatAreDeemedSuccessful = 3,
+                    NumberOfGigs = 3,
+                    PeriodStart = DateTime.UtcNow.AddYears(-1),
+                    PeriodEnd = DateTime.UtcNow
+                }
+            };
 
     }
 

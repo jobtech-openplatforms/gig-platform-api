@@ -9,54 +9,32 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
 {
     public abstract class StoreManager<T> : IStoreManager<T>
     {
-        protected readonly IDocumentStore _documentStore;
         protected readonly ILogger<StoreManager<T>> _logger;
 
-        public StoreManager(IDocumentStore documentStore, ILogger<StoreManager<T>> logger)
+        public StoreManager(ILogger<StoreManager<T>> logger)
         {
-            _documentStore = documentStore;
             _logger = logger;
         }
 
-        public async Task<T> Create(T entity)
+        public async Task<T> Create(T entity, IAsyncDocumentSession session)
         {
-            using (IAsyncDocumentSession session = _documentStore.OpenAsyncSession())
-            {
                 await session.StoreAsync(entity);
                 await session.SaveChangesAsync();
                 return entity;
-            }
         }
 
-        public async Task Delete(StringIdentity<T> id)
+        public async Task Delete(StringIdentity<T> id, IAsyncDocumentSession session)
         {
-            using (IAsyncDocumentSession session = _documentStore.OpenAsyncSession())
-            {
                 var entity = await session.LoadAsync<T>(id.Value);
                 session.Delete(entity);
                 await session.SaveChangesAsync();
-            }
-        }
-
-        public async Task<T> Get(StringIdentity<T> id)
-        {
-            using (IAsyncDocumentSession session = _documentStore.OpenAsyncSession())
-            {
-                return await session.LoadAsync<T>(id.Value);
-            }
         }
 
         public async Task<T> Get(StringIdentity<T> id, IAsyncDocumentSession session)
-        {
-            return await session.LoadAsync<T>(id.Value);
-        }
+            => await session.LoadAsync<T>(id.Value);
 
-        public async Task<IEnumerable<T>> GetAll()
-        {
-            using (IAsyncDocumentSession session = _documentStore.OpenAsyncSession())
-            {
-                return await session.Query<T>().ToListAsync();
-            }
-        }
+        public async Task<IEnumerable<T>> GetAll(IAsyncDocumentSession session)
+            => await session.Query<T>().ToListAsync();
+        
     }
 }

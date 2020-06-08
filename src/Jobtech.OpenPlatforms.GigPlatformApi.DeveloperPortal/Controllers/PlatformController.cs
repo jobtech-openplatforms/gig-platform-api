@@ -12,6 +12,7 @@ using Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Raven.Client.Documents;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
 {
@@ -26,15 +27,18 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
     {
         private readonly IPlatformHttpClient _platformHttpClient;
         private readonly IPlatformManager _platformManager;
+        private readonly IDocumentStore _documentStore;
         private IMapper _mapper;
         private readonly ILogger<PlatformController> _logger;
 
         public PlatformController(IPlatformHttpClient platformHttpClient, IPlatformManager platformManager, IMapper mapper,
+            IDocumentStore documentStoreHolder,
             ILogger<PlatformController> logger)
         {
             _platformHttpClient = platformHttpClient;
             _platformManager = platformManager;
             _mapper = mapper;
+            _documentStore = documentStoreHolder;
             _logger = logger;
         }
 
@@ -44,8 +48,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
             _logger.LogInformation("Testing platform {id}: {@request}", id, request);
 
 
+            using var session = _documentStore.OpenAsyncSession();
             // Get platform
-            var platform = await _platformManager.GetPlatformAsync(id);
+            var platform = await _platformManager.GetPlatformAsync(id, session);
 
             // If there is no connection, check that the platform exists
             if (platform == null)
@@ -75,22 +80,32 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
-            var platforms = await _platformManager.GetPlatformsAsync();
+            using var session = _documentStore.OpenAsyncSession();
+            var platforms = await _platformManager.GetPlatformsAsync(session);
             return Ok(platforms.AsResponse());
         }
 
         [HttpGet("")]
-        public async Task<Core.Entities.Platform> Get([FromHeader]string platformToken)
-            => await _platformManager.GetPlatformByTokenAsync(platformToken);
+        public async Task<Core.Entities.Platform> Get([FromHeader] string platformToken)
+        {
+            using var session = _documentStore.OpenAsyncSession();
+            return await _platformManager.GetPlatformByTokenAsync(platformToken, session);
+        }
 
         [HttpGet("{id}")]
-        public async Task<Core.Entities.Platform> Get([FromHeader]string platformToken, [FromRoute] string id)
-            => await _platformManager.GetPlatformAsync(id);
+        public async Task<Core.Entities.Platform> Get([FromHeader] string platformToken, [FromRoute] string id)
+        {
+            using var session = _documentStore.OpenAsyncSession();
+            return await _platformManager.GetPlatformAsync(id, session);
+        }
 
         // POST api/platform
         // Registers the push notification URI for the platform
         [HttpPost("{id}")]
         public async Task<Core.Entities.Platform> UpdatePlatform([FromRoute] PlatformId id, [FromBody] PlatformRequest platformRequest)
-            => await _platformManager.UpdatePlatformAsync(id, platformRequest);
+        {
+            using var session = _documentStore.OpenAsyncSession();
+            return await _platformManager.UpdatePlatformAsync(id, platformRequest, session);
+        }
     }
 }

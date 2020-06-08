@@ -84,11 +84,13 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                             }
                             );
 
-                var project = await _projectManager.Create(entityToCreate);
+                var project = await _projectManager.Create(entityToCreate, session);
+                await session.SaveChangesAsync();
                 try
                 {
                     var testEntityToCreate = project.ToTestEntity();
-                    var testProject = await _projectManager.Create(testEntityToCreate);
+                    var testProject = await _projectManager.Create(testEntityToCreate, session);
+                    await session.SaveChangesAsync();
                     if (request.TestMode)
                     {
                         return Ok(testProject);
@@ -124,7 +126,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 {
                     foreach (var project in projects.Where(p => !testProjects.Any(tp => tp.LiveProjectId == p.Id)))
                     {
-                        await _projectManager.Create(project.ToTestEntity());
+                        await _projectManager.Create(project.ToTestEntity(), session);
+                        await session.SaveChangesAsync();
                     }
 
                     testProjects = await _projectManager.GetAllTest(user.Id, session);
@@ -159,10 +162,10 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
 
                 // Which project are we working on?
                 Core.Entities.Project project = (!request.TestMode && ProjectId.IsValidIdentity(request.ProjectId)) ?
-                    await _projectManager.Get((ProjectId)request.ProjectId) :
+                    await _projectManager.Get((ProjectId)request.ProjectId, session) :
 
                     // if (request.TestMode && TestProjectId.IsValidIdentity(request.ProjectId))
-                    await _projectManager.GetTest((TestProjectId)request.ProjectId, session);
+                    await _projectManager.GetTest(request.ProjectId, session);
 
                 if (project == null)
                 {
@@ -206,6 +209,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 project = await _projectManager.Update(project, session);
 
                 // TODO: If saving fails, revert back by deleting the platform that was registered with the GigDataService
+                await session.SaveChangesAsync();
 
                 return Ok(project);
             }
@@ -314,6 +318,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
             }
 
             project = await _projectManager.Update(project, session);
+            await session.SaveChangesAsync();
 
             return Ok(project);
         }

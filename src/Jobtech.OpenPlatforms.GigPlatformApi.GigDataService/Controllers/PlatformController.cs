@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Jobtech.OpenPlatforms.GigDataCommon.Library.Messages;
-using Jobtech.OpenPlatforms.GigDataCommon.Library.Models;
+﻿using Jobtech.OpenPlatforms.GigDataCommon.Library.Messages;
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers;
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models;
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models.PlatformModels;
@@ -12,7 +8,10 @@ using Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using Raven.Client.Documents;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService.Controllers
 {
@@ -27,6 +26,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService.Controllers
         private readonly IPlatformHttpClient _platformHttpClient;
         private readonly IPlatformManager _platformManager;
         private readonly IPlatformDispatchManager _platformDispatchManager;
+        private readonly IDocumentStore _documentStore;
         private readonly ILogger<PlatformController> _logger;
 
         /// <summary>
@@ -35,16 +35,19 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService.Controllers
         /// <param name="platformManager"></param>
         /// <param name="platformHttpClient"></param>
         /// <param name="platformDispatchManager"></param>
+        /// <param name="documentStoreHolder"></param>
         /// <param name="logger"></param>
         public PlatformController(
             IPlatformManager platformManager,
             IPlatformHttpClient platformHttpClient,
             IPlatformDispatchManager platformDispatchManager,
+            IDocumentStore documentStoreHolder,
             ILogger<PlatformController> logger)
         {
             _platformHttpClient = platformHttpClient;
             _platformManager = platformManager;
             _platformDispatchManager = platformDispatchManager;
+            _documentStore = documentStoreHolder;
             _logger = logger;
         }
 
@@ -62,8 +65,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.GigDataService.Controllers
 
             // Log the request
             _logger.LogInformation("Request for latest update {request}", request);
+            using var session = _documentStore.OpenAsyncSession();
             // Get platform
-            var platform = await _platformManager.GetPlatformAsync(request.PlatformId);
+            var platform = await _platformManager.GetPlatformAsync(request.PlatformId, session);
 
             // If there is no connection, check that the platform exists
             if (platform == null)
