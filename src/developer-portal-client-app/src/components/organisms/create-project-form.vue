@@ -35,7 +35,7 @@ export default {
       const self = this
       this.createProject({name: self.name})
           .then((result) => {
-            self.$router.push('/project-start')
+            self.$router.push('/project')
             self.submitted = false
           })
           .catch((error) => {

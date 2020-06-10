@@ -17,7 +17,7 @@
       p.
         Let your user access their data from Open Platforms partners by
         connecting to the API. Read the
-        #[a.color-import(href="https://gigdata-api.openplatforms.org/" title="Read the documentation for the application API")  Application API docs].
+        #[a.color-import(href="http://gig-data-api-api-open-platforms.test.services.jtech.se/index.html" title="Read the documentation for the application API" target="_blank")  Application API docs].
       button.btn.my-4.btn-huge.btn-project( v-if="$auth.isAuthenticated == false" @click="login") Get started!
 
  </template>
