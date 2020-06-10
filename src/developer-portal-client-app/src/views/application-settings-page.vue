@@ -25,7 +25,7 @@
           Read the #[router-link.color-import(to="/application-documentation") documentation for developers].
         p.
           Read more about the API in the
-          #[a.color-import(href="https://gigdata-api.openplatforms.org" target="_blank")  Application API Documentation]
+          #[a.color-import(href="http://gig-data-api-api-open-platforms.test.services.jtech.se/index.html" target="_blank")  Application API Documentation]
 
 
       p(v-if="!currentApplication.authCallbackUrl") To use the API you'll need these API keys:
