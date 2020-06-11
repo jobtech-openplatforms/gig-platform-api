@@ -11,13 +11,12 @@
             em(v-if="!formDisabled && devMode") NOTE! Project name can only be edited in LIVE mode
             hr.my-2(v-if="!formDisabled")
           .edit-logo
-            
-              div
-                div.project-logo(v-if="editingProject.logoUrl != null" :style="{'background-image': 'url(' + editingProject.logoUrl + ')'}")
-                div.project-logo(v-else)
-                label#file-label.btn-tiny.btn-outline.btn-project(for="file" v-if="!formDisabled" v-bind:class="{ editable : !formDisabled}") Upload
-              input.inputfile(v-if="!formDisabled" :disabled="formDisabled" type="file" name="file" id="file" @change="upload" accept="image/*")
-              label#file-label(v-if="!formDisabled") This logo will be displayed in platform listings etc. Please use a logotype/icon that looks nice on a square with white background (for example the same icon you'd use on Facebook).
+            div.mr-4
+              div.project-logo(v-if="editingProject.logoUrl != null" :style="{'background-image': 'url(' + editingProject.logoUrl + ')'}")
+              div.project-logo(v-else)
+              label#file-label.btn-tiny.btn-outline.btn-project(for="file" v-if="!formDisabled" v-bind:class="{ editable : !formDisabled}") Upload
+            input.inputfile(v-if="!formDisabled" :disabled="formDisabled" type="file" name="file" id="file" @change="upload" accept="image/*")
+            label#file-label(v-if="!formDisabled") This logo will be displayed in platform listings etc. Please use a logotype/icon that looks nice on a square with white background (for example the same icon you'd use on Facebook).
         .project-settings
           hr.my-2
           .form-group
@@ -169,6 +168,7 @@ export default class ProjectEdit extends Vue {
   padding-bottom:0;
 
   .edit-logo{
+    @include flex(row, flex-start, flex-start);
     &.editable{
       cursor:pointer;
     }
@@ -186,7 +186,6 @@ export default class ProjectEdit extends Vue {
     flex: 0 0 78px;
     display: block;
     background-color:#fff;
-    margin-right:2rem;
   }
 
 
@@ -225,6 +224,7 @@ export default class ProjectEdit extends Vue {
   }
 }
   #file-label{
-    @include flex(row, flex-start, flex-start);
+    @include flex(row, center, flex-start);
+    margin-top:1rem;
   }
 </style>
