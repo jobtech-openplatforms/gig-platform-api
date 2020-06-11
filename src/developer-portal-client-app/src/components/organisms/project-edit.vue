@@ -10,12 +10,14 @@
               for example: 'Uber Eats'.
             em(v-if="!formDisabled && devMode") NOTE! Project name can only be edited in LIVE mode
             hr.my-2(v-if="!formDisabled")
-          .edit-logo(v-bind:class="{ editable : !formDisabled}")
-            label#file-label(for="file")
-              div.project-logo(v-if="editingProject.logoUrl != null" :style="{'background-image': 'url(' + editingProject.logoUrl + ')'}")
-              div.project-logo(v-else)
+          .edit-logo
+            
+              div
+                div.project-logo(v-if="editingProject.logoUrl != null" :style="{'background-image': 'url(' + editingProject.logoUrl + ')'}")
+                div.project-logo(v-else)
+                label#file-label.btn-tiny.btn-outline.btn-project(for="file" v-if="!formDisabled" v-bind:class="{ editable : !formDisabled}") Upload
               input.inputfile(v-if="!formDisabled" :disabled="formDisabled" type="file" name="file" id="file" @change="upload" accept="image/*")
-              span(v-if="!formDisabled") This logo will be displayed in platform listings etc. Please use a logotype/icon that looks nice on a square with white background (for example the same icon you'd use on Facebook).
+              label#file-label(v-if="!formDisabled") This logo will be displayed in platform listings etc. Please use a logotype/icon that looks nice on a square with white background (for example the same icon you'd use on Facebook).
         .project-settings
           hr.my-2
           .form-group
