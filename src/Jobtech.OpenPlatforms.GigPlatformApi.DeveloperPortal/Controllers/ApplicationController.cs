@@ -86,6 +86,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 project.Applications = new List<Core.Entities.Application> { application };
                 // Save
                 project = await _projectManager.Update(project, session);
+                await session.SaveChangesAsync();
 
                 return Ok(project);
             }
@@ -204,6 +205,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Controllers
                 project.Applications = new List<Core.Entities.Application> { application };
                 // Save
                 project = await _projectManager.Update(project, session);
+                await session.SaveChangesAsync();
 
                 return Ok(project);
             }

@@ -16,7 +16,6 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.IoC
             services.AddFileStore(configuration);
             
             services.AddScoped<IProjectUpdateManager, ProjectUpdateManager>();
-            services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IPlatformAdminUserManager, PlatformAdminUserManager>();
 
             return services;

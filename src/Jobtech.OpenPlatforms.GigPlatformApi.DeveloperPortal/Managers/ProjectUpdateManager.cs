@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine.Managers;
+﻿using Jobtech.OpenPlatforms.GigPlatformApi.AdminEngine.Managers;
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Handlers;
 using Jobtech.OpenPlatforms.GigPlatformApi.Connectivity.Models;
 using Jobtech.OpenPlatforms.GigPlatformApi.Core.Entities;
@@ -12,6 +8,10 @@ using Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers;
 using Microsoft.Extensions.Logging;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Managers
 {
@@ -38,9 +38,9 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Managers
             _documentStore = documentStoreHolder;
             _logger = logger;
         }
+
         public async Task<Project> Update(UpdateProjectRequest request, IAsyncDocumentSession session, PlatformAdminUserId userId)
         {
-
             _logger.LogInformation("Project update {@projectId}", request.Id);
 
             var requestName = request.Name.Trim();
@@ -122,6 +122,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.DeveloperPortal.Managers
             {
                 _logger.LogInformation("Project update: Preparing to save {@updates}", updates);
                 project = await _projectManager.Update(project, session);
+                await session.SaveChangesAsync();
             }
             return project;
         }

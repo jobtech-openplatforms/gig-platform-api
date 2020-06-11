@@ -11,8 +11,8 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
 {
     public class ProjectManager : StoreManager<Project>, IProjectManager
     {
-        public ProjectManager(IDocumentStore documentStore, ILogger<ProjectManager> logger)
-            : base(documentStore, logger)
+        public ProjectManager(ILogger<ProjectManager> logger)
+            : base( logger)
         {
         }
 
@@ -59,7 +59,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
             p.Platforms = project.Platforms;
             p.OwnerAdminId = project.OwnerAdminId;
             p.AdminIds = project.AdminIds;
-            await session.SaveChangesAsync();
+            //await session.SaveChangesAsync();
             // _logger.LogDebug("Project after {@p}", p);
             _logger.LogInformation("Project updated {@id}", p.Id);
             return p;
@@ -71,7 +71,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
             var p = await session.Query<TestProject>().Where(tp => tp.LiveProjectId == liveProjectId).FirstOrDefaultAsync();
             _logger.LogInformation("TestProject changing name from {oldName} to {newName}", p.Name, projectName);
             p.Name = projectName;
-            await session.SaveChangesAsync();
+            //await session.SaveChangesAsync();
         }
 
         private async Task<TestProject> UpdateTest(TestProject project, IAsyncDocumentSession session)
@@ -86,7 +86,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.Managers
             p.Platforms = project.Platforms;
             p.OwnerAdminId = project.OwnerAdminId;
             p.AdminIds = project.AdminIds;
-            await session.SaveChangesAsync();
+            //await session.SaveChangesAsync();
             return p;
         }
     }

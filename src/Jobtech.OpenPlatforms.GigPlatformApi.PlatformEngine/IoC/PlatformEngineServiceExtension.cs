@@ -12,8 +12,7 @@ namespace Jobtech.OpenPlatforms.GigPlatformApi.PlatformEngine.IoC
 
             collection.AddTransient<IConnectionManager, ConnectionManager>();
             collection.AddTransient<IConnectionUserManager, ConnectionUserManager>();
-            collection.AddTransient<IPlatformManager, PlatformManager>(); // TODO: remove
-            collection.AddTransient<IApplicationManager, ApplicationManager>(); // TODO: remove
+            collection.AddTransient<IPlatformManager, PlatformManager>();
             collection.AddTransient<IProjectManager, ProjectManager>();
             collection.AddTransient<IUserPlatformConnectionManager, UserPlatformConnectionManager>();
 

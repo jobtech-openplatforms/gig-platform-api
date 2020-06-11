@@ -283,6 +283,23 @@
             "appSecret": "7adc5899-dc3e-4c89-a51a-c02f226c47e9",
             "reason": "DataUpdate"
           }
+      p Valid values for the #[code platformConnectionState] are the following:
+      table
+        tr
+          td
+            code AwaitingOAuthAuthentication
+        tr
+          td
+            code AwaitingEmailVerification
+        tr
+          td
+            code Connected
+        tr
+          td
+            code Synced
+        tr
+          td
+            code Removed
     .card
       h2#api-responses Response (from your application)
       p.
