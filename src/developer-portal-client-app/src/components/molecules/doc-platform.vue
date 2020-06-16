@@ -1,7 +1,7 @@
 <template lang="pug">
   //- div
     //- h3.color-export Platform
-  .frame-wrapper
+  .frame-wrapper.mr-2
     p.
       Make sure your users can access their experience / reputation
       data on your platform.
