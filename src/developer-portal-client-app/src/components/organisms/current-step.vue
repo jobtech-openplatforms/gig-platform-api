@@ -10,8 +10,8 @@
       .step(v-if="step == 'testModeIncomplete'")
         span Just one more thing: Fill out the details for the project to finish the project!
       .step(v-if="step == 'testModeComplete'")
-        h2 DEV mode Complete!
-        p Seems all settings are complete for this project in DEV mode.
+        h2 Dev mode Complete!
+        p Seems all settings are complete for this project in Dev mode.
         p.
           Deploy your solution and head over to LIVE mode and update
           the settings to publish on Open Platforms.

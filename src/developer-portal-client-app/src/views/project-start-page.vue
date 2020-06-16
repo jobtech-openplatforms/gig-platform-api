@@ -18,7 +18,7 @@
       p(v-if="devMode") You are currently in #[strong DEV mode]
 
       .toggle-buttons.text-center
-        button.btn-big.toggle-button.btn-outline.btn-dev(@click="switchTestMode" v-bind:class="{ activestate: devMode}") DEV mode
+        button.btn-big.toggle-button.btn-outline.btn-dev(@click="switchTestMode" v-bind:class="{ activestate: devMode}") Dev mode
         button.btn-big.toggle-button.btn-outline.btn-live(@click="switchTestMode" v-bind:class="{ activestate: !devMode}") Live mode
       hr.my-4
 

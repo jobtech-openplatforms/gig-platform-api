@@ -1,7 +1,7 @@
 <template lang="pug">
   .token-key
     .label-muted.
-      #[span(v-if="!devMode") LIVE]
+      #[span(v-if="!devMode") LIVE mode]
       #[span(v-if="devMode") DEV mode]
       Platform token
     pre.color-export.shiny {{currentPlatform.platformToken}}
