@@ -85,9 +85,6 @@ export default {
 
   &.noprojects{
     padding-left:0;
-    .start .intro-text{
-      margin:0 10vw;
-    } 
   }
 }
 
