@@ -23,14 +23,16 @@
             label.small(for="project-webpage") Webpage URL
             input(type="url" id="project-webpage" :value="editingProject.webpage" @input="updateWebpage" :disabled="formDisabled" placeholder="https://your-domain.tld/...")
             p(v-if="!formDisabled") The url to the web page of your platform.
-          .form-group
-            label.small(for="project-description") Description
-            textarea(placeholder="Give us some quick info about your service!" id="project-description" rows="3" :value="editingProject.description" @input="updateDescription" :disabled="formDisabled" maxlength="100") {{editing.description}}
-            p(v-if="!formDisabled") Enter a short description of your platform (max 100 characters).
-          .buttons.mb-2
-            button.btn.right.btn-project(v-if="!formDisabled" :disabled="status === 2" type="submit") Save
-            button.btn.right.btn-secondary(v-if="!formDisabled" :disabled="status === 2" @click="cancelEdit()") Cancel
-            button.btn.right.btn-outline.btn-project(v-if="formDisabled" type="button" key="123456789" @click="enableForm()") Edit...
+          .wrap(v-bind:class="{ flex : formDisabled}" )
+            .form-group
+              label.small(for="project-description") Description
+              .mt-1(v-if="formDisabled") {{editingProject.description || "Give us some quick info about your service!" }}
+              textarea(v-if="!formDisabled" placeholder="Give us some quick info about your service!" id="project-description" rows="3" :value="editingProject.description" @input="updateDescription" :disabled="formDisabled" maxlength="100") {{editing.description}}
+              p(v-if="!formDisabled") Enter a short description of your platform (max 100 characters).
+            .buttons.mb-2
+              button.btn.right.btn-project(v-if="!formDisabled" :disabled="status === 2" type="submit") Save
+              button.btn.right.btn-secondary(v-if="!formDisabled" :disabled="status === 2" @click="cancelEdit()") Cancel
+              button.btn.right.btn-outline.btn-project(v-if="formDisabled" type="button" key="123456789" @click="enableForm()") Edit...
           slot
 </template>
 
@@ -180,19 +182,38 @@ export default class ProjectEdit extends Vue {
   }
 
 
-  .project-settings .project-logo {
-    width: 78px;
-    height: 78px;
-    flex: 0 0 78px;
-    display: block;
-    background-color:#fff;
+  .project-settings{
+    .wrap.flex{
+      @include flex(row, space-between, flex-end);
+      .form-group{
+        flex:1 0 auto;
+        margin-right:2rem;
+        overflow:hidden;
+      }
+      .buttons{
+        flex:0 0 auto;
+        width:auto;
+        margin-bottom:0!important;
+      }
+    }
+    .project-logo {
+      width: 78px;
+      height: 78px;
+      flex: 0 0 78px;
+      display: block;
+      background-color:#fff;
+    }
   }
 
 
-  .integration-status {
+  .integration-status-control {
     @include flex(row, null, center);
-    margin: 2rem 0;
+    margin-bottom: 2rem;
 
+    .frame-wrapper{
+      font-style:italic;
+    }
+    
     .connection-type {
       flex: 1;
     }
