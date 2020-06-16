@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    p #[router-link(to="/documentation") Documentation] #[strong &gt;] #[router-link(to="/application-documentation") Application documentation]
+    p #[router-link.color-project(to="/documentation") Documentation] #[strong &gt;] #[router-link(to="/application-documentation") Application documentation]
     div
       h1 Open Platforms application integrations documentation
       p.
