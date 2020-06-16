@@ -8,7 +8,7 @@
         #[em You are in] #[strong.dev-text(v-if="devMode") DEV] #[strong.live-text(v-else) LIVE] #[em mode on project] {{currentProject.name}}
     #menu-head
       #banner-switch.toggle-buttons
-        button.btn-tiny.toggle-button.btn-outline-reverse.btn-dev(@click="switchTestMode" v-bind:class="{ activestate: devMode}") DEV
+        button.btn-tiny.toggle-button.btn-outline-reverse.btn-dev(@click="switchTestMode" v-bind:class="{ activestate: devMode}") Dev
         button.btn-tiny.toggle-button.btn-outline-reverse.btn-live(@click="switchTestMode" v-bind:class="{ activestate: !devMode}") Live
       .my-projects( @click="redirectUser") Projects
     ul#projects-list(v-if="currentProjects")
@@ -139,7 +139,6 @@ export default class SideNav extends Vue {
   position:relative;
 
   button{
-    color:$dimmed-grey;
     transition: color 0.3s ease;
   }
   .testmode {
