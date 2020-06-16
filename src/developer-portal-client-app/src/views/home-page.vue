@@ -3,7 +3,7 @@
     #start-upper
       #start-title
         h1.color-import Open Platforms developer portal
-        p Be part of our digital infrastructure enabling portability of data in the gig economy!
+        p.start-sub Be part of our digital infrastructure enabling portability of data in the gig economy!
         //- p The open platforms API makes it possible to:
 
 
@@ -75,7 +75,7 @@ export default {
   max-width:none;
   @include small-screen-and-up {
     background: #3b3b3b url('../assets/img/open-platforms-logo-icon.svg') right center /
-      55vw auto no-repeat;
+      50vw auto no-repeat;
   }
   @include small-screen{
     background-size: 40vw;
@@ -111,7 +111,7 @@ export default {
       h1 {
         font-size: 3rem;
       }
-      p {
+      .start-sub {
         font-size: 2rem;
       }
     }
@@ -123,9 +123,11 @@ export default {
         h1 {
           font-size: 3.2vw;
         }
-        p {
+        .start-sub{
           font-size: 2.4vw;
           line-height: 1.2;
+          margin-top:8rem;
+          margin-bottom:8rem;
         }
       }
     }
