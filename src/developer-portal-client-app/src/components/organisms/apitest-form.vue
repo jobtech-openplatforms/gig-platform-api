@@ -102,12 +102,12 @@
           span.project-logo.logo(v-if="currentProject.logoUrl != null && currentProject.logoUrl != ''" :style="{'background-image': 'url(' + currentProject.logoUrl + ')'}")
           span.project-logo(v-else)
           .result-info
-            strong {{ currentProject.name || "Platform name" }}
+            strong.small {{ currentProject.name || "Platform name" }}
             p.stars
               template(v-for="index in i.maxRatingValue")
                 span(v-if="index > i.averageRating") ☆
                 span(v-if="index <= i.averageRating") ★
-            em.small {{i.averageRating}} från {{i.client.name}}
+            em.small {{i.averageRating}} from {{i.client.name}}
           //- p {{i}}
         h3.mt-4 Certificates
         .card.achievement(v-for="i in testResult.result.achievements")
@@ -115,7 +115,7 @@
           span.project-logo.logo(v-else-if="currentProject.logoUrl != null && currentProject.logoUrl != ''" :style="{'background-image': 'url(' + currentProject.logoUrl + ')'}")
           span.project-logo(v-else)
           .result-info
-            strong {{ currentProject.name || "Platform name" }}
+            strong.small {{ currentProject.name || "Platform name" }}
             h4 {{i.name}}
             em.small {{i.description}}
             //- p {{i}}
